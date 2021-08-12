@@ -1,0 +1,9 @@
+pyrogram
+TgCrypto
+telethon
+requests
+pillow
+numpy
+aiohttp
+beautifulsoup4
+fake_useragent
