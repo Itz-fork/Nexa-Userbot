@@ -28,8 +28,8 @@ async def update_it(_, message: Message):
     except git.InvalidGitRepositoryError:
         nexa_ub_repo = git.Repo.init()
     try:
-        up_txt = message.text.split(None, 1)[1]
-        if up_txt == "now":
+        up_txt = message.text
+        if "now" in up_txt:
             if "upstream" in nexa_ub_repo.remotes:
                 origin = nexa_ub_repo.remote("upstream")
             else:
