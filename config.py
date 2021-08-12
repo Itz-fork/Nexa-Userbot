@@ -32,7 +32,8 @@ class Config(object):
     # Telethon Session
     TELE_STR_SESSION = os.environ.get("TELE_STR_SESSION", "")
     CMD_PREFIX = os.environ.get("CMD_PREFIX", ".")
-
+    # Updater Module | Friday Userbot
+    U_BRANCH = "main"
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME", None)
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY", None)
     UPSTREAM_REPO = os.environ.get("UPSTREAM_REPO", "https://github.com/Itz-fork/Nexa-Userbot")
