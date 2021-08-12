@@ -8,10 +8,10 @@ import traceback
 
 from telethon import events, TelegramClient
 from telethon_ub import NEXAUB
-from config import PREFIX
+from config import Config
 
 
-@NEXAUB.on(events.NewMessage(outgoing=True, pattern=f"^{PREFIX}teval (.*)"))
+@NEXAUB.on(events.NewMessage(outgoing=True, pattern=f"^{Config.CMD_PREFIX}teval (.*)"))
 async def t_eval(event):
     if event.fwd_from:
         return
