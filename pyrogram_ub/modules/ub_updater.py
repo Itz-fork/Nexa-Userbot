@@ -39,7 +39,7 @@ async def update_it(_, message: Message):
             nexa_ub_repo.heads.master.set_tracking_branch(origin.refs.master)
             nexa_ub_repo.heads.master.checkout(True)
         if nexa_ub_repo.active_branch.name != Config.U_BRANCH:
-            return await update_msg.edit(f"`Can't update your Nexa-Userbot becuase you're using a custom branch. \n\n**Default Branch:** `{nexa_ub_repo.active_branch.name}` \n**Active Branch:** `{Config.U_BRANCH}`")
+            return await update_msg.edit(f"`Can't update your Nexa-Userbot becuase you're using a custom branch.` \n\n**Default Branch:** `{nexa_ub_repo.active_branch.name}` \n**Active Branch:** `{Config.U_BRANCH}`")
         try:
             nexa_ub_repo.create_remote("upstream", REPO_)
         except BaseException:
