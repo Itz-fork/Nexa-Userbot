@@ -2,6 +2,7 @@
 # Part of: Nexa-Userbot
 # Credits: Friday Userbot | DevsExpo | Itz-fork
 
+import os
 import sys
 import git
 
@@ -27,8 +28,8 @@ async def update_it(_, message: Message):
     except git.InvalidGitRepositoryError:
         nexa_ub_repo = git.Repo.init()
     try:
-        up_txt = message.text.split(None, 1)[1]
-        if up_txt == "now":
+        up_txt = message.text
+        if "now" in up_txt:
             if "upstream" in nexa_ub_repo.remotes:
                 origin = nexa_ub_repo.remote("upstream")
             else:
@@ -38,7 +39,7 @@ async def update_it(_, message: Message):
             nexa_ub_repo.heads.master.set_tracking_branch(origin.refs.master)
             nexa_ub_repo.heads.master.checkout(True)
         if nexa_ub_repo.active_branch.name != Config.U_BRANCH:
-            return await update_msg.edit(f"`Can't update your Nexa-Userbot becuase you're using a custom branch. \n\n**Default Branch:** `{nexa_ub_repo.active_branch.name}` \n**Active Branch:** `{Config.U_BRANCH}`")
+            return await update_msg.edit(f"`Can't update your Nexa-Userbot becuase you're using a custom branch.` \n\n**Default Branch:** `{nexa_ub_repo.active_branch.name}` \n**Active Branch:** `{Config.U_BRANCH}`")
         try:
             nexa_ub_repo.create_remote("upstream", REPO_)
         except BaseException:
@@ -52,14 +53,17 @@ async def update_it(_, message: Message):
                 nexa_ub_repo.git.reset("--hard", "FETCH_HEAD")
             await run_shell_cmds("pip3 install --no-cache-dir -r requirements.txt")
             await update_msg("`Successfully Updated! Restarting Now...`")
-            args = [sys.executable, "-m", "main_startup"]
-            execle(sys.executable, *args, environ)
+            p = os.getcwd()
+            path = f"{p}/Nexa-Userbot/startup.sh"
+            cmd = f"bash {path}"
+            run_shell_cmds(cmd)
             exit()
             return
         else:
             await update_msg.edit("`Heroku Detected...`")
             ups_rem.fetch(Config.U_BRANCH)
             nexa_ub_repo.git.reset("--hard", "FETCH_HEAD")
+            await update_msg.edit("`Pushing Please wait...`")
             if "heroku" in nexa_ub_repo.remotes:
                 remote = nexa_ub_repo.remote("heroku")
                 remote.set_url(Config.HEROKU_URL)
