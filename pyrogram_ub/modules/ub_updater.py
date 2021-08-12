@@ -74,7 +74,4 @@ async def update_it(_, message: Message):
                 await update_msg.edit(f"**Error:** {e}")
                 return nexa_ub_repo.__del__()
     except Exception as e:
-        if nexa_ub_repo.is_dirty(untracked_files=True):
-            await update_msg.edit(f"Hey Master, I fount that Nexa-Userbot's Repo has some changes. Please Update your bot! \n\n**Update using:** `{Config.CMD_PREFIX}update now`")
-        else:
-            await update_msg.edit(f"**Error:** `{e}`")
+        await update_msg.edit(f"**Error:** `{e}`")
