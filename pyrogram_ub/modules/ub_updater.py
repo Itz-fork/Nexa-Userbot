@@ -2,6 +2,7 @@
 # Part of: Nexa-Userbot
 # Credits: Friday Userbot | DevsExpo | Itz-fork
 
+import os
 import sys
 import git
 
@@ -52,8 +53,10 @@ async def update_it(_, message: Message):
                 nexa_ub_repo.git.reset("--hard", "FETCH_HEAD")
             await run_shell_cmds("pip3 install --no-cache-dir -r requirements.txt")
             await update_msg("`Successfully Updated! Restarting Now...`")
-            args = [sys.executable, "-m", "main_startup"]
-            execle(sys.executable, *args, environ)
+            p = os.getcwd()
+            path = f"{p}/Nexa-Userbot/startup.sh"
+            cmd = f"bash {path}"
+            run_shell_cmds(cmd)
             exit()
             return
         else:
