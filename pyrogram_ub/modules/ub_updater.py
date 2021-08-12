@@ -63,6 +63,7 @@ async def update_it(_, message: Message):
             await update_msg.edit("`Heroku Detected...`")
             ups_rem.fetch(Config.U_BRANCH)
             nexa_ub_repo.git.reset("--hard", "FETCH_HEAD")
+            await update_msg.edit("`Pushing Please wait...`")
             if "heroku" in nexa_ub_repo.remotes:
                 remote = nexa_ub_repo.remote("heroku")
                 remote.set_url(Config.HEROKU_URL)
@@ -74,4 +75,7 @@ async def update_it(_, message: Message):
                 await update_msg.edit(f"**Error:** {e}")
                 return nexa_ub_repo.__del__()
     except Exception as e:
-        await update_msg.edit(f"**Error:** `{e}`")
+        if nexa_ub_repo.is_dirty(untracked_files=True):
+            await update_msg.edit(f"Hey Master, I fount that Nexa-Userbot's Repo has some changes. Please Update your bot! \n\n**Update using:** `{Config.CMD_PREFIX}update now`")
+        else:
+            await update_msg.edit(f"**Error:** `{e}`")
