@@ -28,5 +28,6 @@ This Userbot is still developing and there are be some bugs in the code. Also Th
 This repository is license under [GPL-3 License](https://github.com/Itz-fork/Nexa-Userbot/blob/master/LICENSE)
 
 <p align="center">
+  </br></br>
   <b>Copyright (c) 2021 - Itz-fork | Nexa Userbot</b>
 </p>
