@@ -10,7 +10,7 @@ from pyrogram_ub.helpers.pyrogram_help import get_arg
 
 HELP.update(
     {
-        "**🧭 Userbot**": "`alive`, `installer`",
+        "**🧭 Userbot**": "`alive`, `installer`, `updater`",
         "**👨‍💻 Dev**": "`eval`",
         "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`",
         "**🗂 Utils**": "`stickers`, `owner`",
