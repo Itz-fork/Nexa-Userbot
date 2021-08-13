@@ -31,7 +31,7 @@ async def extract_all_aud(_, message: Message):
         return
     replied_video = replied_msg.video
     video_fname = f"NEXAUB_DOWNLOADS/{replied_video.file_name}"
-    ext_video = await NEXAUB.download_media(file_name=video_fname)
+    ext_video = await NEXAUB.download_media(message=replied_msg, file_name=video_fname)
     ext_audios = Video_tools.extract_all_audio(input_file=ext_video)
     for audio in ext_video:
         await NEXAUB.send_audio(chat_id=message.chat.id, audio=audio)
