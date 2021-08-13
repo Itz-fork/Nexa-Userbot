@@ -1,6 +1,5 @@
 pyrogram
 TgCrypto
-telethon
 requests
 pillow
 numpy
