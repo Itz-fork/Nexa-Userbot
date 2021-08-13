@@ -176,7 +176,7 @@ async def upstream(client, message):
 async def restart(client, message):
     try:
         await message.edit("`Nexa-Userbot is restarting! Please wait...`")
-        heroku_conn = heroku3.from_key(Config)
+        heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         server = heroku_conn.app(Config.HEROKU_APP_NAME)
         server.restart()
     except Exception as e:
@@ -186,11 +186,34 @@ async def restart(client, message):
 @NEXAUB.on_message(filters.command("logs", Config.CMD_PREFIX) & filters.me)
 async def log(client, message):
     try:
-        await message.edit("Getting Logs")
+        await message.edit("`Getting Logs`")
         heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         server = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='pyrogram.1', lines=100, source='app', timeout=100)
+        f_logs = f"\n\n------------------------------------------------------------NEXA-USERBOT------------------------------------------------------------\n\n{server}"
+
+        if len(f_logs) > 4096:
+            file = open("logs.txt", "w+")
+            file.write(f_logs)
+            file.close()
+            await NEXAUB.send_document(
+                message.chat.id,
+                "logs.txt",
+                caption=f"Logs of `{Config.HEROKU_APP_NAME}`",
+                
+            )
+            remove("logs.txt")
+
+    except Exception as e:
+        await message.edit(f"**Error:** `{e}`")
+
+# Telethon
+@NEXAUB.on_message(filters.command("tlogs", Config.CMD_PREFIX) & filters.me)
+async def log(client, message):
+    try:
+        await message.edit("`Getting Logs`")
+        heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         log = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='telethon.1', lines=100, source='app', timeout=100)
-        f_logs = server + "\n\n------------------------------------------------------------NEXA-USERBOT------------------------------------------------------------\n\n" + log
+        f_logs = f"\n\n------------------------------------------------------------NEXA-USERBOT------------------------------------------------------------\n\n{log}"
 
         if len(f_logs) > 4096:
             file = open("logs.txt", "w+")
