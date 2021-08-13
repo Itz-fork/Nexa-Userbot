@@ -13,7 +13,7 @@
 
 `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org) </br>
 `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org) </br>
-`PYRO_STR_SESSION` - Pyrogram string session of your telegram account. Get it from [here](https://replit.com/@SpEcHiDe/GenerateStringSession) </br>
+`PYRO_STR_SESSION` - Pyrogram string session of your telegram account. Get it from [here](https://replit.com/@Itz-fork/Nexa-UserbotStrGen) </br>
 `CMD_PREFIX` - Command Prefix. Default one is `.`
 
 # About
