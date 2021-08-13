@@ -19,7 +19,6 @@ CMD_HELP.update(
 **Eval**
 
   ✘ `peval` - To Run Pyrogram Evaluations
-  ✘ `teval` - To Run  Telethon Evaluations
   ✘ `sh` - To Run commands in shell
 """
     }

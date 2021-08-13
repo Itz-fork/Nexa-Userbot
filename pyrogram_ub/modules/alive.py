@@ -5,7 +5,6 @@
 import time
 from datetime import datetime
 from pyrogram import filters, __version__ as pyrogram_version
-from telethon import __version__ as telethon_version
 from pyrogram.types import Message
 from sys import version_info
 
@@ -17,12 +16,8 @@ CMD_HELP.update(
         "alive": """
 **Alive,**
 
-
-  ✘ `alive` - To Check If Your Bot Alive or Not (Pyrogram)
-  ✘ `ping_p` - To Check Ping of Pyrogram
-
-  ✘ `talive` - To Check If Your Bot Alive or Not (Telethon)
-  ✘ `ping_t` - To Check Ping of Telethon
+  ✘ `alive` - To Check If Your Nexa Userbot Alive
+  ✘ `ping` - To Check Ping Speed
 """
     }
 )
@@ -61,11 +56,10 @@ async def pyroalive(_, message: Message):
     alive_bef_msg = await message.edit("`Processing...`")
     alive_pic = "cache/NEXAUB.png"
     alive_msg = f"""
-    **Nexa UserBot is Alive**
+**Nexa UserBot is Alive**
     
     **Python Version:** `{python_version}`
     **Pyrogram Version:** `{pyrogram_version}`
-    **Telethon Version:** `{telethon_version}`
     **Uptime: `{uptime}`**
 
 
@@ -73,7 +67,7 @@ async def pyroalive(_, message: Message):
     await alive_bef_msg.delete()
     await message.reply_photo(alive_pic, caption=alive_msg)
 
-@NEXAUB.on_message(filters.me & filters.command("ping_p", Config.CMD_PREFIX))
+@NEXAUB.on_message(filters.me & filters.command("ping", Config.CMD_PREFIX))
 async def pingme(_, message: Message):
     start = datetime.now()
     end = datetime.now()

@@ -1,6 +1,6 @@
 {
     "name": "Nexa Userbot",
-    "description": "Simple Telegram Bot to download files from Mega.nz",
+    "description": "Simple and Light Weight Pyrogram Userbot",
     "logo": "https://telegra.ph/file/a2471aa31028b2c429390.jpg",
     "keywords": [
         "userbot",
@@ -21,10 +21,6 @@
         },
         "PYRO_STR_SESSION": {
             "description": "Pyrogram String Session",
-            "required": true
-        },
-        "TELE_STR_SESSION": {
-            "description": "Telethon String Session",
             "required": true
         },
         "CMD_PREFIX": {
