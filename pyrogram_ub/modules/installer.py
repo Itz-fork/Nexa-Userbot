@@ -15,9 +15,7 @@ CMD_HELP.update(
         "installer": """
 **Plugin Installler,**
 
-
-  ✘ `pinstall` - To Install a pyrogram module
-  ✘ `tinstall` - To Install a telethon module
+  ✘ `install` - To Install a Plugin
 
 **Note:** `All Official Plugins are available at` **@NexaUBPlugins**! `Please don't install unofficial Plugins!`
 """
@@ -31,7 +29,7 @@ def import_plugin(p_name):
     logging.info(f"LOADED PLUGIN: - {p_name} - Nexa-Userbot")
 
 
-@NEXAUB.on_message(filters.me & filters.command("pinstall", Config.CMD_PREFIX))
+@NEXAUB.on_message(filters.me & filters.command("install", Config.CMD_PREFIX))
 async def install_plugin(_, message: Message):
     msg = await message.edit("`Processing...`")
     replied_msg = message.reply_to_message
