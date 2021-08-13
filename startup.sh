@@ -1,15 +1,16 @@
-echo "Nexa Userbot is starting now..."
+echo "
+    _   __                   __  __               __          __ 
+   / | / /__  _  ______ _   / / / /_______  _____/ /_  ____  / /_
+  /  |/ / _ \| |/_/ __ `/  / / / / ___/ _ \/ ___/ __ \/ __ \/ __/
+ / /|  /  __/>  </ /_/ /  / /_/ (__  )  __/ /  / /_/ / /_/ / /_  
+/_/ |_/\___/_/|_|\__,_/   \____/____/\___/_/  /_.___/\____/\__/  
 
-if [[ -z "$TELE_STR_SESSION" && -z "$PYRO_STR_SESSION" ]]
+Starting Now....
+"
+
+if [[ -z "$PYRO_STR_SESSION" ]]
 then
-	echo "Please add Pyrogram or Telethon String Session to use Nexa-Userbot!"
-elif [[ -z "$TELE_STR_SESSION" ]]
-then
-	python -m pyrogram_ub
-elif [[ -z "$PYRO_STR_SESSION" ]]
-then
-	python -m telethon_ub
+	echo "Please add Pyrogram String Session"
 else
-	python -m pyrogram_ub & python -m telethon_ub
-	exit 1
+	python -m pyrogram_ub
 fi
