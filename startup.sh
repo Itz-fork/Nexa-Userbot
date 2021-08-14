@@ -1,9 +1,11 @@
+echo "Installing Packages"
+apt-get install -y megatools
+
 echo "
 ============ Nexa Userbot ============
 
 Starting Now...
 "
-apt -qq install -y --no-install-recommends megatools
 
 if [[ -z "$PYRO_STR_SESSION" ]]
 then
