@@ -45,6 +45,6 @@ async def extract_all_aud(_, message: Message):
         for nexa_aud in exted_aud:
             await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` {(await NEXAUB.get_me()).mention}")
         await ext_text.edit("`Extracting Finished!`")
-        shutil.rmtree("./NexaUb" + "/" + "py_extract/audios")
+        shutil.rmtree(Config.DOWNLOAD_LOCATION + "/" + "py_extract/audios")
     except Exception as e:
         await ext_text.edit(f"**Error:** `{e}`")
