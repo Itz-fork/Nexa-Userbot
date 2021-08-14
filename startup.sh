@@ -17,6 +17,7 @@ start_nexaub () {
     else
 	    python -m pyrogram_ub
     fi
+  }
 
 _install_nexaub () {
     instal_reqs
