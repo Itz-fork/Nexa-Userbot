@@ -31,9 +31,9 @@ async def extract_all_aud(_, message: Message):
     if not replied_msg.video:
         await ext_text.edit("`Please reply to a valid video file!`")
         return
-    if os.path.exists(ext_out_path):
-        await ext_text.edit("`Already one process is going on. Please wait till it finish!`")
-        return
+#     if os.path.exists(ext_out_path):
+#         await ext_text.edit("`Already one process is going on. Please wait till it finish!`")
+#         return
     replied_video = replied_msg.video
     await ext_text.edit("`Downloading...`")
     ext_video = await NEXAUB.download_media(message=replied_video)
@@ -45,4 +45,4 @@ async def extract_all_aud(_, message: Message):
     for nexa_aud in exted_aud:
         await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` @{(await NEXAUB.get_me()).mention}")
     await ext_text.edit("`Extracting Finished!`")
-    shutil.rmtree(ext_out_path)
+#     shutil.rmtree(ext_out_path)
