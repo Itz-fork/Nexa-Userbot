@@ -25,24 +25,26 @@ CMD_HELP.update(
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await message.edit("`Processing...`")
+    ext_out_path = "./NexaUb/py_extract/audios
     if not replied_msg:
         await ext_text.edit("`Please reply to a valid video file!`")
         return
     if not replied_msg.video:
         await ext_text.edit("`Please reply to a valid video file!`")
         return
-#     if os.path.exists(ext_out_path):
-#         await ext_text.edit("`Already one process is going on. Please wait till it finish!`")
-#         return
+    if os.path.exists(ext_out_path):
+        await ext_text.edit("`Already one process is going on. Please wait till it finish!`")
+        return
     replied_video = replied_msg.video
-    await ext_text.edit("`Downloading...`")
-    ext_video = await NEXAUB.download_media(message=replied_video)
-    print(ext_video)
-    await ext_text.edit("`Extracting Audio(s)...`")
-    exted_aud = Video_tools.extract_all_audio(input_file=ext_video)
-    print(exted_aud)
-    await ext_text.edit("`Extracting Finished! Now Uploading to Telegram!`")
-    for nexa_aud in exted_aud:
-        await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` @{(await NEXAUB.get_me()).mention}")
-    await ext_text.edit("`Extracting Finished!`")
-#     shutil.rmtree(ext_out_path)
+    try:
+        await ext_text.edit("`Downloading...`")
+        ext_video = await NEXAUB.download_media(message=replied_video)
+        await ext_text.edit("`Extracting Audio(s)...`")
+        exted_aud = Video_tools.extract_all_audio(input_file=ext_video)
+        await ext_text.edit("`Extracting Finished! Now Uploading to Telegram!`")
+        for nexa_aud in exted_aud:
+            await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` {(await NEXAUB.get_me()).mention}")
+        await ext_text.edit("`Extracting Finished!`")
+        shutil.rmtree(ext_out_path)
+    except Exception as e:
+        await ext_text.edit(f"**Error:** `{e}`")
