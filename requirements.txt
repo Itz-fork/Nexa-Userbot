@@ -8,4 +8,4 @@ beautifulsoup4
 fake_useragent
 gitpython
 heroku3
-py-extract
+git+https://github.com/Itz-fork/py-extract.git
