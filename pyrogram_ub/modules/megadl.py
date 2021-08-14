@@ -67,7 +67,7 @@ async def megatoolsdl(_, message: Message):
     await message.reply(f"`Starting to download file / folder from mega.nz!` \n\nThis may take sometime. Depends on your file / folder size.")
     megacmd = f"megatools dl --limit-speed 0 --path {cli_download_path} {cli_url}"
     loop = get_running_loop()
-    x = await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
+    await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
     await megatools_msg.edit("`Downloading Finished! Trying to upload now`")
     try:
         folder_f = [f for f in os.listdir(cli_download_path) if os.path.isfile(os.path.join(cli_download_path, f))]
