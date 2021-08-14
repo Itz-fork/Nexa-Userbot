@@ -3,7 +3,7 @@ echo "
 
 Starting Now...
 "
-apt install megatools
+apt -qq install -y --no-install-recommends megatools
 
 if [[ -z "$PYRO_STR_SESSION" ]]
 then
