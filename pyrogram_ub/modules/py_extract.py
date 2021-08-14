@@ -24,7 +24,6 @@ CMD_HELP.update(
 @NEXAUB.on_message(filters.command("ext_aud", Config.CMD_PREFIX) & filters.me)
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
-    ext_out_path = "./NexaUb/Py_Extract"
     ext_text = await message.edit("`Processing...`")
     if not replied_msg:
         await ext_text.edit("`Please reply to a valid video file!`")
@@ -38,8 +37,10 @@ async def extract_all_aud(_, message: Message):
     replied_video = replied_msg.video
     await ext_text.edit("`Downloading...`")
     ext_video = await NEXAUB.download_media(message=replied_video)
+    print(ext_video)
     await ext_text.edit("`Extracting Audio(s)...`")
-    exted_aud = Video_tools.extract_all_audio(input_file=ext_video, output_path=ext_out_path)
+    exted_aud = Video_tools.extract_all_audio(input_file=ext_video)
+    print(exted_aud)
     await ext_text.edit("`Extracting Finished! Now Uploading to Telegram!`")
     for nexa_aud in exted_aud:
         await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` @{(await NEXAUB.get_me()).mention}")
