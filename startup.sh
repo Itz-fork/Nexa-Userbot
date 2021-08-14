@@ -1,5 +1,8 @@
-echo "Installing Packages"
-apt-get install -y megatools
+instal_reqs () {
+    echo "Installing Packages"
+    apt-get update -y
+    apt-get install -y megatools
+  }
 
 echo "
 ============ Nexa Userbot ============
@@ -7,9 +10,15 @@ echo "
 Starting Now...
 "
 
-if [[ -z "$PYRO_STR_SESSION" ]]
-then
-	echo "Please add Pyrogram String Session"
-else
-	python -m pyrogram_ub
-fi
+start_nexaub () {
+    if [[ -z "$PYRO_STR_SESSION" ]]
+    then
+	    echo "Please add Pyrogram String Session"
+    else
+	    python -m pyrogram_ub
+    fi
+
+_install_nexaub () {
+    instal_reqs
+    start_nexaub
+  }
