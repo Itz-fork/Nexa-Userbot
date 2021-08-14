@@ -1,11 +1,14 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
-import os
 from pyrogram_ub import NEXAUB
 from pyrogram_ub.modules import *
-from config import Config
 
-print("Pyrogram Client Has Started! \n\nPowered by Nexa UserBot")
-if not os.path.isdir(Config.DOWNLOAD_LOCATION):
-  os.makedirs(Config.DOWNLOAD_LOCATION)
+print("""
+    _   __                   __  __               __          __ 
+   / | / /__  _  ______ _   / / / /_______  _____/ /_  ____  / /_
+  /  |/ / _ \| |/_/ __ `/  / / / / ___/ _ \/ ___/ __ \/ __ \/ __/
+ / /|  /  __/>  </ /_/ /  / /_/ (__  )  __/ /  / /_/ / /_/ / /_  
+/_/ |_/\___/_/|_|\__,_/   \____/____/\___/_/  /_.___/\____/\__/ 
+Copyright (c) 2021 Itz-fork | Nexa Userbot
+""")
 NEXAUB.run()
