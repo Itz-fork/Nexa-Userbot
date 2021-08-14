@@ -9,3 +9,5 @@ fake_useragent
 gitpython
 heroku3
 git+https://github.com/Itz-fork/py-extract.git
+filesplit
+filetype
