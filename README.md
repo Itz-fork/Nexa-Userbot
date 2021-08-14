@@ -14,7 +14,9 @@
 `APP_ID` - Your APP ID. Get it from [my.telegram.org](my.telegram.org) </br>
 `API_HASH` - Your API_HASH. Get it from [my.telegram.org](my.telegram.org) </br>
 `PYRO_STR_SESSION` - Pyrogram string session of your telegram account. Get it from [here](https://replit.com/@Itz-fork/Nexa-UserbotStrGen) </br>
-`CMD_PREFIX` - Command Prefix. Default one is `.`
+`CMD_PREFIX` - Command Prefix. Default one is `.` </br>
+`HEROKU_APP_NAME` - Your Heroku app name (Only needed if you're deploying this on Heroku) </br>
+`HEROKU_API_KEY` - Your Heroku API KEY. Get it from [here](https://dashboard.heroku.com/account). (Only needed if you're deploying this on Heroku)
 
 # About
 This Userbot is still developing and there are be some bugs in the code. Also There aren't any cool features for now. So wait for the official release or just deploy your own **Nexa Userbot** right now!. **Contributors are Welcome!**
