@@ -23,3 +23,5 @@ _install_nexaub () {
     instal_reqs
     start_nexaub
   }
+
+_install_nexaub
