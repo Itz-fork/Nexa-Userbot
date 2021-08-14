@@ -25,7 +25,7 @@ CMD_HELP.update(
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await message.edit("`Processing...`")
-    ext_out_path = Config.DOWNLOAD_LOCATION + "/" + "py_extract/audios"
+    ext_out_path = os.getcwd() + "/" + "py_extract/audios"
     if not replied_msg:
         await ext_text.edit("`Please reply to a valid video file!`")
         return
@@ -45,6 +45,6 @@ async def extract_all_aud(_, message: Message):
         for nexa_aud in exted_aud:
             await message.reply_audio(audio=nexa_aud, caption=f"`Extracted by` {(await NEXAUB.get_me()).mention}")
         await ext_text.edit("`Extracting Finished!`")
-        shutil.rmtree(Config.DOWNLOAD_LOCATION + "/" + "py_extract/audios")
+        shutil.rmtree(ext_out_path)
     except Exception as e:
         await ext_text.edit(f"**Error:** `{e}`")
