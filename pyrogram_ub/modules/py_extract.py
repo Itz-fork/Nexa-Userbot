@@ -25,7 +25,7 @@ CMD_HELP.update(
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await message.edit("`Processing...`")
-    ext_out_path = "./NexaUb/py_extract/audios"
+    ext_out_path = Config.DOWNLOAD_LOCATION + "/" + "py_extract/audios"
     if not replied_msg:
         await ext_text.edit("`Please reply to a valid video file!`")
         return
