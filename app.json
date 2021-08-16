@@ -27,6 +27,14 @@
             "description": "Command prefix",
             "required": false,
             "value": "False"
+        },
+        "HEROKU_APP_NAME": {
+            "description": "Your Heroku App Name",
+            "required": true
+        },
+        "HEROKU_API_KEY": {
+            "description": "Your Heroku API KEY",
+            "required": true
         }
     },
     "addons": [],
