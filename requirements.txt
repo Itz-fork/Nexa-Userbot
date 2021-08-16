@@ -6,8 +6,8 @@ numpy
 aiohttp
 beautifulsoup4
 fake_useragent
-heroku3
 gitpython
+heroku3
 git+https://github.com/Itz-fork/py-extract.git
 filesplit
 filetype
