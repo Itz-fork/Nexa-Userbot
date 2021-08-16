@@ -64,7 +64,7 @@ async def megatoolsdl(_, message: Message):
         return
     else:
         os.makedirs(cli_download_path)
-    await message.reply(f"`Starting to download file / folder from mega.nz!` \n\nThis may take sometime. Depends on your file / folder size.")
+    await megatools_msg.edit(f"`Starting to download file / folder from mega.nz!` \n\nThis may take sometime. Depends on your file / folder size.")
     megacmd = f"megadl --limit-speed 0 --path {cli_download_path} {cli_url}"
     loop = get_running_loop()
     await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
