@@ -2,6 +2,8 @@ echo "
 ============ Nexa Userbot ============
 
 Starting Now...
+
+Copyright (c) 2021 Itz-fork | @NexaBotsUpdates
 "
 
 start_nexaub () {
