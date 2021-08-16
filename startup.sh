@@ -1,9 +1,3 @@
-instal_reqs () {
-    echo "Installing Packages"
-    apt-get update -y
-    apt-get install -y megatools
-  }
-
 echo "
 ============ Nexa Userbot ============
 
@@ -20,7 +14,6 @@ start_nexaub () {
   }
 
 _install_nexaub () {
-    instal_reqs
     start_nexaub
   }
 
