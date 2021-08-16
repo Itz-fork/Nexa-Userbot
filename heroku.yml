@@ -2,4 +2,4 @@ build:
   docker:
     worker: Dockerfile
 run:
-  nexaub: bash startup.sh
+  worker: bash startup.sh
