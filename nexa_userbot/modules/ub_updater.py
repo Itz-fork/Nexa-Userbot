@@ -11,9 +11,9 @@ from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
 from pyrogram import filters
 
-from pyrogram_ub import NEXAUB, CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
-from pyrogram_ub.helpers.pyrogram_help import get_arg
+from nexa_userbot.helpers.pyrogram_help import get_arg
 
 
 CMD_HELP.update(

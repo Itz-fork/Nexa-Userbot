@@ -9,7 +9,7 @@ from pyrogram import filters
 from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 
-from pyrogram_ub import NEXAUB, CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 
 CMD_HELP.update(

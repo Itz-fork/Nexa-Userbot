@@ -6,8 +6,9 @@ from pyrogram import filters
 from pyrogram.methods.chats import restrict_chat_member
 from pyrogram.types import Message
 
-from pyrogram_ub import NEXAUB, CMD_HELP
-from pyrogram_ub.helpers.pictool_help import gib_carbon_sar
+from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.helpers.pictool_help import gib_carbon_sar
+from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
 CMD_HELP.update(
@@ -26,13 +27,17 @@ CMD_HELP.update(
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
     carbon_msg = await message.edit_text("`Processing...`")
-    if not r_msg:
-        await carbon_msg.edit("`Reply to a Text Message Lol!`")
-        return
-    if not r_msg.text:
-        await carbon_msg.edit("`Reply to a Text Message Lol!`")
-        return
-    carboned_pic = await gib_carbon_sar(r_msg.text)
+    carbonpic_msg = get_arg(message)
+    if not carbonpic_msg:
+        if not r_msg:
+            await carbon_msg.edit("`Reply to a Text Message Lol!`")
+            return
+        if not r_msg.text:
+            await carbon_msg.edit("`Reply to a Text Message Lol!`")
+            return
+        else:
+            carbonpic_msg = r_msg.text
+    carboned_pic = await gib_carbon_sar(carbonpic_msg)
     await carbon_msg.edit("`Uploading...`")
     await NEXAUB.send_photo(message.chat.id, carboned_pic)
     await carbon_msg.delete()

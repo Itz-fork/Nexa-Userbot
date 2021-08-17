@@ -12,8 +12,8 @@ from functools import partial
 from asyncio import get_running_loop
 from fsplit.filesplit import Filesplit
 
-from pyrogram_ub import NEXAUB, CMD_HELP
-from pyrogram_ub.helpers.up_to_tg import guess_and_send
+from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.helpers.up_to_tg import guess_and_send
 from config import Config
 
 CMD_HELP.update(

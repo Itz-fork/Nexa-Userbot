@@ -10,7 +10,7 @@ import subprocess
 from io import StringIO
 
 from pyrogram import filters
-from pyrogram_ub import NEXAUB, CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 
 CMD_HELP.update(

@@ -4,9 +4,9 @@
 
 from pyrogram import filters
 from pyrogram.types import Message
-from pyrogram_ub import NEXAUB, HELP, CMD_HELP
+from nexa_userbot import NEXAUB, HELP, CMD_HELP
 from config import Config
-from pyrogram_ub.helpers.pyrogram_help import get_arg
+from nexa_userbot.helpers.pyrogram_help import get_arg
 
 HELP.update(
     {

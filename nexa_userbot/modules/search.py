@@ -10,8 +10,8 @@ import requests
 from pyrogram import filters
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from pyrogram_ub import NEXAUB, CMD_HELP
-from pyrogram_ub.helpers.pyrogram_help import get_arg
+from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
 
@@ -41,11 +41,16 @@ async def duckduckg_s(client, message):
 
 @NEXAUB.on_message(filters.command("google", Config.CMD_PREFIX) & filters.me)
 async def google_s(client, message):
-    pablo = await message.edit("Searcing in Google...")
+    pablo = await message.edit("`Searching in Google...`")
     query = get_arg(message)
+    replied_msg = message.reply_to_message
     if not query:
-        await pablo.edit("`Give Something to Search!`")
-        return
+        try:
+            if replied_msg:
+                query = replied_msg.text
+        except:
+            await pablo.edit("`Give Something to Search!`")
+            return
     query = urllib.parse.quote_plus(query)
     number_result = 8
     ua = UserAgent()

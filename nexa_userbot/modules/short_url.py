@@ -5,8 +5,8 @@ import requests
 
 from pyrogram import filters
 from pyrogram.types import Message
-from pyrogram_ub import NEXAUB, CMD_HELP
-from pyrogram_ub.helpers.pyrogram_help import get_arg
+from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
 CMD_HELP.update(

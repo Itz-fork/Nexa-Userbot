@@ -8,7 +8,7 @@ from pyrogram import filters, __version__ as pyrogram_version
 from pyrogram.types import Message
 from sys import version_info
 
-from pyrogram_ub import NEXAUB, CMD_HELP, StartTime
+from nexa_userbot import NEXAUB, CMD_HELP, NEXAUB_VERSION, StartTime
 from config import Config
 
 CMD_HELP.update(
@@ -60,6 +60,7 @@ async def pyroalive(_, message: Message):
     
     **Python Version:** `{python_version}`
     **Pyrogram Version:** `{pyrogram_version}`
+    **Nexa Userbot Version:** `{NEXAUB_VERSION}`
     **Uptime: `{uptime}`**
 
 

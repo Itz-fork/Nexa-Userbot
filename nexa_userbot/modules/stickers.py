@@ -17,9 +17,9 @@ from pyrogram.errors import StickersetInvalid, YouBlockedUser
 from pyrogram.raw.functions.messages import GetStickerSet
 from pyrogram.raw.types import InputStickerSetShortName
 
-from pyrogram_ub import NEXAUB, CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
-from pyrogram_ub.helpers.pyrogram_help import get_arg, convert_to_image
+from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 
 
 CMD_HELP.update(

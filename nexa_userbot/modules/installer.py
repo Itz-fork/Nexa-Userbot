@@ -7,7 +7,7 @@ import logging
 
 from pyrogram import filters
 from pyrogram.types import Message
-from pyrogram_ub import NEXAUB, CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 
 CMD_HELP.update(
@@ -24,7 +24,7 @@ CMD_HELP.update(
 
 # Load Plugins | Thanks for Friday Userbot for the idea
 def import_plugin(p_name):
-    nexa_plugin_path = "pyrogram_ub.modules." + p_name
+    nexa_plugin_path = "nexa_userbot.modules." + p_name
     importlib.import_module(nexa_plugin_path)
     logging.info(f"LOADED PLUGIN: - {p_name} - Nexa-Userbot")
 
@@ -40,7 +40,7 @@ async def install_plugin(_, message: Message):
         await msg.edit("`Please reply to a valid python module to install!`")
         return
     plugin_name = replied_msg.document.file_name
-    plugin_path = f"pyrogram_ub/modules/{plugin_name}"
+    plugin_path = f"nexa_userbot/modules/{plugin_name}"
     plugin_extension = plugin_name.split(".")[1].lower()
     plugin_name_no_exe = plugin_name.split(".")[0]
     if plugin_extension != "py":
