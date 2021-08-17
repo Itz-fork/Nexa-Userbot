@@ -82,11 +82,10 @@ async def megatoolsdl(_, message: Message):
                 await megatools_msg.edit("`Splitting Finished! Uploading Now...`")
                 for splitted_f in split_out_dir:
                     await message.reply_document(splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
-                await megatools_msg.edit("`Large Files Splitting and Uploading Finished!`")
             else:
                 chat_id = message.chat.id
                 await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)
-                await megatools_msg.edit("`Small Files Uploading Finished!`")
+        await megatools_msg.edit("`Uploading Finished!`")
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")
     try:
