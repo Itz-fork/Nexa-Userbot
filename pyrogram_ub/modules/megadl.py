@@ -68,7 +68,7 @@ async def megatoolsdl(_, message: Message):
     loop = get_running_loop()
     await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
     #folder_f = [f for f in os.listdir(cli_download_path) if os.path.isfile(os.path.join(cli_download_path, f))]
-    folder_f = [val for sublist in [[os.path.join(i[0], j) for j in i[2]] for i in os.walk(cli_download_path)] for val in sublist]
+    folder_f = [val for sublist in [[os.path.join(i[0], j) for j in i[2]] for i in os.walk(f"{os.getcwd()}/NexaUb/Megatools/{cli_user_id}")] for val in sublist]
     #print(folder_f)
     await megatools_msg.edit("`Downloading Finished! Trying to upload now`")
     try:
