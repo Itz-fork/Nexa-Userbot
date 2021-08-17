@@ -78,14 +78,14 @@ async def megatoolsdl(_, message: Message):
                 split_out_dir = cli_download_path + "/" + "splitted_files"
                 await megatools_msg.edit("`Large File Detected, Trying to split it!`")
                 loop = get_running_loop()
-                await loop.run_in_executor(None, partial(split_files(input_file=cli_download_path+"/"+nexa_m, out_base_path=split_out_dir)))
+                await loop.run_in_executor(None, partial(split_files(input_file=nexa_m, out_base_path=split_out_dir)))
                 await megatools_msg.edit("`Splitting Finished! Uploading Now...`")
                 for splitted_f in split_out_dir:
                     await message.reply_document(splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
                 await megatools_msg.edit("`Large Files Splitting and Uploading Finished!`")
             else:
                 chat_id = message.chat.id
-                await guess_and_send(input_file=cli_download_path+"/"+nexa_m, chat_id=chat_id, thumb_path=cli_download_path)
+                await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=cli_download_path)
                 await megatools_msg.edit("`Small Files Uploading Finished!`")
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")
