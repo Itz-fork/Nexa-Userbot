@@ -1,5 +1,6 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa Userbot
+import os
 import filetype
 import subprocess
 
@@ -26,6 +27,8 @@ async def guess_and_send(input_file, chat_id, thumb_path):
         elif "video" in filemimespotted:
             viddura = get_vid_duration(input_video=in_file)
             thumbnail_path = f"{thumbnail_bpath}/thumbnail.jpg"
+            if os.path.exists(thumbnail_path):
+                os.remove(thumbnail_path)
             subprocess.call(['ffmpeg', '-i', in_file, '-ss', '00:00:00.000', '-vframes', '1', thumbnail_path])
             await NEXAUB.send_video(chat_id=chat_id, video=in_file, thumb=thumbnail_path, duration=viddura, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
         elif "audio" in filemimespotted:
