@@ -14,9 +14,9 @@ async def guess_and_send(input_file, chat_id, thumb_path):
     thumbnail_bpath = thumb_path
     in_file = f"{input_file}"
     guessedfilemime = filetype.guess(in_file)
-    if not guessedfilemime.mime:
-        await NEXAUB.send_document(chat_id=chat_id, document=in_file, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
-        return
+#     if not guessedfilemime.mime:
+#         await NEXAUB.send_document(chat_id=chat_id, document=in_file, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
+#         return
     filemimespotted = guessedfilemime.mime
     if "image/gif" in filemimespotted:
         await NEXAUB.send_animation(chat_id=chat_id, animation=in_file, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
