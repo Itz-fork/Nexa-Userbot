@@ -4,7 +4,7 @@ import os
 import filetype
 import subprocess
 
-from pyrogram_ub import NEXAUB
+from nexa_userbot import NEXAUB
 
 def get_vid_duration(input_video):
     result = subprocess.run(['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', input_video], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
