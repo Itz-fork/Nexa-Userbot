@@ -25,10 +25,10 @@ async def guess_and_send(input_file, chat_id, thumb_path):
         elif "image" in filemimespotted:
             await NEXAUB.send_photo(chat_id=chat_id, photo=in_file, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
         elif "video" in filemimespotted:
-            viddura = get_vid_duration(input_video=in_file)
-            thumbnail_path = f"{thumbnail_bpath}/thumbnail.jpg"
             if os.path.exists(thumbnail_path):
                 os.remove(thumbnail_path)
+            viddura = get_vid_duration(input_video=in_file)
+            thumbnail_path = f"{thumbnail_bpath}/thumbnail.jpg"
             subprocess.call(['ffmpeg', '-i', in_file, '-ss', '00:00:00.000', '-vframes', '1', thumbnail_path])
             await NEXAUB.send_video(chat_id=chat_id, video=in_file, thumb=thumbnail_path, duration=viddura, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
         elif "audio" in filemimespotted:
