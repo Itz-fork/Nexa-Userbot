@@ -188,7 +188,7 @@ async def log(client, message):
     try:
         await message.edit("`Getting Logs`")
         heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
-        server = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='nexaub', lines=100, source='app', timeout=100)
+        server = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='worker', lines=100, source='app', timeout=100)
         f_logs = server
         if len(f_logs) > 4096:
             file = open("logs.txt", "w+")

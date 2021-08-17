@@ -12,7 +12,7 @@ HELP.update(
     {
         "**🧭 Userbot**": "`alive`, `installer`, `updater`",
         "**👨‍💻 Dev**": "`eval`",
-        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`",
+        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`",
         "**🗂 Utils**": "`stickers`, `owner`",
         "\n**Usage**": "`.help [module_name]`"
     }
