@@ -27,7 +27,7 @@ CMD_HELP.update(
 )
 
 # Download path
-megadir = "./NexaUb/Megatools"
+megadir = os.getcwd() + "/NexaUb/Megatools"
 
 # Run bash cmd in python
 def nexa_mega_runner(command):
