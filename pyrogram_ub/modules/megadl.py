@@ -67,15 +67,15 @@ async def megatoolsdl(_, message: Message):
     megacmd = f"megadl --limit-speed 0 --path {cli_download_path} {cli_url}"
     loop = get_running_loop()
     await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
-    #folder_f = [f for f in os.listdir(cli_download_path) if os.path.isfile(os.path.join(cli_download_path, f))]
-    folder_f = [val for sublist in [[os.path.join(i[0], j) for j in i[2]] for i in os.walk(f"{os.getcwd()}/NexaUb/Megatools/{cli_user_id}")] for val in sublist]
-    #print(folder_f)
+    nexaub_path_f = f"{os.getcwd()}/NexaUb/Megatools/{str(message.from_user.id)}"
+    folder_f = [val for sublist in [[os.path.join(i[0], j) for j in i[2]] for i in os.walk(nexaub_path_f)] for val in sublist]
+    print(folder_f)
     await megatools_msg.edit("`Downloading Finished! Trying to upload now`")
     try:
         for nexa_m in folder_f:
-            file_size = os.stat(cli_download_path+"/"+nexa_m).st_size
+            file_size = os.stat(nexa_m).st_size
             if file_size > 2040108421:
-                split_out_dir = cli_download_path + "/" + "splitted_files"
+                split_out_dir = nexaub_path_f + "splitted_files"
                 await megatools_msg.edit("`Large File Detected, Trying to split it!`")
                 loop = get_running_loop()
                 await loop.run_in_executor(None, partial(split_files(input_file=nexa_m, out_base_path=split_out_dir)))
@@ -85,11 +85,11 @@ async def megatoolsdl(_, message: Message):
                 await megatools_msg.edit("`Large Files Splitting and Uploading Finished!`")
             else:
                 chat_id = message.chat.id
-                await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=cli_download_path)
+                await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)
                 await megatools_msg.edit("`Small Files Uploading Finished!`")
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")
     try:
-        shutil.rmtree(cli_download_path)
+        shutil.rmtree(nexaub_path_f)
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")
