@@ -61,10 +61,10 @@ async def upstream(client, message):
     status = await message.edit(f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
     conf = get_arg(message)
     off_repo = UPSTREAM_REPO_URL
+    repo = Repo()
     try:
-        txt = "`Oops! Updater Can't Continue..."
+        txt = "`Oops! Updater Can't Continue...`"
         txt += "**LOGTRACE:**\n"
-        repo = Repo()
     except NoSuchPathError as error:
         await status.edit(f"{txt}\n`directory {error} is not found`")
         repo.__del__()
@@ -107,7 +107,7 @@ async def upstream(client, message):
                 await NEXAUB.send_document(
                     message.chat.id,
                     "output.txt",
-                    caption=f"Do {Config.CMD_PREFIX}`update now` to update your Nexa-Userbot",
+                    caption=f"Do `{Config.CMD_PREFIX}update now` to update your Nexa-Userbot",
                     reply_to_message_id=status.message_id,
                 )
                 remove("output.txt")
