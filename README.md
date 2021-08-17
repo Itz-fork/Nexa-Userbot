@@ -19,7 +19,7 @@
 `HEROKU_API_KEY` - Your Heroku API KEY. Get it from [here](https://dashboard.heroku.com/account). (Only needed if you're deploying this on Heroku)
 
 # About
-This Userbot is still developing and there are be some bugs in the code. Also There aren't any cool features for now. So wait for the official release or just deploy your own **Nexa Userbot** right now!. **Contributors are Welcome!**
+This Userbot is still developing so there'll be some bugs. Please report bugs at [@Nexa Bots Support Group](https://t.me/Nexa_bots)
 
 # Credits
 - Developers Userbot [Base of Nexa-Userbot]
