@@ -9,10 +9,12 @@ import re
 import subprocess
 from io import StringIO
 
-from pyrogram import filters
 from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+
+# Help
 CMD_HELP.update(
     {
         "eval": """
@@ -24,6 +26,8 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
+
 
 async def aexec(code, client, message):
     exec(
@@ -33,9 +37,9 @@ async def aexec(code, client, message):
     return await locals()["__aexec"](client, message)
 
 
-@NEXAUB.on_message(filters.command("peval", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="eval", modlue=mod_file)
 async def evaluate(client, message):
-    status_message = await message.edit("`Processing...`")
+    status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
@@ -71,7 +75,8 @@ async def evaluate(client, message):
         filename = "output.txt"
         with open(filename, "w+", encoding="utf8") as out_file:
             out_file.write(str(final_output))
-        await message.reply_document(
+        await NEXAUB.send_document(
+            chat_id=message.chat.id,
             document=filename,
             caption=cmd,
             disable_notification=True,
@@ -80,13 +85,14 @@ async def evaluate(client, message):
         os.remove(filename)
         await status_message.delete()
     else:
-        await status_message.edit(final_output)
+        await e_or_r(nexaub_message=status_message, msg_text=final_output)
 
 
-@NEXAUB.on_message(filters.command("sh", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="sh", modlue=mod_file)
 async def terminal(client, message):
+    sh_eval_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if len(message.text.split()) == 1:
-        await message.edit(f"`Invalid Command!` \n\n**Example:** `{Config.CMD_PREFIX}sh echo Hello World`")
+        await sh_eval_msg.edit(f"`Invalid Command!` \n\n**Example:** `{Config.CMD_PREFIX}sh echo Hello World`")
         return
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
@@ -106,7 +112,7 @@ async def terminal(client, message):
                 )
             except Exception as err:
                 print(err)
-                await message.edit(
+                await sh_eval_msg.edit(
                     """
 **► Error:**
 ```{}```
@@ -130,7 +136,7 @@ async def terminal(client, message):
             errors = traceback.format_exception(
                 etype=exc_type, value=exc_obj, tb=exc_tb
             )
-            await message.edit("""**► Error:**\n```{}```""".format("".join(errors)))
+            await sh_eval_msg.edit("""**► Error:**\n```{}```""".format("".join(errors)))
             return
         output = process.stdout.read()[:-1].decode("utf-8")
     if str(output) == "\n":
@@ -147,6 +153,6 @@ async def terminal(client, message):
             )
             os.remove("output.txt")
             return
-        await message.edit(f"**► Input:** \n`{cmd}` \n\n**► Output:**\n```{output}```", parse_mode="markdown")
+        await sh_eval_msg.edit(f"**► Input:** \n`{cmd}` \n\n**► Output:**\n```{output}```", parse_mode="markdown")
     else:
-        await message.edit(f"**► Input:** \n`{cmd}` \n\n**► Output:**\n`No Output`")
+        await sh_eval_msg.edit(f"**► Input:** \n`{cmd}` \n\n**► Output:**\n`No Output`")

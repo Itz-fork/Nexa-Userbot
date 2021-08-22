@@ -6,13 +6,9 @@ import tgcrypto
 from pyrogram import Client
 
 print("""
-    _   __                   __  __               __          __ 
-   / | / /__  _  ______ _   / / / /_______  _____/ /_  ____  / /_
-  /  |/ / _ \| |/_/ __ `/  / / / / ___/ _ \/ ___/ __ \/ __ \/ __/
- / /|  /  __/>  </ /_/ /  / /_/ (__  )  __/ /  / /_/ / /_/ / /_  
-/_/ |_/\___/_/|_|\__,_/   \____/____/\___/_/  /_.___/\____/\__/ 
+|| Nexa Userbot ||
 
-Copyright (c) 2021 Itz-fork | Nexa Userbot
+Copyright (c) 2021 Itz-fork
 """)
 
 async def pyro_str():

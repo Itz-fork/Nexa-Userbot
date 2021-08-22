@@ -13,11 +13,14 @@ from json import JSONDecodeError
 import numpy as np
 import requests
 
+from typing import Callable
 from pyrogram.types import Message, User
 from pyrogram import Client
 from PIL import Image, ImageDraw, ImageFont
 from PIL import Image, ImageDraw
 from typing import Tuple
+from nexa_userbot import NEXAUB
+from nexa_userbot.core.startup_checks import check_or_set_log_channel
 
 async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     """Run Commands"""

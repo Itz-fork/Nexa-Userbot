@@ -9,5 +9,6 @@ class Config(object):
     # Pyrogram Session
     PYRO_STR_SESSION = os.environ.get("PYRO_STR_SESSION", "")
     CMD_PREFIX = os.environ.get("CMD_PREFIX", ".")
+    MONGODB_URL = os.environ.get("MONGODB_URL")
     HEROKU_APP_NAME = os.environ.get("HEROKU_APP_NAME")
     HEROKU_API_KEY = os.environ.get("HEROKU_API_KEY")

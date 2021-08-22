@@ -10,7 +10,7 @@ from config import Config
 # Helps
 HELP = {}
 CMD_HELP = {}
-NEXAUB_VERSION = "v0.0.1.2"
+NEXAUB_VERSION = "v0.0.2"
 
 StartTime = time.time()
 

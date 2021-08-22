@@ -14,8 +14,11 @@ from fsplit.filesplit import Filesplit
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.up_to_tg import guess_and_send
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+
+# Help
 CMD_HELP.update(
     {
         "megatools": """
@@ -24,6 +27,8 @@ CMD_HELP.update(
 """
     }
 )
+
+mod_file = os.path.basename(__file__)
 
 # Download path
 megadir = "./NexaUb/Megatools"
@@ -42,9 +47,9 @@ def split_files(input_file, out_base_path):
     out_path = out_base_path
     nexa_fs.split(file=split_file, split_size=split_fsize, output_dir=out_path)
 
-@NEXAUB.on_message(filters.me & filters.command("megadl", Config.CMD_PREFIX))
+@nexaub_on_cmd(command="megadl", modlue=mod_file)
 async def megatoolsdl(_, message: Message):
-    megatools_msg = await message.edit("`Processing...`")
+    megatools_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     url = message.text
     cli_user_id = str(message.from_user.id)
     cli_download_path = megadir + "/" + cli_user_id
@@ -81,7 +86,7 @@ async def megatoolsdl(_, message: Message):
                 await loop.run_in_executor(None, partial(split_files(input_file=nexa_m, out_base_path=split_out_dir)))
                 await megatools_msg.edit("`Splitting Finished! Uploading Now...`")
                 for splitted_f in split_out_dir:
-                    await message.reply_document(splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
+                    await NEXAUB.send_document(chat_id=message.chat.id, document=splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
             else:
                 chat_id = message.chat.id
                 await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)

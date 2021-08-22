@@ -2,6 +2,7 @@
 # Part of: Nexa-Userbot
 # Credits: Friday Userbot | DevsExpo
 
+import os
 import re
 import urllib
 import urllib.parse
@@ -12,9 +13,11 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
 
+# Help
 CMD_HELP.update(
     {
         "search": """
@@ -27,9 +30,11 @@ CMD_HELP.update(
     }
 )
 
-@NEXAUB.on_message(filters.command("duck_s", Config.CMD_PREFIX) & filters.me)
+mod_file = os.path.basename(__file__)
+
+@nexaub_on_cmd(command="duck_s", modlue=mod_file)
 async def duckduckg_s(client, message):
-    pablo = await message.edit("`Searcing in DuckDuckGo...`")
+    pablo = await e_or_r(nexaub_message=message, msg_text="`Searcing in DuckDuckGo...`")
     query = get_arg(message)
     if not query:
         await pablo.edit("`Give Something to Search!`")
@@ -39,9 +44,9 @@ async def duckduckg_s(client, message):
     await pablo.edit(f"**Query:** \n`{query}` \n\n**Result(s):** \n{link}")
 
 
-@NEXAUB.on_message(filters.command("google", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="google", modlue=mod_file)
 async def google_s(client, message):
-    pablo = await message.edit("`Searching in Google...`")
+    pablo = await e_or_r(nexaub_message=message, msg_text="`Searching in Google...`")
     query = get_arg(message)
     replied_msg = message.reply_to_message
     if not query:

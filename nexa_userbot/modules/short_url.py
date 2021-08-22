@@ -2,13 +2,17 @@
 # Part of: Nexa-Userbot
 
 import requests
+import os
 
 from pyrogram import filters
 from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+
+# Help
 CMD_HELP.update(
     {
         "short_url": """
@@ -19,6 +23,8 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
+
 def paste_isgd(url):
     main_url = f"https://is.gd/create.php?format=json&url={url}"
     pasted_url = requests.post(main_url)
@@ -26,10 +32,10 @@ def paste_isgd(url):
     short_url = json_data['shorturl']
     return short_url
 
-@NEXAUB.on_message(filters.command("short", Config.CMD_PREFIX) & filters.me & ~filters.edited)
+@nexaub_on_cmd(command="short", modlue=mod_file)
 async def cutr_short(_, message: Message):
     replied_msg = message.reply_to_message
-    short_msg = await message.edit("`Processing...`")
+    short_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if replied_msg:
         to_short = replied_msg.text
     elif not replied_msg:

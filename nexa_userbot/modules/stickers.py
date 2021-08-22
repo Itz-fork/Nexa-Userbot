@@ -20,8 +20,10 @@ from pyrogram.raw.types import InputStickerSetShortName
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
+# Help
 CMD_HELP.update(
     {
         "stickers": """
@@ -34,9 +36,11 @@ CMD_HELP.update(
     }
 )
 
-@NEXAUB.on_message(filters.me & filters.command("packinfo", Config.CMD_PREFIX))
+mod_file = os.path.basename(__file__)
+
+@nexaub_on_cmd(command="packinfo", modlue=mod_file)
 async def packinfo(client, message):
-    pablo = await message.edit("Processing...")
+    pablo = await e_or_r(nexaub_message=message, msg_text="Processing...")
     if not message.reply_to_message:
         await pablo.edit("`Please Reply to a Sticker!`")
         return
@@ -69,9 +73,9 @@ async def packinfo(client, message):
     await pablo.edit(output)
 
 
-@NEXAUB.on_message(filters.me & filters.command("kang", Config.CMD_PREFIX))
+@nexaub_on_cmd(command="kang", modlue=mod_file)
 async def kang_stick(client, message):
-    pablo = await message.edit("`Kanging This Sticker to My Pack...`")
+    pablo = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
     if not message.reply_to_message:
         await pablo.edit("`Please Reply to a Sticker!`")
         return

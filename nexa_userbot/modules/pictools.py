@@ -1,16 +1,17 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
 # Credits: Friday Userbot | DevsExpo
-
-from pyrogram import filters
-from pyrogram.methods.chats import restrict_chat_member
+import os
 from pyrogram.types import Message
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.pictool_help import gib_carbon_sar
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+
+# Help
 CMD_HELP.update(
     {
         "pictools": """
@@ -22,11 +23,13 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
+
 # Carbon a text
-@NEXAUB.on_message(filters.command("carbon", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="carbon", modlue=mod_file)
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
-    carbon_msg = await message.edit_text("`Processing...`")
+    carbon_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     carbonpic_msg = get_arg(message)
     if not carbonpic_msg:
         if not r_msg:

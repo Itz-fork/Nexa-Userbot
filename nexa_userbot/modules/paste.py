@@ -5,11 +5,13 @@
 import os
 import requests
 
-from pyrogram import filters
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+
+# Help
 CMD_HELP.update(
     {
         "paste": """
@@ -20,9 +22,11 @@ CMD_HELP.update(
     }
 )
 
-@NEXAUB.on_message(filters.command("paste", Config.CMD_PREFIX) & filters.me & ~filters.edited)
+mod_file = os.path.basename(__file__)
+
+@nexaub_on_cmd(command="paste", modlue=mod_file)
 async def paste(client, message):
-    paste_msg = await message.edit("`Pasting to Hastebin...`")
+    paste_msg = await e_or_r(nexaub_message=message, msg_text="`Pasting to Hastebin...`")
     replied_msg = message.reply_to_message
     tex_t = get_arg(message)
     message_s = tex_t

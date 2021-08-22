@@ -1,21 +1,23 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
-# Credits: Developers Userbot | okay-retard | Zect Userbot
+# Credits: Nexa Userbot | Zect Userbot
 
 import heroku3
 import asyncio
 import sys
+import os
 
 from os import environ, execle, path, remove
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
-from pyrogram import filters
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
+# Help
 CMD_HELP.update(
     {
         "updater": """
@@ -28,6 +30,8 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
+
 UPSTREAM_REPO_URL = "https://github.com/Itz-fork/Nexa-Userbot"
 requirements_path = path.join(
     path.dirname(path.dirname(path.dirname(__file__))), "requirements.txt"
@@ -37,7 +41,7 @@ requirements_path = path.join(
 async def gen_chlog(repo, diff):
     ch_log = ""
     d_form = "On %d/%m/%y at %H:%M:%S"
-    for c in repo.iter_commits(diff):
+    for c in repo.iter_commits(diff, max_count=10):
         ch_log += f"**#{c.count()}** : {c.committed_datetime.strftime(d_form)} : [{c.summary}]({UPSTREAM_REPO_URL.rstrip('/')}/commit/{c}) by `{c.author}`\n"
     return ch_log
 
@@ -56,15 +60,16 @@ async def updateme_requirements():
         return repr(e)
 
 
-@NEXAUB.on_message(filters.command("update", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="update", modlue=mod_file)
 async def upstream(client, message):
-    status = await message.edit(f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
+    status = await e_or_r(nexaub_message=message, msg_text=f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
     conf = get_arg(message)
     off_repo = UPSTREAM_REPO_URL
+    txt = "`Oops! Updater Can't Continue...`"
+    txt += "**LOGTRACE:**\n"
+    repo = Repo()
     try:
-        txt = "`Oops! Updater Can't Continue...`"
-        txt += "**LOGTRACE:**\n"
-        repo = Repo()
+        repo = repo
     except NoSuchPathError as error:
         await status.edit(f"{txt}\n`directory {error} is not found`")
         repo.__del__()
@@ -95,22 +100,22 @@ async def upstream(client, message):
         pass
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
-    changelog = await gen_chlog(repo, f"HEAD..upstream/{ac_br}")
     if "now" not in conf:
+        changelog = await gen_chlog(repo, diff=f"{ac_br}")
         if changelog:
-            changelog_str = f"**New Update available** \n\n**Branch:** [[{ac_br}]]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog:** \n\n{changelog}"
+            changelog_str = f"**New Updates available for Nexa Userbot** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog (last 10):** \n\n{changelog}"
             if len(changelog_str) > 4096:
                 await status.edit("`Changelog is too big, view the file to see it.`")
-                file = open("output.txt", "w+")
+                file = open("NEXAUB_git_commit_log.txt", "w+")
                 file.write(changelog_str)
                 file.close()
                 await NEXAUB.send_document(
                     message.chat.id,
-                    "output.txt",
+                    "NEXAUB_git_commit_log.txt",
                     caption=f"Do `{Config.CMD_PREFIX}update now` to update your Nexa-Userbot",
                     reply_to_message_id=status.message_id,
                 )
-                remove("output.txt")
+                remove("NEXAUB_git_commit_log.txt")
             else:
                 return await status.edit(
                     f"{changelog_str}\n\nDo `.update now` to update your Nexa-Userbot",
@@ -118,11 +123,11 @@ async def upstream(client, message):
                 )
         else:
             await status.edit(
-                f"\n**Nexa-Userbot is Uptodate with** [[{ac_br}]]({UPSTREAM_REPO_URL}/tree/{ac_br})**\n",
+                f"\n**Nexa-Userbot is Uptodate with** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})**\n",
                 disable_web_page_preview=True,
             )
             repo.__del__()
-            return
+        return
     if Config.HEROKU_API_KEY is not None:
         heroku = heroku3.from_key(Config.HEROKU_API_KEY)
         heroku_app = None
@@ -160,33 +165,43 @@ async def upstream(client, message):
             remote.push(refspec=f"HEAD:refs/heads/{ac_br}", force=True)
         except GitCommandError as error:
             pass
-        await status.edit("`Successfully Updated!` \n`Restarting Now...`")
+        await status.edit("`Successfully Updated!` \n**Restarting Now...**")
     else:
         try:
             ups_rem.pull(ac_br)
         except GitCommandError:
             repo.git.reset("--hard", "FETCH_HEAD")
         await updateme_requirements()
-        await status.edit("`Successfully Updated!` \nRestarting Now...`",)
-        args = [sys.executable, "./startup.sh"]
+        await status.edit("`Successfully Updated!` \n**Restarting Now...**",)
+        args = [sys.executable, "-m" "nexa_userbot"]
         execle(sys.executable, *args, environ)
         return
 
-@NEXAUB.on_message(filters.command("restart", Config.CMD_PREFIX) & filters.me)
-async def restart(client, message):
-    try:
-        await message.edit("`Nexa-Userbot is restarting! Please wait...`")
+# Userbot restart module
+async def restart_nexaub():
+    if Config.HEROKU_API_KEY is not None:
         heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         server = heroku_conn.app(Config.HEROKU_APP_NAME)
         server.restart()
+    else:
+        args = [sys.executable, "-m" "nexa_userbot"]
+        execle(sys.executable, *args, environ)
+        exit()
+
+@nexaub_on_cmd(command="restart", modlue=mod_file)
+async def restart(client, message):
+    restart_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    await restart_msg.edit("`Nexa-Userbot is restarting! Please wait...`")
+    try:
+        await restart_nexaub()
     except Exception as e:
-        await message.edit(f"Vaiable(s) `HEROKU_APP_NAME` or `HEROKU_API_KEY` is **Wrong** or **Not Filled**! \n`Please fill or correct them!` \n\n**Error:** `{e}`")
+        await restart_msg.edit(f"**Error:** `{e}`")
 
 
-@NEXAUB.on_message(filters.command("logs", Config.CMD_PREFIX) & filters.me)
+@nexaub_on_cmd(command="logs", modlue=mod_file)
 async def log(client, message):
     try:
-        await message.edit("`Getting Logs`")
+        await e_or_r(nexaub_message=message, msg_text="`Getting Logs`")
         heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         server = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='worker', lines=100, source='app', timeout=100)
         f_logs = server

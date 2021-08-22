@@ -19,10 +19,6 @@
             "description": "Your API_HASH from my.telegram.org",
             "required": true
         },
-        "PYRO_STR_SESSION": {
-            "description": "Pyrogram String Session",
-            "required": true
-        },
         "CMD_PREFIX": {
             "description": "Command prefix",
             "required": false,
@@ -34,6 +30,14 @@
         },
         "HEROKU_API_KEY": {
             "description": "Your Heroku API KEY",
+            "required": true
+        },
+        "MONGODB_URL": {
+            "description": "Your MongoDB Url. Get it from www.mongodb.com",
+            "required": true
+        },
+        "PYRO_STR_SESSION": {
+            "description": "Pyrogram String Session",
             "required": true
         }
     },

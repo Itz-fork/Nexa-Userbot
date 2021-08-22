@@ -5,11 +5,13 @@ import os
 import importlib
 import logging
 
-from pyrogram import filters
 from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
+
+# Help
 CMD_HELP.update(
     {
         "installer": """
@@ -22,6 +24,8 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
+
 # Load Plugins | Thanks for Friday Userbot for the idea
 def import_plugin(p_name):
     nexa_plugin_path = "nexa_userbot.modules." + p_name
@@ -29,9 +33,9 @@ def import_plugin(p_name):
     logging.info(f"LOADED PLUGIN: - {p_name} - Nexa-Userbot")
 
 
-@NEXAUB.on_message(filters.me & filters.command("install", Config.CMD_PREFIX))
+@nexaub_on_cmd(command="install", modlue=mod_file)
 async def install_plugin(_, message: Message):
-    msg = await message.edit("`Processing...`")
+    msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message
     if not replied_msg:
         await msg.edit("`Please reply to a valid python module to install!`")

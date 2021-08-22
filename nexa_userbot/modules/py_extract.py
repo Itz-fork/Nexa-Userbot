@@ -3,11 +3,11 @@
 import os
 import shutil
 
-from pyrogram import filters
 from pyrogram.types import Message
 from py_extract import Video_tools
 
 from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
 CMD_HELP.update(
@@ -20,11 +20,13 @@ CMD_HELP.update(
     }
 )
 
+mod_file = os.path.basename(__file__)
 
-@NEXAUB.on_message(filters.command("ext_aud", Config.CMD_PREFIX) & filters.me)
+
+@nexaub_on_cmd(command="ext_aud", modlue=mod_file)
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
-    ext_text = await message.edit("`Processing...`")
+    ext_text = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     ext_out_path = os.getcwd() + "/" + "NexaUB/py_extract/audios"
     if not replied_msg:
         await ext_text.edit("`Please reply to a valid video file!`")
