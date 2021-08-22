@@ -1,1 +1,0 @@
-nexaub: bash startup.sh
