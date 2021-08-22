@@ -101,7 +101,7 @@ async def upstream(client, message):
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
     if "now" not in conf:
-        changelog = await gen_chlog(repo, diff="HEAD:refs/heads/master")
+        changelog = await gen_chlog(repo, f"HEAD..upstream/{ac_br}")
         if changelog:
             changelog_str = f"**New Updates available for Nexa Userbot** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog (last 10):** \n\n{changelog}"
             if len(changelog_str) > 4096:
