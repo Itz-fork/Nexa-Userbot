@@ -1,0 +1,13 @@
+pyrogram
+TgCrypto
+requests
+pillow
+numpy
+aiohttp
+beautifulsoup4
+fake_useragent
+gitpython
+heroku3
+git+https://github.com/Itz-fork/py-extract.git
+filesplit
+filetype
