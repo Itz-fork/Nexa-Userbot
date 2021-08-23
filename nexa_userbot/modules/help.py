@@ -16,7 +16,7 @@ HELP.update(
         "**🧭 Userbot**": "`alive`, `installer`, `updater`",
         "**👨‍💻 Dev**": "`eval`",
         "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`",
-        "**🗂 Utils**": "`stickers`, `owner`",
+        "**🗂 Utils**": "`stickers`, `owner`, `sudos`",
         "\n**Usage**": "`.help [module_name]`"
     }
 )
