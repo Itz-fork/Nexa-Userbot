@@ -22,7 +22,7 @@
         "CMD_PREFIX": {
             "description": "Command prefix",
             "required": false,
-            "value": "False"
+            "value": "."
         },
         "HEROKU_APP_NAME": {
             "description": "Your Heroku App Name",
