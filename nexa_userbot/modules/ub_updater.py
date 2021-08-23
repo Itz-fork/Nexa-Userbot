@@ -66,10 +66,9 @@ async def upstream(client, message):
     conf = get_arg(message)
     off_repo = UPSTREAM_REPO_URL
     txt = "`Oops! Updater Can't Continue...`"
-    txt += "**LOGTRACE:**\n"
-    repo = Repo()
+    txt += "\n\n**LOGTRACE:**\n"
     try:
-        repo = repo
+        repo = Repo()
     except NoSuchPathError as error:
         await status.edit(f"{txt}\n`directory {error} is not found`")
         repo.__del__()
