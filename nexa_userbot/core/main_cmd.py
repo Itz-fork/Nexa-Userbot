@@ -89,8 +89,41 @@ Forward this to @NexaUB_Support
                     await NEXAUB.send_document(LOG_CHANNEL_ID, "error_nexaub.txt", caption="`Error of Nexa Userbot`")
                     os.remove("error_nexaub.txt")
                 else:
-                    print(LOG_CHANNEL_ID)
                     await NEXAUB.send_message(chat_id=LOG_CHANNEL_ID, text=error_text)
         add_handler(x_wrapper, nexaub_filter)
         return x_wrapper
     return decorate_nexaub
+
+
+# Custom filter handling (Credits: Friday Userbot)
+def nexaub_on_cf(custom_filters):
+    def decorate_nexaub_cf(func):
+        async def x_wrapper_cf(client, message):
+            try:
+                await func(client, message)
+            except MessageIdInvalid:
+                logging.warning("Don't delete message while processing. It may crash the bot!")
+            except BaseException as e:
+                logging.error(f"\nModule - {func.__module__} | Command: (Noting, Custom Filter)")
+                error_text = f"""
+**#ERROR**
+
+**Module:** `{func.__module__}`
+**Command:** `(Noting, Custom Filter)`
+**Traceback:**
+`{e}`
+
+Forward this to @NexaUB_Support
+"""
+                if len(error_text) > 4000:
+                    file = open("error_nexaub.txt", "w+")
+                    file.write(error_text)
+                    file.close()
+                    await NEXAUB.send_document(LOG_CHANNEL_ID, "error_nexaub.txt", caption="`Error of Nexa Userbot`")
+                    os.remove("error_nexaub.txt")
+                else:
+                    await NEXAUB.send_message(chat_id=LOG_CHANNEL_ID, text=error_text)
+            message.continue_propagation()
+        NEXAUB.add_handler(MessageHandler(x_wrapper_cf, filters=custom_filters), group=0)
+        return x_wrapper_cf
+    return decorate_nexaub_cf
