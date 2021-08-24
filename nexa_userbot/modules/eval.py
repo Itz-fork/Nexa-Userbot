@@ -17,11 +17,19 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "eval": """
+        "eval": f"""
 **Eval**
 
-  ✘ `peval` - To Run Pyrogram Evaluations
+  ✘ `eval` - To Run Pyrogram Evaluations
   ✘ `sh` - To Run commands in shell
+
+**Example:**
+
+  ✘ `eval`,
+   ⤷ Send with pyrogram command = `{Config.CMD_PREFIX}eval await message.reply("Yo, wassup!")`
+
+  ✘ `sh`,
+   ⤷ Send with bash command = `{Config.CMD_PREFIX}sh pip3 install cowsay`
 """
     }
 )

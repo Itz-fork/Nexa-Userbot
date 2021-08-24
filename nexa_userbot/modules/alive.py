@@ -20,13 +20,19 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "alive": """
+        "alive": f"""
 **Alive,**
 
   ✘ `alive` - To Check If Your Nexa Userbot Alive
   ✘ `ping` - To Check Ping Speed
   ✘ `setalive` - To Set Custom Alive Message
   ✘ `getalive` - To Get 
+
+**Example:**
+
+  ✘ `setalive`,
+   ⤷ Send with alive text = `{Config.CMD_PREFIX}setalive This is the alive text`
+   ⤷ Reply to a text message with `{Config.CMD_PREFIX}setalive`
 """
     }
 )

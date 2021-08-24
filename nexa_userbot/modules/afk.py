@@ -10,15 +10,21 @@ from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.nexaub_database.nexaub_db_afk import me_afk, get_afk, me_online
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r, nexaub_on_cf
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from config import Config
 
 
 # Help
 CMD_HELP.update(
     {
-        "afk": """
+        "afk": f"""
 **Afk,**
 
   ✘ `afk` - To Activate Afk Module
+
+**Example:**
+
+  ✘ `afk`,
+   ⤷ Send with reason = `{Config.CMD_PREFIX}afk This is the reason`
 """
     }
 )

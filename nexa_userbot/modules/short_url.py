@@ -15,10 +15,16 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "short_url": """
+        "short_url": f"""
 **Short Url,**
 
   ✘ `short` - To short long url using is.gd's free api
+
+**Example:**
+
+  ✘ `short`,
+   ⤷ Send command with url = `{Config.CMD_PREFIX}short https://google.com`
+   ⤷ Reply to a url message = `{Config.CMD_PREFIX}short` (Reply to a message with url)
 """
     }
 )

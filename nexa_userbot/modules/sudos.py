@@ -9,18 +9,35 @@ from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_var, get_custom_var
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import add_sudo, remove_sudo, check_if_sudo
 from .ub_updater import restart_nexaub
+from config import Config
 
 
 # Help
 CMD_HELP.update(
     {
-        "sudos": """
+        "sudos": f"""
 **Sudos,**
 
   ✘ `setvar` - To Set a Variable
   ✘ `getvar` - To Get a Variable (val)
   ✘ `addsudo` - To Add a Sudo User
   ✘ `rsudo` - To Remove a Sudo User
+
+**Example:**
+
+  ✘ `setvar`,
+   ⤷ Send command with Var and Value = `{Config.CMD_PREFIX}setvar YOUR_VAR your_value`
+
+  ✘ `getvar`,
+   ⤷ Send command with Var = `{Config.CMD_PREFIX}getvar YOUR_VAR`
+
+  ✘ `addsudo`,
+   ⤷ Send command with user id = `{Config.CMD_PREFIX}addsudo 1234567`
+   ⤷ Reply to a user message = `{Config.CMD_PREFIX}addsudo` (Reply to a user message)
+
+  ✘ `rsudo`,
+   ⤷ Send command with sudo user id = `{Config.CMD_PREFIX}rsudo 1234567`
+   ⤷ Reply to a sudo user message = `{Config.CMD_PREFIX}rsudo` (Reply to a user message)
 """
     }
 )

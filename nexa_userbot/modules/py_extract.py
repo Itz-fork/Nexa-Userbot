@@ -12,10 +12,15 @@ from config import Config
 
 CMD_HELP.update(
     {
-        "extractor": """
+        "extractor": f"""
 **Extractor**
 
   ✘ `ext_aud` - To Extract all audios from a video
+
+**Example:**
+
+  ✘ `ext_aud`
+   ⤷ Reply to a video file with audio = `{Config.CMD_PREFIX}ext_aud` (Reply to a video file)
 """
     }
 )

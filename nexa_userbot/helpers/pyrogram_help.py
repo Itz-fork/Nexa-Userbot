@@ -109,3 +109,12 @@ async def convert_to_image(message, client) -> [None, str]:
         vid_path = await client.download_media(message.reply_to_message)
         await run_cmd(f"ffmpeg -i {vid_path} -filter:v scale=500:500 -an {final_path}")
     return final_path
+
+
+# Get Your Chats
+async def get_ma_chats():
+    nexaub_chats = []
+    async for dialog in NEXAUB.iter_dialogs():
+        if dialog.chat.type in ["channel", "supergroup"]:
+            nexaub_chats.append(dialog.chat.id)
+    return nexaub_chats

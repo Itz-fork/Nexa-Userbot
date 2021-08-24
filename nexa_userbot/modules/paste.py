@@ -14,10 +14,17 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "paste": """
+        "paste": f"""
 **Paste,**
 
   ✘ `paste` - To Paste Text to Hastebin
+
+**Example:**
+
+  ✘ `paste`,
+   ⤷ Send text with command = `{Config.CMD_PREFIX}paste Paste this text`
+   ⤷ Reply to a text file = `{Config.CMD_PREFIX}paste` (Reply to a text file)
+   ⤷ Reply to a text message = `{Config.CMD_PREFIX}paste (Reply to a text message)
 """
     }
 )

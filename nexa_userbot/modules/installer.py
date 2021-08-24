@@ -14,10 +14,16 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 # Help
 CMD_HELP.update(
     {
-        "installer": """
+        "installer": f"""
 **Plugin Installler,**
 
   ✘ `install` - To Install a Plugin
+
+**Example:**
+
+  ✘ `install`
+   ⤷ Reply to pyrogram module made by Nexa UB Author with `{Config.CMD_PREFIX}install`
+
 
 **Note:** `All Official Plugins are available at` **@NexaUBPlugins**! `Please don't install unofficial Plugins!`
 """

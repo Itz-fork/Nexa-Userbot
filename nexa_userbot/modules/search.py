@@ -20,12 +20,20 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "search": """
+        "search": f"""
 **Search**
-
 
   ✘ `duck_s` - To Get Search Link In DuckDuckGo
   ✘ `google` - To Search In Google
+
+**Example:**
+
+  ✘ `duck_s`,
+   ⤷ Send command with query = `{Config.CMD_PREFIX}duck_s Nexa Userbot`
+
+  ✘ `google`,
+   ⤷ Send command with query = `{Config.CMD_PREFIX}google Nexa Userbot`
+   ⤷ Reply to a text message = `{Config.CMD_PREFIX}google` (Reply to a text message)
 """
     }
 )

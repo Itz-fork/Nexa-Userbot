@@ -26,12 +26,19 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 # Help
 CMD_HELP.update(
     {
-        "stickers": """
+        "stickers": f"""
 **Stickers,**
-
 
   ✘ `packinfo` - To Get Information about a Sticker Pack
   ✘ `kang` - To kang a Sticker
+
+**Example:**
+
+  ✘ `packinfo`,
+   ⤷ Reply to a sticker = `{Config.CMD_PREFIX}packinfo` (Reply to a sticker)
+
+  ✘ `kang`,
+   ⤷ Reply to a sticker = `{Config.CMD_PREFIX}kang` (Reply to a sticker)
 """
     }
 )

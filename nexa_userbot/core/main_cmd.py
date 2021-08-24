@@ -20,9 +20,9 @@ log_cid_loop = asyncio.get_event_loop()
 LOG_CHANNEL_ID = log_cid_loop.run_until_complete(get_log_channel())
 
 # Sudo users
-SUDO_IDS = log_cid_loop.run_until_complete(get_sudos())
-SUDO_IDS.append("me")
-
+sudos = log_cid_loop.run_until_complete(get_sudos())
+sudos.append("me")
+SUDO_IDS = sudos
 
 def add_handler(x_wrapper, nexaub_filter):
     NEXAUB.add_handler(MessageHandler(x_wrapper, filters=nexaub_filter), group=0)

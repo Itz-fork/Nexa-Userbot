@@ -21,9 +21,17 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "megatools": """
+        "megatools": f"""
 **Megatools,**
+
   ✘ `megadl` - To Download Files / Folder from Mega.nz
+
+**Example:**
+
+  ✘ `megadl`
+   ⤷ Send with command = `{Config.CMD_PREFIX}megadl https://mega.nz/file/#43445234` (Link is fake tho)
+
+**Both files and folders are supported**
 """
     }
 )

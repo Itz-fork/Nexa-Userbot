@@ -16,14 +16,22 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "owner": """
+        "owner": f"""
 **Owner Stuff,**
-
 
   ✘ `block` - To Block a User
   ✘ `unblock` - To Unblock a Blocked User
   ✘ `kickme` - To Leave From a Chat
   ✘ `chats` - To Count your Chats (Unstable due to Floodwait Limits)
+
+**Example:**
+
+  ✘ `block`,
+   ⤷ Reply to a message from user = `{Config.CMD_PREFIX}block`
+   ⤷ Just send `{Config.CMD_PREFIX}block in PMs
+
+  ✘ `unblock`
+   ⤷ Send this command with user id to unblock = `{Config.CMD_PREFIX}unblock 1234567`
 """
     }
 )

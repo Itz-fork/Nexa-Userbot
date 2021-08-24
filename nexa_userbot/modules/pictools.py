@@ -14,11 +14,16 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "pictools": """
+        "pictools": f"""
 **Picure Tools**
 
-
   ✘ `carbon` - To Carbonize a text
+
+**Example:**
+
+  ✘ `carbon`,
+   ⤷ Send command with text to make a carbon = `{Config.CMD_PREFIX}carbon Carbon Text`
+   ⤷ Reply to a text message to carbon it = `{Config.CMD_PREFIX}carbon` (Reply to a text message)
 """
     }
 )
