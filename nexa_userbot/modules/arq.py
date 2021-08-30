@@ -31,7 +31,7 @@ CMD_HELP.update(
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}lyrics`
 
   ✘ `tr`,
-   ⤷ Send with keyword = `{Config.CMD_PREFIX}tr hola en` (Replace en with your dest. lang code)
+   ⤷ Send with keyword = `{Config.CMD_PREFIX}tr hola!en` (Replace en with your dest. lang code)
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}tr en` (Replace en with your dest. lang code)
 
   ✘ `wiki`,
@@ -115,15 +115,12 @@ async def arq_trans(_, message: Message):
     trans_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     to_tr_text = get_arg(message)
     r_tr_text = message.reply_to_message
-    if not to_tr_text:
-        if r_tr_text:
-            trans_this = r_tr_text.text
-            if not to_tr_text:
-                dest_l = "en"
-            else:
-                dest_l = to_tr_text
+    if r_tr_text:
+        trans_this = r_tr_text.text
+        if not to_tr_text:
+            dest_l = "en"
         else:
-            return await trans_msg.edit("`Give Some Text to Translate`")
+            dest_l = to_tr_text
     else:
         try:
             string_c = to_tr_text.replace(".tr ", "").split("!")
@@ -131,7 +128,15 @@ async def arq_trans(_, message: Message):
             dest_l = string_c[1]
         except:
             return await trans_msg.edit(f"`Error Occured While Splitting Text! Please Read Examples in Help Page!` \n\n**Help:** `{Config.CMD_PREFIX}help arq`")
-    translated_str = await ARQ_NEXAUB(is_tr=True, keyword=trans_this, dest_lang=dest_l)
+    translate_txt = await ARQ_NEXAUB(is_tr=True, keyword=trans_this, dest_lang=dest_l)
+    translated_str = f"""
+**Translated,**
+
+**From:** `{translate_txt.src}`
+**To:** `{translate_txt.dest}`
+**Translation:**
+`{translate_txt.translatedText}`
+"""
     if len(translated_str) > 4096:
         await trans_msg.edit("`Wah!! Translated Text So Long Tho!, Give me a minute, I'm sending it as a file!`")
         tr_txt_file = open("translated_NEXAUB.txt", "w+")
