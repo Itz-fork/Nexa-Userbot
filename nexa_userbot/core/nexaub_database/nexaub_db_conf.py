@@ -41,7 +41,22 @@ async def get_custom_alive_msg():
     else:
         return None
 
-# Databse for set cutom variable
+# Database for arq client
+async def set_arq_key(arq_key):
+    p_arq_key = await nexaub_conf.find_one({"_id": "ARQ_API_KEY"})
+    if p_arq_key:
+        await nexaub_conf.update_one({"_id": "ARQ_API_KEY"}, {"$set": {"nexaub_conf": arq_key}})
+    else:
+        await nexaub_conf.insert_one({"_id": "ARQ_API_KEY", "nexaub_conf": arq_key})
+
+async def get_arq_key():
+    p_arq = await nexaub_conf.find_one({"_id": "ARQ_API_KEY"})
+    if p_arq:
+        return p_arq["nexaub_conf"]
+    else:
+        None
+
+# Database for set cutom variable
 async def set_custom_var(var, value):
     p_variable = await nexaub_conf.find_one({"_id": var})
     if p_variable:

@@ -13,3 +13,4 @@ filesplit
 filetype
 motor
 dnspython
+python-arq
