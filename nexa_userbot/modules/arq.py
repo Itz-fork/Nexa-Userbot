@@ -219,5 +219,4 @@ async def arq_reddit(_, message: Message):
         await red_msg.reply_photo(photo=r_image, caption=r_txt)
         await red_msg.delete()
     except Exception as e:
-        print(e)
         await red_msg.edit("`Ooops!, Something went wrong; Check your keyword!`")
