@@ -1,4 +1,6 @@
-# Nexa Userbot
+<h1 align="center"> 
+  Nexa Userbot
+</h1>
 
 <p align="center">
   <a href="#"><img src="https://telegra.ph/file/a2471aa31028b2c429390.jpg" width="500" height="500"></a> </br>
