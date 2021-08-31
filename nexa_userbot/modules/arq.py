@@ -23,6 +23,7 @@ CMD_HELP.update(
   ✘ `lyrics` - To Get Lyrics for Given Keyword
   ✘ `tr` - To Translate a word / sentence
   ✘ `wiki` - To Search Wiki
+  ✘ `reddit` - To Search Reddit
 
 **Example:**
 
@@ -37,6 +38,10 @@ CMD_HELP.update(
   ✘ `wiki`,
    ⤷ Send with keyword = `{Config.CMD_PREFIX}wiki google`
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}wiki`
+
+  ✘ `reddit`,
+   ⤷ Send with keyword = `{Config.CMD_PREFIX}reddit doge`
+   ⤷ Reply to a text message with `{Config.CMD_PREFIX}reddit`
 """
     }
 )
@@ -197,8 +202,9 @@ async def arq_reddit(_, message: Message):
             return await red_msg.edit("`Give some text to quote!`")
     else:
         reddit_this = reddit_key
-    _reddit = await ARQ_NEXAUB(is_reddit=True, keyword=reddit_this)
+    reddit_now = await ARQ_NEXAUB(is_reddit=True, keyword=reddit_this)
     try:
+        _reddit = reddit_now.result
         r_post = _reddit.postLink
         r_subreddit = _reddit.subreddit
         r_title = _reddit.title
