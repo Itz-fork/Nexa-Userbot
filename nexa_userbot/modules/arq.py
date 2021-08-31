@@ -55,7 +55,8 @@ async def ARQ_NEXAUB(
     dest_lang="en",
     is_lyrics=False,
     is_tr=False,
-    is_wiki=False):
+    is_wiki=False,
+    is_reddit=False):
     try:
         # ARQ Client
         arq_aiohttp = ClientSession()
@@ -80,6 +81,11 @@ async def ARQ_NEXAUB(
             wiki_s = await arq_nexaub.wiki(query=keyword)
             await close_session(arq_aiohttp)
             return wiki_s.result
+        # Reddit Module
+        if is_reddit:
+            reddit_s = await arq_nexaub.reddit(query=keyword)
+            await close_session(arq_aiohttp)
+            return reddit_s
     except Exception as e:
         print(e)
 
@@ -177,3 +183,34 @@ async def arq_wiki(_, message: Message):
         await wiki_msg.delete()
     else:
         await wiki_msg.edit(wiki_txt)
+
+# Reddit
+@nexaub_on_cmd(command="reddit", modlue=mod_file)
+async def arq_reddit(_, message: Message):
+    red_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    reddit_key = get_arg(message)
+    r_reddit_msg = message.reply_to_message
+    if not reddit_key:
+        if r_reddit_msg:
+            reddit_this = r_reddit_msg.text
+        else:
+            return await red_msg.edit("`Give some text to quote!`")
+    else:
+        reddit_this = reddit_key
+    _reddit = await ARQ_NEXAUB(is_reddit=True, keyword=reddit_this)
+    try:
+        r_post = _reddit.postLink
+        r_subreddit = _reddit.subreddit
+        r_title = _reddit.title
+        r_image = _reddit.url
+        r_user = _reddit.author
+        r_txt = f"""
+**Title:** `{r_title}`
+**Subreddit:** `{r_subreddit}`
+**Author:** `{r_user}`
+**Post Link:** `{r_post}`
+"""
+        await red_msg.reply_photo(photo=r_image, caption=r_txt)
+        await red_msg.delete()
+    except:
+        await red_msg.edit("`Ooops!, Something went wrong; Check your keyword!`")
