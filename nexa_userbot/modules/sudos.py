@@ -99,7 +99,7 @@ async def setmongovar(_, message: Message):
   if not var_val:
     return await setvr_msg.edit("`Give Variable and Value to set!`")
   else:
-    s_var = var_val.split(None, 1)[1].split(" ", 1)
+    s_var = var_val.split(" ")
     variable, value = s_var 
     await set_custom_var(var=variable, value=value)
     await setvr_msg.edit(f"**Successfully Added Custom Var** \n\n**Var:** `{variable}` \n**Val:** `{value}`")
