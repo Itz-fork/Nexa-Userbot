@@ -1,6 +1,5 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
-# Credits: Friday Userbot | DevsExpo
 import os
 import requests
 
@@ -37,6 +36,7 @@ CMD_HELP.update(
 mod_file = os.path.basename(__file__)
 
 # Carbon a text
+# Credits: Friday Userbot | DevsExpo
 @nexaub_on_cmd(command="carbon", modlue=mod_file)
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
@@ -58,10 +58,8 @@ async def gibcarbon(_, message: Message):
     carboned_pic.close()
 
 
-# Function to set and get remove.bg api key
-async def get_rmbg_api(key=None):
-    if key is None:
-        return None
+# Function to get remove.bg api key
+async def get_rmbg_api():
     try:
         rmbg_bg_api = await get_custom_var("RMBG_API_KEY")
         return rmbg_bg_api
@@ -75,7 +73,7 @@ async def removebg(_, message: Message):
     rmbg_r_msg = message.reply_to_message
     rmbg_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if rmbg_api is None:
-        return await rmbg_msg.edit(f"**Remove BG API is not in Database ❗️** \nSet it using `{Config.CMD_PREFIX}setvar RMBG_API_KEY your_api_key` \n\n__**Don't Know How to get your API Key? [Read This]()**__", disable_web_page_preview=True)
+        return await rmbg_msg.edit(f"**Remove BG API is not in Database ❗️** \nSet it using `{Config.CMD_PREFIX}setvar RMBG_API_KEY your_api_key` \n\n__**Don't Know How to get your API Key? [Read This](https://nexa-userbot.netlify.app/docs/get-started/configs/#get-rmbg_api_key)**__", disable_web_page_preview=True)
     if not rmbg_r_msg:
         return await rmbg_msg.edit("`Give a Photo to Remove Background from It!`")
     if not rmbg_r_msg.photo:
