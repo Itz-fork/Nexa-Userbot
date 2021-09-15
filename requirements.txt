@@ -14,3 +14,4 @@ filetype
 motor
 dnspython
 python-arq
+telegraph
