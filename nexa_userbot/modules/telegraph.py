@@ -43,7 +43,7 @@ async def paste_text_to_tgraph(title, text):
     u_name = nexaub_usr.username
     if title is None:
       title = f_name if f_name is not None else "By Nexa Userbot"
-    t_response = telegraph.create_page(title=title, html_content=text, author_name=f_name if f_name is not None else "Nexa-Userbot", author_url="https://t.me/{u_name}" if u_name is not None else "https://github.com/Itz-fork/Nexa-Userbot")
+    t_response = telegraph.create_page(title=title, html_content=text, author_name=f_name if f_name is not None else "Nexa-Userbot", author_url=f"https://t.me/{u_name}" if u_name is not None else "https://github.com/Itz-fork/Nexa-Userbot")
     return f"**Telegraph Link:** {t_response['url']}"
   except Exception as e:
     return f"**Error:** {e}"
