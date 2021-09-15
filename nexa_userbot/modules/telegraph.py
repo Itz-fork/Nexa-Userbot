@@ -36,9 +36,9 @@ telegraph = Telegraph()
 telegraph.create_account(short_name="Nexa-Userbot")
 
 # Paste text to telegraph
-def paste_text_to_tgraph(title, text):
+async def paste_text_to_tgraph(title, text):
   try:
-    nexaub_usr = NEXAUB.get_me()
+    nexaub_usr = await NEXAUB.get_me()
     f_name = nexaub_usr.first_name
     u_name = nexaub_usr.username
     if title is None:
@@ -49,7 +49,7 @@ def paste_text_to_tgraph(title, text):
     return f"**Error:** {e}"
 
 # Upload image to telegraph
-def upload_to_tgraph(file):
+async def upload_to_tgraph(file):
   try:
     t_response = upload_file(file)
     return f"**Telegraph Link:** https://telegra.ph/{t_response[0]}"
@@ -65,11 +65,11 @@ async def me_goin_oflin(_, message: Message):
     if r_msg:
         if r_msg.photo or r_msg.video or r_msg.video_note:
           r_content = await r_msg.download()
-          up_to_tgraph = upload_to_tgraph(r_content)
+          up_to_tgraph = await upload_to_tgraph(r_content)
           await tgraph_msg.edit(up_to_tgraph)
         elif r_msg.sticker:
           r_content = await convert_to_image(message=r_msg, client=NEXAUB)
-          up_to_tgraph = upload_to_tgraph(r_content)
+          up_to_tgraph = await upload_to_tgraph(r_content)
           await tgraph_msg.edit(up_to_tgraph)
         elif r_msg.text:
           r_content = r_msg.text
@@ -77,7 +77,7 @@ async def me_goin_oflin(_, message: Message):
             t_title = arg_txt
           else:
             t_title = None
-          t_pasted = paste_text_to_tgraph(title=t_title, text=r_content)
+          t_pasted = await paste_text_to_tgraph(title=t_title, text=r_content)
           await tgraph_msg.edit(t_pasted)
         else:
           tgraph_msg.edit("`No Supported Media or Text to paste!`")
