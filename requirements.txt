@@ -1,6 +1,5 @@
 pyrogram
 TgCrypto
-requests
 pillow
 numpy
 aiohttp
@@ -15,4 +14,5 @@ motor
 dnspython
 python-arq
 telegraph
-gofile2
+requests
+git+https://github.com/Itz-fork/Gofile2.git
