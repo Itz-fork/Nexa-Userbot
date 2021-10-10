@@ -5,6 +5,7 @@ import asyncio
 import os
 
 from pyrogram import filters
+from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 
@@ -58,7 +59,7 @@ def nexaub_on_cmd(
     else:
         nexaub_filter = (filters.user(SUDO_IDS) & filters.command(command, Config.CMD_PREFIX) & ~filters.via_bot & ~filters.forwarded)
     def decorate_nexaub(func):
-        async def x_wrapper(client, message):
+        async def x_wrapper(client, message: Message):
             nexaub_chat_type = message.chat.type
             if admins_only:
                 if nexaub_chat_type in ["group", "supergroup", "channel"]:
