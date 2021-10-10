@@ -60,11 +60,22 @@ def nexaub_on_cmd(
     def decorate_nexaub(func):
         async def x_wrapper(client, message):
             nexaub_chat_type = message.chat.type
-            if only_groups and nexaub_chat_type != "supergroup":
-                await message.edit("`Is this even a group?`")
-                return
+            if admins_only:
+                if nexaub_chat_type in ["group", "supergroup", "channel"]:
+                    usr = await NEXAUB.get_me()
+                    how_usr = await message.chat.get_member(int(usr.id))
+                    if how_usr.status in ["creator", "administrator"]:
+                        pass
+                    else:
+                        return await message.edit("`First you need to be an admin of this chat!`")
+                # It's PM Bois! Everyone is an admin in PM!
+                else:
+                    pass
             if only_pm and nexaub_chat_type != "private":
                 await message.edit("`Yo, this command is only for PM!`")
+                return
+            if only_groups and nexaub_chat_type != "supergroup":
+                await message.edit("`Is this even a group?`")
                 return
             try:
                 await func(client, message)
