@@ -5,6 +5,7 @@ import os
 from pyrogram import filters
 from pyrogram.types import Message
 
+from . import nexaub_devs
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r, nexaub_on_cf, SUDO_IDS
 from nexa_userbot.helpers.pyrogram_help import get_arg
@@ -42,7 +43,6 @@ mod_file = os.path.basename(__file__)
 @nexaub_on_cmd(command="gban", modlue=mod_file)
 async def me_goin_oflin(_, message: Message):
     gban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-    nexaub_devs = [1340254734]
     r_msg = message.reply_to_message
     gban_rsn = get_arg(message)
     nexaub_owner = await NEXAUB.get_me()

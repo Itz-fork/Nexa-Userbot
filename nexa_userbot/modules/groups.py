@@ -1,0 +1,95 @@
+# Copyright (c) 2021 Itz-fork
+# Part of: Nexa-Userbot
+import os
+import asyncio
+
+from pyrogram.types import Message
+
+from . import nexaub_devs
+from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.helpers.pyrogram_help import get_arg
+from config import Config
+
+
+# Help
+CMD_HELP.update(
+    {
+        "groups": f"""
+**Group Tools,**
+
+  ✘ `purge` - To purge messages in a chat
+
+**Example:**
+
+  ✘ `purge`,
+   ⤷ reply to a message = `{Config.CMD_PREFIX}purge`
+"""
+    }
+)
+
+mod_file = os.path.basename(__file__)
+
+# Purges
+@nexaub_on_cmd(command="purge", modlue=mod_file, admins_only=True)
+async def purge_this(_, message: Message):
+  p_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  if not message.reply_to_message:
+    return await p_msg.edit("`Reply to a message to starting purge from!`")
+  await message.delete()
+  mid_list = []
+  for mid in range(message.reply_to_message.message_id, message.message_id):
+    mid_list.append(mid)
+    # If there are more than 100 messages ub'll start deleting
+    if len(mid_list) == 100:
+      await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=mid_list, revoke=True) # Docs says revoke Defaults to True but...
+      mid_list = []
+    # Let's check if there are any other messages left to delete. Just like that 0.1% bacteria that can't be destroyed by soap
+    if len(mid_list) > 0:
+      await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=mid_list, revoke=True)
+
+
+# Bans / Kicks
+@nexaub_on_cmd(command="ban", modlue=mod_file, admins_only=True)
+async def ban_usr(_, message: Message):
+  b_k_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  b_usr_id = message.reply_to_message.from_user.id
+  just_kick = False
+  is_me = await NEXAUB.get_me()
+  args = get_arg(message)
+  if args:
+    ops_n_arg = args.split(None, 1)
+    if ops_n_arg[1] == "-k":
+      just_kick = True
+    # let's just assume that it'suser id that want to ban
+    else:
+      b_usr_id = ops_n_arg[1]
+  if b_usr_id in nexaub_devs:
+    return await b_k_msg.edit("`Lmao! Tryna ban my devs? Using me? 😂`")
+  if b_usr_id == is_me.id:
+    return await b_k_msg.edit("`Why should I ban my self?`")
+  # If command calls with -k flag ub'll just ban user and unban after 5 secs
+  if just_kick:
+    await message.chat.kick_member(user_id=int(b_usr_id))
+    await b_k_msg.edit(f"**Kicked ✊** \n\n**User ID:** `{b_usr_id}` \n\n`⚠️ Unbanning after 5 secs! ⚠️`")
+    asyncio.sleep(5)
+    await message.chat.unban_member(user_id=int(b_usr_id))
+  else:
+    await message.chat.kick_member(user_id=int(b_usr_id))
+    await b_k_msg.edit(f"**Banned 👊** \n\n**User ID:** `{b_usr_id}`")
+
+
+# Unbans
+@nexaub_on_cmd(command="unban", modlue=mod_file, admins_only=True)
+async def unban_usr(_, message: Message):
+  u_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  r_msg = message.reply_to_message
+  u_arg = get_arg(message)
+  if r_msg:
+    u_usr_id = r_msg.from_user.id
+  elif u_arg:
+    u_usr_id = u_arg
+  else:
+    return await u_msg.edit("`Give a user id to unban!`")
+  await message.chat.unban_member(user_id=int(u_usr_id))
+  await u_msg.edit(f"**Ubanned 🤝** \n\n**User ID:** `{u_usr_id}`")
