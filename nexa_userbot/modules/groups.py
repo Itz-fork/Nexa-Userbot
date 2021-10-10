@@ -36,7 +36,7 @@ async def purge_this(_, message: Message):
   p_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   if not message.reply_to_message:
     return await p_msg.edit("`Reply to a message to starting purge from!`")
-  await message.delete()
+  await p_msg.delete()
   mid_list = []
   for mid in range(message.reply_to_message.message_id, message.message_id):
     mid_list.append(mid)
