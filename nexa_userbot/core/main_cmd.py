@@ -5,7 +5,6 @@ import asyncio
 import os
 
 from pyrogram import filters
-from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 
@@ -31,7 +30,6 @@ def add_handler(x_wrapper, nexaub_filter):
 
 async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_preview=True):
     message = nexaub_message
-    le_sudos = SUDO_IDS
     if not message:
         return await message.edit(msg_text, parse_mode=parse_mode, disable_web_page_preview=disable_web_page_preview)
     if not message.from_user:
@@ -59,7 +57,7 @@ def nexaub_on_cmd(
     else:
         nexaub_filter = (filters.user(SUDO_IDS) & filters.command(command, Config.CMD_PREFIX) & ~filters.via_bot & ~filters.forwarded)
     def decorate_nexaub(func):
-        async def x_wrapper(client, message: Message):
+        async def x_wrapper(client, message):
             nexaub_chat_type = message.chat.type
             if admins_only:
                 if nexaub_chat_type in ["group", "supergroup", "channel"]:
@@ -68,7 +66,7 @@ def nexaub_on_cmd(
                     if how_usr.status in ["creator", "administrator"]:
                         pass
                     else:
-                        return await message.edit("`First you need to be an admin of this chat!`")
+                        return await e_or_r("`First you need to be an admin of this chat!`")
                 # It's PM Bois! Everyone is an admin in PM!
                 else:
                     pass
