@@ -66,7 +66,7 @@ def nexaub_on_cmd(
                     if how_usr.status in ["creator", "administrator"]:
                         pass
                     else:
-                        return await e_or_r("`First you need to be an admin of this chat!`")
+                        return await e_or_r(nexaub_message=message, msg_text="`First you need to be an admin of this chat!`")
                 # It's PM Bois! Everyone is an admin in PM!
                 else:
                     pass
