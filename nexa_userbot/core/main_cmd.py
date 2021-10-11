@@ -61,8 +61,9 @@ def nexaub_on_cmd(
             nexaub_chat_type = message.chat.type
             if admins_only:
                 if nexaub_chat_type in ["group", "supergroup", "channel"]:
-                    usr = await NEXAUB.get_me()
-                    how_usr = await message.chat.get_member(int(usr.id))
+                    # Thanks to Friday UB
+                    usr = (client.me).id
+                    how_usr = await message.chat.get_member(usr)
                     if how_usr.status in ["creator", "administrator"]:
                         pass
                     else:
