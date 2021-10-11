@@ -53,10 +53,11 @@ async def purge_this(_, message: Message):
 @nexaub_on_cmd(command="ban", modlue=mod_file, admins_only=True)
 async def ban_usr(_, message: Message):
   b_k_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-  b_usr_id = message.reply_to_message.from_user.id
+  r_msg = message.reply_to_message
   just_kick = False
   is_me = await NEXAUB.get_me()
   args = get_arg(message)
+
   if args:
     ops_n_arg = args.split(None, 1)
     if ops_n_arg[1] == "-k":
@@ -64,9 +65,17 @@ async def ban_usr(_, message: Message):
     # let's just assume that it'suser id that want to ban
     else:
       b_usr_id = ops_n_arg[1]
+  
+  if r_msg:
+    b_usr_id = r_msg.from_user.id
+    if args:
+      ops = args.split(None, 1)
+      if ops[1] == "-k":
+        just_kick = True
+
   if b_usr_id in nexaub_devs:
     return await b_k_msg.edit("`Lmao! Tryna ban my devs? Using me? 😂`")
-  if b_usr_id == is_me.id:
+  elif b_usr_id == is_me.id:
     return await b_k_msg.edit("`Why should I ban my self?`")
   # If command calls with -k flag ub'll just ban user and unban after 5 secs
   if just_kick:
