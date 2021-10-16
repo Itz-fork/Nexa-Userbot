@@ -15,8 +15,8 @@ HELP.update(
     {
         "**🧭 Userbot**": "`alive`, `installer`, `updater`",
         "**👨‍💻 Dev**": "`eval`",
-        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`, `arq`, `telegraph`",
-        "**🗂 Utils**": "`stickers`, `owner`, `sudos`, `afk`, `globals`",
+        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`, `arq`, `telegraph`, `cloud`",
+        "**🗂 Utils**": "`stickers`, `owner`, `sudos`, `afk`, `globals`, `groups`",
         "\n**Usage**": "`.help [module_name]`"
     }
 )
