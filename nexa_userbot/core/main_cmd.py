@@ -73,7 +73,7 @@ def nexaub_on_cmd(
             if only_pm and nexaub_chat_type != "private":
                 await message.edit("`Yo, this command is only for PM!`")
                 return
-            if only_groups and nexaub_chat_type not in ["group", "supergroup"]]:
+            if only_groups and nexaub_chat_type not in ["group", "supergroup"]:
                 await message.edit("`Is this even a group?`")
                 return
             try:
