@@ -22,6 +22,7 @@ CMD_HELP.update(
   ✘ `ban` - To ban or kick a member in a chat
   ✘ `unban` - To unban a member in a chat
   ✘ `pin` - To pin a message in a chat
+  ✘ `unpin` - To unpin a message or messages in a chat
 
 **Example:**
 
@@ -38,9 +39,13 @@ CMD_HELP.update(
    ⤷ reply to a message = `{Config.CMD_PREFIX}unban`
    ⤷ send with user id = `{Config.CMD_PREFIX}unban 1234567`
   
-  ✘ `unban`,
+  ✘ `pin`,
    ⤷ reply to a message = `{Config.CMD_PREFIX}pin`
    ⤷ pin with no notification = `{Config.CMD_PREFIX}pin -dn`
+  
+  ✘ `unpin`,
+   ⤷ reply to a message = `{Config.CMD_PREFIX}unpin`
+   ⤷ unpin all messages = `{Config.CMD_PREFIX}unpin -all`
 """
     }
 )
@@ -123,7 +128,7 @@ async def unban_usr(_, message: Message):
 
 # Pin message
 @nexaub_on_cmd(command="pin", modlue=mod_file, admins_only=True, only_groups=True)
-async def unban_usr(_, message: Message):
+async def pin_msg(_, message: Message):
   pin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
   args = get_arg(message)
@@ -134,3 +139,20 @@ async def unban_usr(_, message: Message):
   else:
     await r_msg.pin()
   await pin_msg.edit(f"[Message]({r_msg.link}) `Pinned successfully!`", disable_web_page_preview=True)
+
+
+# Unpin message
+@nexaub_on_cmd(command="unpin", modlue=mod_file, admins_only=True, only_groups=True)
+async def unpin_msg(_, message: Message):
+  unpin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  r_msg = message.reply_to_message
+  args = get_arg(message)
+  if not r_msg:
+    return await unpin_msg.edit("`Reply to a pinned message to unpin it!`")
+  if args and (args == "-all"):
+    chat_id = message.chat.id
+    await NEXAUB.unpin_all_chat_messages(chat_id)
+    await unpin_msg.edit("`Successfully unpinned all pinned messages in this chat!`")
+  else:
+    await r_msg.unpin()
+    await unpin_msg.edit(f"[Message]({r_msg.link}) `Unpinned successfully!`")
