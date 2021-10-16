@@ -19,11 +19,28 @@ CMD_HELP.update(
 **Group Tools,**
 
   ✘ `purge` - To purge messages in a chat
+  ✘ `ban` - To ban or kick a member in a chat
+  ✘ `unban` - To unban a member in a chat
+  ✘ `pin` - To pin a message in a chat
 
 **Example:**
 
   ✘ `purge`,
    ⤷ reply to a message = `{Config.CMD_PREFIX}purge`
+  
+  ✘ `ban`,
+   ⤷ reply to a message (ban) = `{Config.CMD_PREFIX}ban`
+   ⤷ send with user id (ban) = `{Config.CMD_PREFIX}ban 1234567`
+   ⤷ reply to a message (kick) = `{Config.CMD_PREFIX}ban -k`
+   ⤷ send with user id (kick) = `{Config.CMD_PREFIX}ban -k 1234567`
+  
+  ✘ `unban`,
+   ⤷ reply to a message = `{Config.CMD_PREFIX}unban`
+   ⤷ send with user id = `{Config.CMD_PREFIX}unban 1234567`
+  
+  ✘ `unban`,
+   ⤷ reply to a message = `{Config.CMD_PREFIX}pin`
+   ⤷ pin with no notification = `{Config.CMD_PREFIX}pin -dn`
 """
     }
 )
@@ -102,3 +119,18 @@ async def unban_usr(_, message: Message):
     return await u_msg.edit("`Give a user id to unban!`")
   await message.chat.unban_member(user_id=int(u_usr_id))
   await u_msg.edit(f"**Ubanned 🤝** \n\n**User ID:** `{u_usr_id}`")
+
+
+# Pin message
+@nexaub_on_cmd(command="pin", modlue=mod_file, admins_only=True, only_groups=True)
+async def unban_usr(_, message: Message):
+  pin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  r_msg = message.reply_to_message
+  args = get_arg(message)
+  if not r_msg:
+    return await pin_msg.edit("`Reply to a message to pin it!`")
+  if args and (args == "-dn"):
+    await r_msg.pin(disable_notification=True)
+  else:
+    await r_msg.pin()
+  await pin_msg.edit(f"`[Message]({r_msg.link}) Pinned successfully!`", disable_web_page_preview=True)
