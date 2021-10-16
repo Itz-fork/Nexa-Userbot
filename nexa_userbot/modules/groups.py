@@ -147,12 +147,12 @@ async def unpin_msg(_, message: Message):
   unpin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
   args = get_arg(message)
-  if not r_msg:
-    return await unpin_msg.edit("`Reply to a pinned message to unpin it!`")
   if args and (args == "-all"):
     chat_id = message.chat.id
     await NEXAUB.unpin_all_chat_messages(chat_id)
     await unpin_msg.edit("`Successfully unpinned all pinned messages in this chat!`")
   else:
+    if not r_msg:
+      return await unpin_msg.edit("`Reply to a pinned message to unpin it!`")
     await r_msg.unpin()
     await unpin_msg.edit(f"[Message]({r_msg.link}) `Unpinned successfully!`")
