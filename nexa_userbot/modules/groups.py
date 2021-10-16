@@ -133,4 +133,4 @@ async def unban_usr(_, message: Message):
     await r_msg.pin(disable_notification=True)
   else:
     await r_msg.pin()
-  await pin_msg.edit(f"`[Message]({r_msg.link}) Pinned successfully!`", disable_web_page_preview=True)
+  await pin_msg.edit(f"[Message]({r_msg.link}) `Pinned successfully!`", disable_web_page_preview=True)
