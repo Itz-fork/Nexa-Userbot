@@ -97,7 +97,8 @@ async def megatoolsdl(_, message: Message):
                     await NEXAUB.send_document(chat_id=message.chat.id, document=splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
             else:
                 chat_id = message.chat.id
-                await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)
+                #await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)
+                await NEXAUB.send_document(chat_id=chat_id, document=nexa_m, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
         await megatools_msg.edit("`Uploading Finished!`")
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")
