@@ -29,7 +29,7 @@ Please Read the [Docs](https://nexaub.itz-fork.xyz/docs/get-started/installation
 Read more about config vars at [Docs](https://nexaub.itz-fork.xyz/docs/get-started/configs/)
 
 # About ❓
-[Nexa Userbot](https://github.com/Itz-fork/Nexa-Userbot) is one of my hobby projects. I made this userbot for introduce a userbot **without bot mode** because I wanted to try something different. So this'll be a minimal userbot with some ~~basic~~ functions. Btw if you found a bug please report it at [@Nexa Bots Support Group](https://t.me/Nexa_bots) 🐞. Thanks for reading ✨!
+[Nexa Userbot](https://github.com/Itz-fork/Nexa-Userbot) is one of my hobby projects. I made this userbot to introduce a userbot **without bot mode** because I wanted to try something different. So this'll be a minimal userbot with some ~~basic~~ functions. Btw if you found a bug please report it at [@Nexa Bots Support Group](https://t.me/Nexa_bots) 🐞. Thanks for reading ✨!
 
 # Credits ❤️,
 - Developers Userbot
