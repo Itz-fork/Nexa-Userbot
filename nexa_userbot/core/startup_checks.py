@@ -9,9 +9,9 @@ from config import Config
 # Log Channel Checker
 async def check_or_set_log_channel():
     try:
-        log_channel_id = await get_log_channel()
-        if log_channel_id:
-            return [True, log_channel_id]
+        al_log_channel = await get_log_channel()
+        if al_log_channel:
+            return [True, al_log_channel]
         else:
             log_channel = await NEXAUB.create_channel(title="Nexa Userbot Logs", description="Logs of your Nexa Userbot")
             welcome_to_nexaub = f"""
