@@ -21,7 +21,10 @@ Copyright (c) 2021 Itz-fork
     await check_or_set_log_channel()
     await check_arq_api()
     log_channel_id = await get_log_channel()
-    await NEXAUB.send_message(chat_id=log_channel_id, text="`Nexa Userbot is started!`")
+    try:
+        await NEXAUB.send_message(chat_id=log_channel_id, text="`Nexa Userbot is started!`")
+    except:
+        print("WARNING: There was an error while creating the LOG CHANNEL please add a one manually!")
     await idle()
 
 loop = asyncio.get_event_loop()
