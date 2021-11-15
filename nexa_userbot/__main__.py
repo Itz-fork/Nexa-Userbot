@@ -24,7 +24,7 @@ Copyright (c) 2021 Itz-fork
     try:
         await NEXAUB.send_message(chat_id=log_channel_id, text="`Nexa Userbot is started!`")
     except:
-        print("WARNING: Log channel is not in the database. Please add a one!")
+        print("WARNING: Log channel is not in the database or the provided one isn't valid one. Please add a valid channel id!")
     await idle()
 
 loop = asyncio.get_event_loop()
