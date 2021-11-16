@@ -2,10 +2,10 @@
 # Part of: Nexa-Userbot
 # Credits: Nexa Userbot | Zect Userbot
 
-import heroku3
 import asyncio
 import sys
 import os
+import heroku3
 
 from os import environ, execle, path, remove
 from git import Repo
@@ -93,7 +93,8 @@ async def upstream(client, message):
         repo.create_remote("upstream", off_repo)
     except BaseException:
         pass
-    ups_rem = repo.remote("upstream").fetch(ac_br)
+    ups_rem = repo.remote("upstream")
+    ups_rem.fetch(ac_br)
     if "now" not in conf:
         changelog = await gen_chlog(repo, diff=ac_br)
         if changelog:
