@@ -38,8 +38,12 @@ requirements_path = path.join(
 )
 
 
-async def gen_chlog(repo, diff):
-    ch_log = "**New Updates available for Nexa Userbot** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog (last 10):** \n\n"
+async def gen_chlog(ac_br, repo, diff):
+    ch_log = f"""
+**🌠 New Updates available for Nexa Userbot 🌠**
+
+**🏠 Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})
+**☘️ Changelog (last 10):** \n\n"""
     d_form = "On %d/%m/%y at %H:%M:%S"
     for c in repo.iter_commits(diff, max_count=10):
         ch_log += f"**#{c.count()}** : {c.committed_datetime.strftime(d_form)} : [{c.summary}]({UPSTREAM_REPO_URL.rstrip('/')}/commit/{c}) by `{c.author}`\n"
@@ -80,11 +84,15 @@ async def upstream(client, message):
         repo.heads.master.checkout(True)
     ac_br = repo.active_branch.name
     if ac_br != "master":
-        await status.edit(
-            f"`Can't update your Nexa-Userbot becuase you're using a custom branch.` \n\n**Default Branch:** `master` \n**You are on:** `{ac_br}` \n`Please change to master branch.`"
+        await status.edit(f"""
+`❌ Can't update your Nexa-Userbot becuase you're using a custom branch. ❌`
+            
+**Default Branch:** `master`
+**You are on:** `{ac_br}`
+
+`Please change to master branch.`"""
         )
-        repo.__del__()
-        return
+        return repo.__del__()
     try:
         repo.create_remote("upstream", off_repo)
     except BaseException:
@@ -113,7 +121,7 @@ async def upstream(client, message):
                 )
         else:
             await status.edit(
-                f"\n**Nexa-Userbot is Uptodate with** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})**\n",
+                f"**✨ Nexa-Userbot is Up-to-date** \n\nBranch[{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})**\n",
                 disable_web_page_preview=True,
             )
             repo.__del__()
@@ -123,21 +131,15 @@ async def upstream(client, message):
         heroku_app = None
         heroku_applications = heroku.apps()
         if not Config.HEROKU_APP_NAME:
-            await status.edit(
-                "**Error:** `Please add HEROKU_APP_NAME variable to continue update!`"
-            )
-            repo.__del__()
-            return
+            await status.edit("**Error:** `Please add HEROKU_APP_NAME variable to continue update!`")
+            return repo.__del__()
         for app in heroku_applications:
             if app.name == Config.HEROKU_APP_NAME:
                 heroku_app = app
                 break
         if heroku_app is None:
-            await status.edit(
-                f"{txt}\n`Invalid Heroku credentials.`"
-            )
-            repo.__del__()
-            return
+            await status.edit(f"{txt}\n`Invalid Heroku credentials.`")
+            return repo.__del__()
         await status.edit(
             "`Userbot Dyno Build is in Progress! Please wait...`"
         )
@@ -155,14 +157,14 @@ async def upstream(client, message):
             remote.push(refspec=f"HEAD:refs/heads/{ac_br}", force=True)
         except GitCommandError as error:
             pass
-        await status.edit("`Successfully Updated!` \n**Restarting Now...**")
+        await status.edit("`🎉 Successfully Updated!` \n**Restarting Now...**")
     else:
         try:
             ups_rem.pull(ac_br)
         except GitCommandError:
             repo.git.reset("--hard", "FETCH_HEAD")
         await updateme_requirements()
-        await status.edit("`Successfully Updated!` \n**Restarting Now...**",)
+        await status.edit("`🎉 Successfully Updated!` \n**Restarting Now...**",)
         args = [sys.executable, "-m" "nexa_userbot"]
         execle(sys.executable, *args, environ)
         return
