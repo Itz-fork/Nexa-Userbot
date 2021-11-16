@@ -4,12 +4,14 @@
 
 import time
 import os
+import json
+
 from datetime import datetime
 from pyrogram import __version__ as pyrogram_version
 from pyrogram.types import Message
 from sys import version_info
 
-from nexa_userbot import NEXAUB, CMD_HELP, NEXAUB_VERSION, StartTime
+from nexa_userbot import NEXAUB, CMD_HELP, StartTime
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_alive_msg, get_custom_alive_msg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
@@ -66,6 +68,12 @@ def get_readable_time(seconds: int) -> str:
 
     return ping_time
 
+# Get current version of Nexa Userbot
+def get_nexaub_version():
+    with open("cache/nexaub_data.json", "r") as jsn_f:
+        ver = json.load(jsn_f)
+        return ver["version"]
+
 
 @nexaub_on_cmd(command="alive", modlue=mod_file)
 async def pyroalive(_, message: Message):
@@ -74,16 +82,17 @@ async def pyroalive(_, message: Message):
     get_alive_msg = await get_custom_alive_msg()
     custom_alive_msg = get_alive_msg if get_alive_msg else "Heya, I'm Using Nexa Userbot"
     alive_pic = "cache/NEXAUB.png"
+    NEXAUB_VERSION = get_nexaub_version()
     alive_msg = f"""
 **{custom_alive_msg}**
 
 
-**Nexa UserBot is Alive**
+**✨ Nexa UserBot is Alive**
     
-    **Python Version:** `{python_version}`
-    **Pyrogram Version:** `{pyrogram_version}`
-    **Nexa Userbot Version:** `{NEXAUB_VERSION}`
-    **Uptime: `{uptime}`**
+    **》 Nexa Userbot Version:** `{NEXAUB_VERSION}`
+    **》 Python Version:** `{python_version}`
+    **》 Pyrogram Version:** `{pyrogram_version}`
+    **》 Uptime: `{uptime}`**
 
 
 **Deploy Your Own: @NexaBotsUpdates**"""

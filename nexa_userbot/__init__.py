@@ -4,11 +4,9 @@ from time import time
 from pyrogram import Client
 from config import Config
 
-# Helps
+# Configs
 HELP = {}
 CMD_HELP = {}
-NEXAUB_VERSION = "v0.0.3a"
-
 StartTime = time()
 
 NEXAUB = Client(
