@@ -5,6 +5,7 @@
 import asyncio
 import sys
 import os
+import requests
 import heroku3
 
 from os import environ, execle, path, remove
@@ -98,10 +99,12 @@ async def upstream(client, message):
     if "now" not in conf:
         changelog = await gen_chlog(repo, diff=ac_br)
         if changelog:
+            req_ver = requests.get("https://raw.githubusercontent.com/Itz-fork/Nexa-Userbot/master/cache/nexaub_data.json")
             changelog_str = f"""
-**🌠 New Updates available for Nexa Userbot 🌠**
+**🌠 New Updates are available for Nexa Userbot 🌠**
 
 **🏠 Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})
+**🕊 New version:** `{req_ver.json()}`
 **☘️ Changelog (last >10):** \n\n{changelog}"""
             if len(changelog_str) > 4096:
                 await status.edit("`Changelog is too big, sending it as a file!`")
