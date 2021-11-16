@@ -39,7 +39,7 @@ requirements_path = path.join(
 
 
 async def gen_chlog(repo, diff):
-    ch_log = ""
+    ch_log = "**New Updates available for Nexa Userbot** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog (last 10):** \n\n"
     d_form = "On %d/%m/%y at %H:%M:%S"
     for c in repo.iter_commits(diff, max_count=10):
         ch_log += f"**#{c.count()}** : {c.committed_datetime.strftime(d_form)} : [{c.summary}]({UPSTREAM_REPO_URL.rstrip('/')}/commit/{c}) by `{c.author}`\n"
@@ -68,15 +68,7 @@ async def upstream(client, message):
     txt = "`Oops! Updater Can't Continue...`"
     txt += "\n\n**LOGTRACE:**\n"
     try:
-        repo = Repo()
-    except NoSuchPathError as error:
-        await status.edit(f"{txt}\n`directory {error} is not found`")
-        repo.__del__()
-        return
-    except GitCommandError as error:
-        await status.edit(f"{txt}\n`Early failure! {error}`")
-        repo.__del__()
-        return
+        repo = Repo(search_parent_directories=True)
     except InvalidGitRepositoryError as error:
         if conf != "now":
             pass
@@ -100,14 +92,10 @@ async def upstream(client, message):
     ups_rem = repo.remote("upstream")
     ups_rem.fetch(ac_br)
     if "now" not in conf:
-        try:
-            changelog = await gen_chlog(repo=repo, diff=f"{ac_br}")
-        except:
-            pass
-        if changelog:
-            changelog_str = f"**New Updates available for Nexa Userbot** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br}) \n\n**Changelog (last 10):** \n\n{changelog}"
+        if repo.is_dirty():
+            changelog_str = await gen_chlog(repo=repo, diff=f"{ac_br}")
             if len(changelog_str) > 4096:
-                await status.edit("`Changelog is too big, view the file to see it.`")
+                await status.edit("`Changelog is too big, sending it as a file!`")
                 file = open("NEXAUB_git_commit_log.txt", "w+")
                 file.write(changelog_str)
                 file.close()
