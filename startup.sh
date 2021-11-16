@@ -1,3 +1,5 @@
+#!/usr/bin/bash
+
 echo "
 ============ Nexa Userbot ============
 
