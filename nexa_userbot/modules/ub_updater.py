@@ -121,7 +121,7 @@ async def upstream(client, message):
                 )
         else:
             await status.edit(
-                f"**✨ Nexa-Userbot is Up-to-date** \n\nBranch[{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})**\n",
+                f"**✨ Nexa-Userbot is Up-to-date** \n\n**Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})\n",
                 disable_web_page_preview=True,
             )
             repo.__del__()
