@@ -38,14 +38,10 @@ requirements_path = path.join(
 )
 
 
-async def gen_chlog(ac_br, repo, diff):
-    ch_log = f"""
-**🌠 New Updates available for Nexa Userbot 🌠**
-
-**🏠 Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})
-**☘️ Changelog (last 10):** \n\n"""
+async def gen_chlog(repo, diff):
+    ch_log = ""
     d_form = "On %d/%m/%y at %H:%M:%S"
-    for c in repo.iter_commits(diff, max_count=10):
+    for c in repo.iter_commits(f"HEAD..upstream/{diff}", max_count=10):
         ch_log += f"**#{c.count()}** : {c.committed_datetime.strftime(d_form)} : [{c.summary}]({UPSTREAM_REPO_URL.rstrip('/')}/commit/{c}) by `{c.author}`\n"
     return ch_log
 
@@ -97,11 +93,15 @@ async def upstream(client, message):
         repo.create_remote("upstream", off_repo)
     except BaseException:
         pass
-    ups_rem = repo.remote("upstream")
-    ups_rem.fetch(ac_br)
+    ups_rem = repo.remote("upstream").fetch(ac_br)
     if "now" not in conf:
-        if repo.is_dirty():
-            changelog_str = await gen_chlog(repo=repo, diff=f"{ac_br}")
+        changelog = await gen_chlog(repo, diff=ac_br)
+        if changelog:
+            changelog_str = f"""
+**🌠 New Updates available for Nexa Userbot 🌠**
+
+**🏠 Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})
+**☘️ Changelog (last >10):** \n\n{changelog}"""
             if len(changelog_str) > 4096:
                 await status.edit("`Changelog is too big, sending it as a file!`")
                 file = open("NEXAUB_git_commit_log.txt", "w+")
