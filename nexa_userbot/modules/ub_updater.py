@@ -104,7 +104,7 @@ async def upstream(client, message):
 **🌠 New Updates are available for Nexa Userbot 🌠**
 
 **🏠 Branch:** [{ac_br}]({UPSTREAM_REPO_URL}/tree/{ac_br})
-**🕊 New version:** `{req_ver.json()}`
+**🕊 New version:** `{req_ver.json()["version"]}`
 **☘️ Changelog (last >10):** \n\n{changelog}"""
             if len(changelog_str) > 4096:
                 await status.edit("`Changelog is too big, sending it as a file!`")
