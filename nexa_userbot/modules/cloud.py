@@ -3,11 +3,12 @@
 import os
 
 from pyrogram.types import Message
+from time import time
 from gofile2 import Async_Gofile
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
-from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.helpers.pyrogram_help import get_arg, progress_for_pyrogram
 from config import Config
 
 
@@ -39,7 +40,8 @@ async def gofiles_up(_, message: Message):
     if not r_go_f:
         return await gofile_msg.edit("`Reply to a telegram media to upload it to Gofile.io!`")
     await gofile_msg.edit("`Download has started! This may take a while!`")
-    dl_go_f = await r_go_f.download()
+    start_time = time()
+    dl_go_f = await r_go_f.download(progress=progress_for_pyrogram, progress_args=("**💫 Downloading... 💫** \n", gofile_msg, start_time))
     desc = go_f_arg if go_f_arg else None
     # Gofile2 client
     go_client = Async_Gofile()
