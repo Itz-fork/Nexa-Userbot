@@ -2,10 +2,13 @@
 # Part of: Nexa-Userbot
 # Credits: Developers Userbot & Friday Userbot
 
+import os
 import shlex
 import asyncio
 import subprocess
 import math
+import importlib
+import logging
 
 from PIL import Image
 from typing import Tuple
@@ -164,3 +167,9 @@ async def get_ma_chats():
         if dialog.chat.type in ["channel", "supergroup"]:
             nexaub_chats.append(dialog.chat.id)
     return nexaub_chats
+
+# Load Plugins | Thanks for Friday Userbot for the idea
+def import_plugin(p_path):
+    nexaub_xplugin = p_path.replace("/", ".")
+    importlib.import_module(nexaub_xplugin)
+    logging.info(f"LOADED PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")

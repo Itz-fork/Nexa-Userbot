@@ -31,7 +31,7 @@ CMD_HELP.update(
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}lyrics`
 
   ✘ `tr`,
-   ⤷ Send with keyword = `{Config.CMD_PREFIX}tr hola!en` (Replace en with your dest. lang code)
+   ⤷ Send with text = `{Config.CMD_PREFIX}tr hola!en` (Replace en with your dest. lang code)
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}tr en` (Replace en with your dest. lang code)
 
   ✘ `wiki`,
