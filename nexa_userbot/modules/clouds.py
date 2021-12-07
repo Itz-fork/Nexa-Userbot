@@ -22,12 +22,16 @@ CMD_HELP.update(
 **Cloud Storages,**
 
   ✘ `gofile` - To upload telegram media to gofile.io
+  ✘ `meganz` - To upload telegram media to mega.nz
 
 **Example:**
 
   ✘ `gofile`,
    ⤷ Reply to telegram media = `{Config.CMD_PREFIX}gofile` (Reply to a valid telegram media file)
       Tip: You can also send a description alongside with command!
+
+  ✘ `meganz`,
+   ⤷ Reply to telegram media = `{Config.CMD_PREFIX}meganz` (Reply to a valid telegram media file)
 """
     }
 )
@@ -35,7 +39,7 @@ CMD_HELP.update(
 mod_file = os.path.basename(__file__)
 
 
-@nexaub_on_cmd(command="mega", modlue=mod_file)
+@nexaub_on_cmd(command="meganz", modlue=mod_file)
 async def meganz_upload(_, message: Message):
     meganz_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Mega.nz Email and Pass
