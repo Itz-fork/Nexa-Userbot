@@ -77,8 +77,8 @@ async def UploadToMega(msg, file, mega):
     except Exception as e:
         return await msg.edit(f"**Error:** \n`{e}`")
 
-@nexaub_on_cmd(command="meganz", modlue=mod_file)
-async def meganz_up(_, message: Message):
+@nexaub_on_cmd(command="mega", modlue=mod_file)
+async def meganz_upload(_, message: Message):
     meganz_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Mega.nz Email and Pass
     creds = await getMegaEmailandPass()
