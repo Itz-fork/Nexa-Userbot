@@ -6,13 +6,13 @@ import time
 import os
 import json
 
+from sys import version_info
 from datetime import datetime
 from pyrogram import __version__ as pyrogram_version
 from pyrogram.types import Message
-from sys import version_info
 
 from nexa_userbot import NEXAUB, CMD_HELP, StartTime
-from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_alive_msg, get_custom_alive_msg, set_custom_var, get_custom_var
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.core.startup_checks import check_or_set_log_channel
@@ -30,12 +30,17 @@ CMD_HELP.update(
   ✘ `ping` - To Check Ping Speed
   ✘ `setalive` - To Set Custom Alive Message
   ✘ `getalive` - To Get current alive message
+  ✘ `setalivepic` - To Set Custom Alive Picture
+  ✘ `getalivepic` - To Get Current Custom Alive Picture
 
 **Example:**
 
   ✘ `setalive`,
    ⤷ Send with alive text = `{Config.CMD_PREFIX}setalive This is the alive text`
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}setalive`
+
+  ✘ `setalivepic`,
+   ⤷ Reply to a picture/gif/sticker with `{Config.CMD_PREFIX}setalivepic` (Under 5MB)
 """
     }
 )
@@ -143,16 +148,39 @@ async def get_alive(_, message: Message):
 async def set_alive_pic(_, message: Message):
     cust_alive = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
-    if r_msg.photo or r_msg.animation:
-        alive_pic = await r_msg.download()
+    if r_msg.photo or r_msg.animation or r_msg.sticker:
+        # Converts sticker into an image
+        if r_msg.sticker:
+            alive_pic = await convert_to_image(message=r_msg, client=NEXAUB)
+        # Else it'll just download the photo/gif
+        else:
+            alive_pic = await r_msg.download()
+        # Upload that shit to telegraph
         alive_url = await upload_to_tgraph(alive_pic)
-        if r_msg.photo:
+        if r_msg.photo or r_msg.sticker:
             await set_custom_var(var="ALIVE_PIC", value=["photo", alive_url])
         else:
             await set_custom_var(var="ALIVE_PIC", value=["gif", alive_url])
         await cust_alive.edit(f"`Successfully Saved Custom Alive Picture!` \n\n**Preview:** [Click here]({alive_url})")
     else:
-        await cust_alive.edit("`Reply to a photo or gif 😑!`")
+        await cust_alive.edit("`Reply to a photo, gif or sticker 😑!`")
+
+# Get custom alive picture
+@nexaub_on_cmd(command="getalivepic", modlue=mod_file)
+async def get_alive_pic(_, message: Message):
+    get_pic_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    gap = await get_custom_var(var="ALIVE_PIC")
+    g_al_pic = list(gap)
+    picture = g_al_pic[1]
+    ptype = g_al_pic[0]
+    if picture:
+        await get_pic_msg.delete()
+        if ptype == "gif":
+            await NEXAUB.send_animation(chat_id=message.chat.id, animation=picture, caption=f"**Nexa-Userbot's Custom Alive Picture** \n\n**Type:** `{ptype}`")
+        else:
+            await NEXAUB.send_photo(chat_id=message.chat.id, photo=picture, caption=f"**Nexa-Userbot's Custom Alive Picture** \n\n**Type:** `{ptype}`")
+    else:
+        await get_pic_msg.edit("`Save a custom alive picture first!`")
 
 
 @nexaub_on_cmd(command="clc", modlue=mod_file)

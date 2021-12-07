@@ -1,7 +1,6 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
 
-import asyncio
 import time
 import os
 
@@ -16,7 +15,7 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "owner": f"""
+      "owner": f"""
 **Owner Stuff,**
 
   ✘ `block` - To Block a User
@@ -28,7 +27,7 @@ CMD_HELP.update(
 
   ✘ `block`,
    ⤷ Reply to a message from user = `{Config.CMD_PREFIX}block`
-   ⤷ Just send `{Config.CMD_PREFIX}block in PMs
+   ⤷ Just send `{Config.CMD_PREFIX}block` in PMs
 
   ✘ `unblock`
    ⤷ Send this command with user id to unblock = `{Config.CMD_PREFIX}unblock 1234567`
@@ -76,14 +75,18 @@ async def ubkickme(_, message: Message):
     await i_go_away.edit(f"**Error:** `{lol}`")
 
 # To Get How Many Chats that you are in (PM's also counted)
-@nexaub_on_cmd(command="chats", modlue=mod_file, no_sudos=True)
-async def ubgetchats(_, message: Message):
+async def count_chats():
   total=0
-  getting_chats = await e_or_r(nexaub_message=message, msg_text="`Checking Your Chats, Hang On...`")
   async for dialog in NEXAUB.iter_dialogs():
     try:
       await NEXAUB.get_dialogs_count()
       total = total+1
-      await getting_chats.edit(f"**Total Chats Counted:** `{total}`")
     except FloodWait as e:
       await time.sleep(e.x)
+  return total
+
+@nexaub_on_cmd(command="chats", modlue=mod_file, no_sudos=True)
+async def ubgetchats(_, message: Message):
+  getting_chats = await e_or_r(nexaub_message=message, msg_text="`Checking Your Chats, Hang On...`")
+  d_count = await count_chats()
+  await getting_chats.edit(f"**Total Chats Counted:** `{d_count}`")

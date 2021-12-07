@@ -5,19 +5,14 @@
 import asyncio
 import math
 import shutil
-import datetime
-import zipfile
 import os
 
-from collections import defaultdict
-from io import BytesIO
 from PIL import Image
-from pyrogram import filters, emoji
 from pyrogram.errors import StickersetInvalid, YouBlockedUser
 from pyrogram.raw.functions.messages import GetStickerSet
 from pyrogram.raw.types import InputStickerSetShortName
 
-from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot import CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
