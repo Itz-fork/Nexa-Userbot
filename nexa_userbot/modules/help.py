@@ -4,8 +4,7 @@
 import os
 from pyrogram.types import Message
 
-from nexa_userbot import NEXAUB, HELP, CMD_HELP
-from config import Config
+from nexa_userbot import HELP, CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
@@ -15,7 +14,7 @@ HELP.update(
     {
         "**🧭 Userbot**": "`alive`, `installer`, `updater`",
         "**👨‍💻 Dev**": "`eval`",
-        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`, `arq`, `telegraph`, `cloud`",
+        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`, `arq`, `telegraph`, `clouds`",
         "**🗂 Utils**": "`stickers`, `owner`, `sudos`, `afk`, `globals`, `groups`",
         "\n**Usage**": "`.help [module_name]`"
     }
@@ -28,7 +27,7 @@ async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if not args:
-        text = "**Available Commands**\n\n"
+        text = "**Available Modules**\n\n"
         for key, value in HELP.items():
             text += f"{key}: {value}\n\n"
         await help_user_msg.edit(text)

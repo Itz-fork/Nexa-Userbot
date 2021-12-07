@@ -2,14 +2,13 @@
 # Part of: Nexa-Userbot
 
 import os
-import re
 from aiohttp import ClientSession
 from Python_ARQ import ARQ
 from pyrogram.types import Message
 
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
-from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_arq_key, get_arq_key
+from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_arq_key
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
@@ -32,7 +31,7 @@ CMD_HELP.update(
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}lyrics`
 
   ✘ `tr`,
-   ⤷ Send with keyword = `{Config.CMD_PREFIX}tr hola!en` (Replace en with your dest. lang code)
+   ⤷ Send with text = `{Config.CMD_PREFIX}tr hola!en` (Replace en with your dest. lang code)
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}tr en` (Replace en with your dest. lang code)
 
   ✘ `wiki`,

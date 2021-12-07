@@ -8,7 +8,6 @@ import urllib
 import urllib.parse
 import requests
 
-from pyrogram import filters
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 from nexa_userbot import NEXAUB, CMD_HELP

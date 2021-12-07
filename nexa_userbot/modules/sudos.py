@@ -19,7 +19,8 @@ CMD_HELP.update(
 **Sudos,**
 
   ✘ `setvar` - To Set a Variable
-  ✘ `getvar` - To Get a Variable (val)
+  ✘ `getvar` - To Get value of a variable
+  ✘ `delvar` - To Delete a variable
   ✘ `addsudo` - To Add a Sudo User
   ✘ `rsudo` - To Remove a Sudo User
 
@@ -30,6 +31,9 @@ CMD_HELP.update(
 
   ✘ `getvar`,
    ⤷ Send command with Var = `{Config.CMD_PREFIX}getvar YOUR_VAR`
+
+  ✘ `delvar`,
+   ⤷ Send command with Var = `{Config.CMD_PREFIX}delvar YOUR_VAR`
 
   ✘ `addsudo`,
    ⤷ Send command with user id = `{Config.CMD_PREFIX}addsudo 1234567`

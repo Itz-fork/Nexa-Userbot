@@ -6,14 +6,13 @@ import os
 import subprocess
 import shutil
 
-from pyrogram import filters
 from pyrogram.types import Message
 from functools import partial
 from asyncio import get_running_loop
 from fsplit.filesplit import Filesplit
 
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.helpers.up_to_tg import guess_and_send
+# from nexa_userbot.helpers.up_to_tg import guess_and_send
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 

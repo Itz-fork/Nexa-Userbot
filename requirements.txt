@@ -16,3 +16,5 @@ python-arq
 telegraph
 git+https://github.com/Itz-fork/Gofile2.git
 git+https://github.com/Itz-fork/py-extract.git
+git+https://github.com/Itz-fork/pyro-mega.py.git
+git+https://github.com/Itz-fork/py-trans.git

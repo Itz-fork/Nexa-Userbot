@@ -2,12 +2,15 @@
 # Part of: Nexa-Userbot
 import os
 
-from pyrogram.types import Message
 from time import time
+from pyrogram.types import Message
 from gofile2 import Async_Gofile
+from functools import partial
+from asyncio import get_running_loop
 
-from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.helpers.meganz_helpers import UploadToMega, getMegaEmailandPass, loginToMega
 from nexa_userbot.helpers.pyrogram_help import get_arg, progress_for_pyrogram
 from config import Config
 
@@ -15,21 +18,56 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "cloud": f"""
+        "clouds": f"""
 **Cloud Storages,**
 
   ✘ `gofile` - To upload telegram media to gofile.io
+  ✘ `meganz` - To upload telegram media to mega.nz
 
 **Example:**
 
   ✘ `gofile`,
    ⤷ Reply to telegram media = `{Config.CMD_PREFIX}gofile` (Reply to a valid telegram media file)
       Tip: You can also send a description alongside with command!
+
+  ✘ `meganz`,
+   ⤷ Reply to telegram media = `{Config.CMD_PREFIX}meganz` (Reply to a valid telegram media file)
 """
     }
 )
 
 mod_file = os.path.basename(__file__)
+
+
+@nexaub_on_cmd(command="meganz", modlue=mod_file)
+async def meganz_upload(_, message: Message):
+    meganz_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    # Mega.nz Email and Pass
+    creds = await getMegaEmailandPass()
+    if not creds:
+        return await meganz_msg.edit(f"""
+**No Mega.nz Email or Password Found!**
+For functionality of this function you must set the `MEGA_EMAIL` and `MEGA_PASS` variables using `{Config.CMD_PREFIX}setvar` command.
+
+**To do so,**
+
+- `{Config.CMD_PREFIX}setvar` MEGA_EMAIL your_mega_email@your.domain
+- `{Config.CMD_PREFIX}setvar` MEGA_PASS your_mega_password
+
+**Note ⚠️:**
+    These emails and passwords are just dummy ones. So replace them with your own email and password before running the command."""
+        )
+    else:
+        r_msg = message.reply_to_message
+        if not r_msg:
+            return await meganz_msg.edit("`Reply to a telegram media first!`")
+        # Downloading the file
+        m_file = await r_msg.download()
+        # Login to mega.nz account
+        m_client = await loginToMega(creds)
+        loop = get_running_loop()
+        await loop.run_in_executor(None, partial(UploadToMega, message, m_file, m_client))
+
 
 
 @nexaub_on_cmd(command="gofile", modlue=mod_file)

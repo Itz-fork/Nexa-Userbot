@@ -1,12 +1,11 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
 
-import requests
 import os
+import requests
 
-from pyrogram import filters
 from pyrogram.types import Message
-from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
