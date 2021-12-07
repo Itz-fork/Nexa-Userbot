@@ -105,3 +105,7 @@ For functionality of this function you must set the `MEGA_EMAIL` and `MEGA_PASS`
         m_client = await loginToMega()
         loop = get_running_loop()
         await loop.run_in_executor(None, partial(UploadToMega, message, m_file, m_client))
+
+@nexaub_on_cmd(command="test", modlue=mod_file)
+async def testmsdffsd(_, message: Message):
+    await e_or_r(nexaub_message=message, msg_text="`This is a test message`")
