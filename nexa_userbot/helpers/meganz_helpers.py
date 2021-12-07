@@ -16,7 +16,7 @@ async def loginToMega(e_and_m):
     client = Mega().login(e_and_m[0], e_and_m[1])
     return client
 
-async def UploadToMega(msg, file, mega):
+def UploadToMega(msg, file, mega):
     try:
         uploadfile = mega.upload(f"{file}", upstatusmsg=msg)
         public_link = mega.get_upload_link(uploadfile)
