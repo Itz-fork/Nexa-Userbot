@@ -100,7 +100,7 @@ async def pyroalive(_, message: Message):
 **Deploy Your Own: @NexaBotsUpdates**"""
     await alive_bef_msg.delete()
     if g_al_pic[0] == "gif":
-        await NEXAUB.send_animation(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
+        await NEXAUB.send_animation(chat_id=message.chat.id, animation=alive_pic, caption=alive_msg)
     else:
         await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
 
