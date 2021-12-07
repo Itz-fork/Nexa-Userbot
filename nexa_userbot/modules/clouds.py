@@ -64,7 +64,7 @@ For functionality of this function you must set the `MEGA_EMAIL` and `MEGA_PASS`
         # Downloading the file
         m_file = await r_msg.download()
         # Login to mega.nz account
-        m_client = await loginToMega()
+        m_client = await loginToMega(creds)
         loop = get_running_loop()
         await loop.run_in_executor(None, partial(UploadToMega, message, m_file, m_client))
 
