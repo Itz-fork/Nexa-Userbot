@@ -18,7 +18,7 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "cloud": f"""
+        "clouds": f"""
 **Cloud Storages,**
 
   ✘ `gofile` - To upload telegram media to gofile.io

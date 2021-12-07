@@ -21,6 +21,6 @@ async def UploadToMega(msg, file, mega):
         uploadfile = mega.upload(f"{file}", upstatusmsg=msg)
         public_link = mega.get_upload_link(uploadfile)
         # Editing the message with uploaded link
-        await msg.edit(f"**Successfully Uploaded!** \n\n**Link:** {public_link}", disable_web_page_preview=True)
+        msg.edit(f"**Successfully Uploaded!** \n\n**Link:** {public_link}", disable_web_page_preview=True)
     except Exception as e:
-        return await msg.edit(f"**Error:** \n`{e}`")
+        return msg.edit(f"**Error:** \n`{e}`")
