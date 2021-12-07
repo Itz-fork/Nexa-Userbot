@@ -140,8 +140,8 @@ async def set_alive_pic(_, message: Message):
     cust_alive = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
     if r_msg.photo or r_msg.animation:
-        alive_pic = r_msg.download()
-        alive_url = upload_to_tgraph(alive_pic)
+        alive_pic = await r_msg.download()
+        alive_url = await upload_to_tgraph(alive_pic)
         await set_custom_var(var="ALIVE_PIC", value=alive_url)
         await cust_alive.edit(f"`Successfully Saved Custom Alive Picture!` \n\n**Preview:** [Click here]({alive_url})")
     else:
