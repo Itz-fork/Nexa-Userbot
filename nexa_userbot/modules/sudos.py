@@ -6,7 +6,7 @@ from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_var, get_custom_var
+from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_var, get_custom_var, del_custom_var
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import add_sudo, remove_sudo, check_if_sudo
 from .ub_updater import restart_nexaub
 from config import Config
@@ -116,3 +116,14 @@ async def get_var(_, message: Message):
       return await g_var.edit("`Is that var exists?`")
     else:
       await g_var.edit(f"**Var:** `{var_g}` \n**Val:** `{g_var_s}`")
+
+@nexaub_on_cmd(command="delvar", modlue=mod_file)
+async def del_var(_, message: Message):
+  d_var = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  var_d = get_arg(message)
+  if not var_d:
+    return await d_var.edit("`Give Variable to delete!`")
+  else:
+    deld_var = await del_custom_var(var_d)
+    if deld_var:
+      await d_var.edit(f"**Successfully Deleted** `{var_d}` **Var from database!**")

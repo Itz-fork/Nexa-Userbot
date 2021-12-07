@@ -71,3 +71,11 @@ async def get_custom_var(var):
     else:
         g_custom_var = custom_var["nexaub_conf"]
         return g_custom_var
+
+async def del_custom_var(var):
+    custom_var = await nexaub_conf.find_one({"_id": var})
+    if custom_var:
+        await nexaub_conf.delete_one({"_id": var})
+        return True
+    else:
+        return False

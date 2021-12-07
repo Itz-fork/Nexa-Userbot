@@ -81,8 +81,9 @@ async def pyroalive(_, message: Message):
     get_alive_msg = await get_custom_alive_msg()
     custom_alive_msg = get_alive_msg if get_alive_msg else "Heya, I'm Using Nexa Userbot"
     # Alive Pic
-    get_alive_pic = await get_custom_var(var="ALIVE_PIC")
-    alive_pic = get_alive_pic if get_alive_pic else "cache/NEXAUB.png"
+    gap = await get_custom_var(var="ALIVE_PIC")
+    g_al_pic = list(gap)
+    alive_pic = g_al_pic[1] if g_al_pic[1] else "cache/NEXAUB.png"
     NEXAUB_VERSION = get_nexaub_version()
     alive_msg = f"""
 **{custom_alive_msg}**
@@ -98,7 +99,10 @@ async def pyroalive(_, message: Message):
 
 **Deploy Your Own: @NexaBotsUpdates**"""
     await alive_bef_msg.delete()
-    await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
+    if g_al_pic[0] == "gif":
+        await NEXAUB.send_animation(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
+    else:
+        await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
 
 # Ping
 @nexaub_on_cmd(command="ping", modlue=mod_file)
@@ -142,7 +146,10 @@ async def set_alive_pic(_, message: Message):
     if r_msg.photo or r_msg.animation:
         alive_pic = await r_msg.download()
         alive_url = await upload_to_tgraph(alive_pic)
-        await set_custom_var(var="ALIVE_PIC", value=alive_url)
+        if r_msg.photo:
+            await set_custom_var(var="ALIVE_PIC", value=["photo", alive_url])
+        else:
+            await set_custom_var(var="ALIVE_PIC", value=["gif", alive_url])
         await cust_alive.edit(f"`Successfully Saved Custom Alive Picture!` \n\n**Preview:** [Click here]({alive_url})")
     else:
         await cust_alive.edit("`Reply to a photo or gif 😑!`")
