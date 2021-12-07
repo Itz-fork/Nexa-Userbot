@@ -119,9 +119,9 @@ async def set_alive(_, message: Message):
         if r_msg:
             c_alive_msg = r_msg.text
         else:
-            return await alive_r_msg.edit(nexaub_message=message, msg_text="`Please reply to a text message!`")
+            return await alive_r_msg.edit("`Please reply to a text message!`")
     await set_custom_alive_msg(a_text=c_alive_msg)
-    await alive_r_msg.edit(nexaub_message=message, msg_text="`Successfully Updated Custom Alive Message!`")
+    await alive_r_msg.edit("`Successfully Updated Custom Alive Message!`")
 
 # Get custom alive message
 @nexaub_on_cmd(command="getalive", modlue=mod_file)
