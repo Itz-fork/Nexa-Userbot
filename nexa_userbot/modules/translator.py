@@ -14,8 +14,8 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "pytrans": f"""
-**Py-trans,**
+        "translator": f"""
+**Translator (py-trans),**
 
   ✘ `ptr` - Translate text using 
 
@@ -31,15 +31,15 @@ CMD_HELP.update(
 
    ⤷ Reply to a text message with options,
     **Structure:**
-        {Config.CMD_PREFIX}.ptr [dest_lang] [tr_engine]
+        `{Config.CMD_PREFIX}ptr [dest_lang] [tr_engine]`
     **Ex:**
-        `{Config.CMD_PREFIX}.ptr si google`
+        `{Config.CMD_PREFIX}ptr si google`
     
    ⤷ Send with text with options,
     **Structure:**
-        {Config.CMD_PREFIX}.ptr [dest_lang] [tr_engine] [to_tr_text]
+        `{Config.CMD_PREFIX}ptr [dest_lang] [tr_engine] [to_tr_text]`
     **Ex:**
-        `{Config.CMD_PREFIX}.ptr si google Heya, I'm using telegram`
+        `{Config.CMD_PREFIX}ptr si google Heya, I'm using telegram`
 """
     }
 )

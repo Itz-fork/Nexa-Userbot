@@ -133,7 +133,7 @@ async def arq_trans(_, message: Message):
             dest_l = to_tr_text
     else:
         try:
-            string_c = to_tr_text.replace(".tr ", "").split("!")
+            string_c = to_tr_text.split("!")
             trans_this = string_c[0]
             dest_l = string_c[1]
         except:
