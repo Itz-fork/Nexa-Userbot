@@ -5,7 +5,6 @@ aiohttp
 pillow
 numpy
 beautifulsoup4
-fake_useragent
 gitpython
 heroku3
 filesplit
@@ -18,3 +17,4 @@ git+https://github.com/Itz-fork/Gofile2.git
 git+https://github.com/Itz-fork/py-extract.git
 git+https://github.com/Itz-fork/pyro-mega.py.git
 git+https://github.com/Itz-fork/py-trans.git
+git+https://github.com/Itz-fork/fake-useragent.git
