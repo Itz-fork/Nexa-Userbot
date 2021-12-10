@@ -64,7 +64,7 @@ async def ARQ_NEXAUB(
     try:
         # ARQ Client
         arq_aiohttp = ClientSession()
-        arq_url = "https://grambuilders.tech"
+        arq_url = "http://thearq.tech/"
         arq_api = await get_arq_key()
         if arq_api is None:
             return print("ARQ_API_KEY isn't in database. Add it and Try Again!")
