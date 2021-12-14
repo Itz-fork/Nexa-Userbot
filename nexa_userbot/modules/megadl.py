@@ -11,8 +11,8 @@ from functools import partial
 from asyncio import get_running_loop
 from fsplit.filesplit import Filesplit
 
-from nexa_userbot import NEXAUB, CMD_HELP
-# from nexa_userbot.helpers.up_to_tg import guess_and_send
+from nexa_userbot import CMD_HELP
+from nexa_userbot.helpers.up_to_tg import guess_and_send
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
@@ -93,11 +93,9 @@ async def megatoolsdl(_, message: Message):
                 await loop.run_in_executor(None, partial(split_files(input_file=nexa_m, out_base_path=split_out_dir)))
                 await megatools_msg.edit("`Splitting Finished! Uploading Now...`")
                 for splitted_f in split_out_dir:
-                    await NEXAUB.send_document(chat_id=message.chat.id, document=splitted_f, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
+                    await guess_and_send(input_file=splitted_f, chat_id=message.chat.id, thumb_path="cache")
             else:
-                chat_id = message.chat.id
-                #await guess_and_send(input_file=nexa_m, chat_id=chat_id, thumb_path=nexaub_path_f)
-                await NEXAUB.send_document(chat_id=chat_id, document=nexa_m, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
+                await guess_and_send(input_file=nexa_m, chat_id=message.chat.id, thumb_path="cache")
         await megatools_msg.edit("`Uploading Finished!`")
     except Exception as e:
         await megatools_msg.edit(f"**Error:** `{e}`")

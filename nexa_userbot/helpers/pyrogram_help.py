@@ -86,7 +86,7 @@ async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     )
 
 # Just for my codes
-def run_shell_cmds(command):
+async def run_shell_cmds(command):
     run = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     shell_ouput = run.stdout.read()[:-1].decode("utf-8")
     return shell_ouput
