@@ -116,7 +116,7 @@ async def pingme(_, message: Message):
     start = datetime.now()
     end = datetime.now()
     ping_time = (end - start).microseconds / 1000
-    await ping_msg.edit(nexaub_message=message, msg_text=f"**Pong:** `{ping_time} ms`", disable_web_page_preview=True)
+    await ping_msg.edit(f"**Pong:** `{ping_time} ms` \n\n ~ **✨ Nexa-Userbot**", disable_web_page_preview=True)
 
 # Set custom alive message
 @nexaub_on_cmd(command="setalive", modlue=mod_file)
