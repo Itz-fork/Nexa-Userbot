@@ -60,9 +60,10 @@ async def download_plugins_in_channel():
 # Custom plugin collector
 async def install_custom_plugins():
     custom_plugin_path = "nexa_userbot/modules/Extras"
-    for plugin in os.listdir(custom_plugin_path):
-        if plugin.endswith(".py"):
-            import_plugin(os.path.join(custom_plugin_path, plugin))
+    if os.path.isdir(custom_plugin_path):
+        for plugin in os.listdir(custom_plugin_path):
+            if plugin.endswith(".py"):
+                import_plugin(os.path.join(custom_plugin_path, plugin))
 
 
 # ARQ API KEY Checker
