@@ -43,8 +43,8 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 # Plugin installer for channels
 async def download_plugins_in_channel():
     g_plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
-    plugin_channels = list(g_plugin_channels)
-    if plugin_channels:
+    if g_plugin_channels:
+        plugin_channels = list(g_plugin_channels)
         print("Downloading Custom Plugins...")
         try:
             for channel in plugin_channels:
