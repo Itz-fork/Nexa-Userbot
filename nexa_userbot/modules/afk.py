@@ -31,6 +31,10 @@ CMD_HELP.update(
 
 mod_file = os.path.basename(__file__)
 
+# Dict to store messaged users details temporarily
+AFK_SPAMMER_DB = {}
+
+
 # Check if afk
 async def u_afk_bro(filter, client, message):
     if_afk = await get_afk()
@@ -53,6 +57,7 @@ async def me_goin_oflin(_, message: Message):
     await me_afk(afk_time=afk_time, afk_reason=afk_reason)
     await afk_msg.edit(f"**I'm Going AFK** \n\n**Reason:** `{afk_reason}`")
 
+
 @nexaub_on_cf(
     ya_afk
     & (filters.mentioned | filters.private)
@@ -64,6 +69,17 @@ async def me_afk_tho(_, message: Message):
         return
     if not message.from_user:
         return
+    # Checking if user spammed before, if yes ub won't reply to that user again
+    usr_id = message.from_user.id
+    if usr_id in AFK_SPAMMER_DB:
+        AFK_SPAMMER_DB[usr_id] += 1
+        if AFK_SPAMMER_DB[usr_id] <= 5:
+            return
+    else:
+        AFK_SPAMMER_DB[usr_id] = 1
+    # If user messaged you 5 times bot'll send him a nice reply :)
+    if AFK_SPAMMER_DB[usr_id] == 5:
+        return await message.reply("`Enough! You messaged my master 5 times, Go get some brain you dumb ass!`")
     s_time, a_reason = await get_afk()
     now_time = datetime.now().replace(microsecond=0)
     afk_time = str((now_time - s_time))

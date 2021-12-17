@@ -5,7 +5,7 @@ import asyncio
 from pyrogram import idle
 from nexa_userbot import NEXAUB
 from nexa_userbot.modules import *
-from nexa_userbot.core.startup_checks import check_or_set_log_channel, check_arq_api
+from nexa_userbot.core.startup_checks import check_or_set_log_channel, check_arq_api, download_plugins_in_channel, install_custom_plugins
 
 
 async def main_startup():
@@ -16,6 +16,9 @@ Copyright (c) 2021 Itz-fork
 """
     )
     await NEXAUB.start()
+    # Downloading and installing Custom Plugins
+    await download_plugins_in_channel()
+    await install_custom_plugins()
     # Check or set log channel id
     log_channel_id = await check_or_set_log_channel()
     # Check if arq api is available else it'll obtain a one
