@@ -30,7 +30,7 @@ Thanks for trying Nexa Userbot. If you found any error, bug or even a Feature Re
 If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` in any chat. It'll show all plugins your userbot has. You can use those plugin names to get info about how to use it. Also check out [Docs](https://nexaub.itz-fork.xyz/)
 
 
- **~ Nexa Userbot Authors**"""
+ **~ Nexa Userbot, Developers**"""
             log_channel_id = log_channel.id
             await set_log_channel(log_channel_id)
             await NEXAUB.send_message(chat_id=log_channel_id, text=welcome_to_nexaub, disable_web_page_preview=True)

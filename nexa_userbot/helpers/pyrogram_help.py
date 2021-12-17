@@ -171,5 +171,8 @@ async def get_ma_chats():
 # Load Plugins | Thanks for Friday Userbot for the idea
 def import_plugin(p_path):
     nexaub_xplugin = p_path.replace("/", ".")
-    importlib.import_module(nexaub_xplugin)
-    logging.info(f"LOADED PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")
+    try:
+        importlib.import_module(nexaub_xplugin)
+        logging.info(f"LOADED PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")
+    except:
+        logging.warn(f"FAILED TO LOAD PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")
