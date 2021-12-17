@@ -42,11 +42,12 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 # Plugin installer for channels
 async def download_plugins_in_channel():
-    plugins = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
-    if plugins:
+    g_plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
+    plugin_channels = list(g_plugin_channels)
+    if plugin_channels:
         print("Downloading Custom Plugins...")
         try:
-            for channel in plugins:
+            for channel in plugin_channels:
                 async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
                     plugin_name = plugin.document.file_name
                     if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
