@@ -41,7 +41,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 
 # Plugin installer for channels
-async def download_plugins_in_channel():
+async def download_custom_plugins():
     g_plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
     if g_plugin_channels:
         plugin_channels = list(g_plugin_channels)
@@ -62,11 +62,12 @@ async def download_plugins_in_channel():
 async def install_custom_plugins():
     custom_plugin_path = "nexa_userbot/modules/Extras"
     if os.path.isdir(custom_plugin_path):
-        for plugin in os.listdir(custom_plugin_path):
-            if plugin.endswith(".py"):
-                import_plugin(os.path.join(custom_plugin_path, plugin))
-    else:
-        print("No custom plugins to install...")
+        try:
+            for plugin in os.listdir(custom_plugin_path):
+                if plugin.endswith(".py"):
+                    import_plugin(os.path.join(custom_plugin_path, plugin))
+        except:
+            pass
 
 
 # ARQ API KEY Checker
