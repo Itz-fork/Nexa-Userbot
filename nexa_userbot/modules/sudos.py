@@ -103,10 +103,9 @@ async def setmongovar(_, message: Message):
   if not var_val:
     return await setvr_msg.edit("`Give Variable and Value to set!`")
   else:
-    s_var = var_val.split(" ")
-    variable, value = s_var 
-    await set_custom_var(var=variable, value=value)
-    await setvr_msg.edit(f"**Successfully Added Custom Var** \n\n**Var:** `{variable}` \n**Val:** `{value}`")
+    s_var = var_val.split(" ", 1)
+    await set_custom_var(var=s_var[0], value=s_var[1])
+    await setvr_msg.edit(f"**Successfully Added Custom Var** \n\n**Var:** `{s_var[0]}` \n**Val:** `{s_var[1]}`")
 
 @nexaub_on_cmd(command="getvar", modlue=mod_file)
 async def get_var(_, message: Message):

@@ -3,7 +3,12 @@
 import asyncio
 from pyrogram.errors import YouBlockedUser
 from nexa_userbot import NEXAUB
-from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_log_channel, get_log_channel, set_arq_key, get_arq_key
+from nexa_userbot.core.nexaub_database.nexaub_db_conf import (
+    set_log_channel,
+    get_log_channel,
+    set_arq_key,
+    get_arq_key,
+    get_custom_var)
 from config import Config
 
 # Log Channel Checker
@@ -31,6 +36,10 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
         print(f"Error \n\n{e} \n\nPlease check all variables and try again! \nReport this with logs at @NexaUB_Support if the problem persists!")
         exit()
 
+
+# # Plugin installer for channels
+# async def install_plugins_in_channel():
+#     plugins = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
 
 # ARQ API KEY Checker
 async def check_arq_api():

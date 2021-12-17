@@ -24,10 +24,12 @@ sudos = log_cid_loop.run_until_complete(get_sudos())
 sudos.append("me")
 SUDO_IDS = sudos
 
+
 def add_handler(x_wrapper, nexaub_filter):
     NEXAUB.add_handler(MessageHandler(x_wrapper, filters=nexaub_filter), group=0)
 
 
+# Edit or reply
 async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_preview=True):
     message = nexaub_message
     if not message:
@@ -41,7 +43,6 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
             return await message.reply_text(msg_text, parse_mode=parse_mode, disable_web_page_preview=disable_web_page_preview)
     else:
         return await message.edit(msg_text, parse_mode=parse_mode, disable_web_page_preview=disable_web_page_preview)
-
 
 
 def nexaub_on_cmd(
@@ -71,17 +72,15 @@ def nexaub_on_cmd(
                 else:
                     pass
             if only_pm and nexaub_chat_type != "private":
-                await message.edit("`Yo, this command is only for PM!`")
-                return
+                return await e_or_r(nexaub_message=message, msg_text="`Yo, this command is only for PM!`")
             if only_groups and nexaub_chat_type not in ["group", "supergroup"]:
-                await message.edit("`Is this even a group?`")
-                return
+                return await e_or_r(nexaub_message=message, msg_text="`Is this even a group?`")
             try:
                 await func(client, message)
             except MessageIdInvalid:
                 logging.warning("Don't delete message while processing. It may crash the bot!")
             except BaseException as e:
-                logging.error(f"\nModule - {modlue} | Command: {command}")
+                logging.error(f"\nModule - {modlue} | Command: {command} | Traceback: \n{e}")
                 error_text = f"""
 **#ERROR**
 
@@ -90,7 +89,7 @@ def nexaub_on_cmd(
 **Traceback:**
 `{e}`
 
-Forward this to @NexaUB_Support
+**Forward this to @NexaUB_Support**
 """
                 if len(error_text) > 4000:
                     file = open("error_nexaub.txt", "w+")
