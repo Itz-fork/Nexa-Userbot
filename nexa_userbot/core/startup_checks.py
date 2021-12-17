@@ -45,7 +45,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 async def download_plugins_in_channel():
     plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
     if plugin_channels:
-        logging.info("Downloading Custom Plugins...")
+        logging.info(f"Custom Plugin Channel list: {plugin_channels} \nDownloading Custom Plugins...")
         try:
             for channel in plugin_channels:
                 async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
