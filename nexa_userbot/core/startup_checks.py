@@ -45,7 +45,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 async def download_plugins_in_channel():
     g_plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
     if g_plugin_channels:
-        plugin_channels = list(g_plugin_channels)
+        plugin_channels = [g_plugin_channels]
         logging.info("Downloading Custom Plugins...")
         try:
             for channel in plugin_channels:

@@ -96,6 +96,7 @@ async def set_sudo(_, message: Message):
   else:
     await sudo_msg.edit("`Please give a valid user id to add as a sudo user`")
 
+
 @nexaub_on_cmd(command="setvar", modlue=mod_file)
 async def setmongovar(_, message: Message):
   setvr_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -130,3 +131,32 @@ async def del_var(_, message: Message):
     deld_var = await del_custom_var(var_d)
     if deld_var:
       await d_var.edit(f"**Successfully Deleted** `{var_d}` **Var from database!**")
+
+
+@nexaub_on_cmd(command="add_plugin_channel", modlue=mod_file)
+async def add_custom_plugin_channel(_, message: Message):
+  acpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  get_c_name = get_arg(message)
+  if not get_c_name:
+    return await acpc.edit("`Give a channel username to add it as a custom plugin channel!`")
+  channel_username = get_c_name.replace("@", "")
+  is_exists = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
+  if is_exists:
+    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", is_exists.append(channel_username))
+  else:
+    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", [channel_username])
+  await acpc.edit(f"**Successfully Added Custom Plugin Channel** \n\n**Channel:** {get_c_name}")
+
+@nexaub_on_cmd(command="rm_plugin_channel", modlue=mod_file)
+async def remove_custom_plugin_channel(_, message: Message):
+  rmcpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  rm_c_name = get_arg(message)
+  if not rm_c_name:
+    return await rmcpc.edit("`Give a channel username to remove it from custom plugin channel database!`")
+  cstm_plgin_c = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
+  if cstm_plgin_c and rm_c_name in cstm_plgin_c:
+    new_custm_plgin_chnls = cstm_plgin_c.remove(rm_c_name)
+    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", new_custm_plgin_chnls)
+    await rmcpc.edit(f"**Successfully Removed Custom Plugin Channel** \n\n**Channel:** {rm_c_name}")
+  else:
+    await rmcpc.edit("`First add custom plugin channel, then we can remove it :)`")
