@@ -65,6 +65,8 @@ async def install_custom_plugins():
         for plugin in os.listdir(custom_plugin_path):
             if plugin.endswith(".py"):
                 import_plugin(os.path.join(custom_plugin_path, plugin))
+    else:
+        print("No custom plugins to install...")
 
 
 # ARQ API KEY Checker

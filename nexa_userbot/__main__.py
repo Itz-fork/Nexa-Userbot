@@ -16,11 +16,11 @@ Copyright (c) 2021 Itz-fork
 """
     )
     await NEXAUB.start()
+    # Check or set log channel id
+    log_channel_id = await check_or_set_log_channel()
     # Downloading and installing Custom Plugins
     await download_plugins_in_channel()
     await install_custom_plugins()
-    # Check or set log channel id
-    log_channel_id = await check_or_set_log_channel()
     # Check if arq api is available else it'll obtain a one
     await check_arq_api()
     try:
