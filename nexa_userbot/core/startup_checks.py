@@ -52,7 +52,6 @@ async def download_plugins_in_channel():
                     plugin_name = plugin.document.file_name
                     if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                         await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/{plugin_name}")
-            return True
         except Exception as e:
             return logging.warn(f"Error \n\n{e} \n\nUnable to install plugins from custom plugin channels!")
     else:
