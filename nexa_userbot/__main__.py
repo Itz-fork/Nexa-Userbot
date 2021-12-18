@@ -31,7 +31,7 @@ Copyright (c) 2021 Itz-fork
     try:
         await NEXAUB.send_message(chat_id=log_channel_id[1], text="`Nexa Userbot is alive!`")
     except:
-        print("WARNING: There was an error while creating the LOG CHANNEL please add a one manually!")
+        logging.warn("There was an error while creating the LOG CHANNEL please add a one manually!")
     await idle()
 
 loop = asyncio.get_event_loop()

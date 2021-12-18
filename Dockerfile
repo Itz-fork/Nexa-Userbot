@@ -8,4 +8,4 @@ RUN mkdir /app/
 WORKDIR /app/
 RUN git clone https://github.com/Itz-fork/Nexa-Userbot.git /app
 RUN pip3 install -U -r requirements.txt
-CMD python3 -m nexa_userbot
+CMD bash startup.sh

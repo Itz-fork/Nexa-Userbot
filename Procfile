@@ -1,1 +1,1 @@
-nexaub: python3 -m nexa_userbot
+nexaub: bash startup.sh
