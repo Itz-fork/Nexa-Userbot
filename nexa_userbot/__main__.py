@@ -8,6 +8,10 @@ from nexa_userbot import NEXAUB
 from nexa_userbot.modules import *
 from nexa_userbot.core.startup_checks import check_or_set_log_channel, check_arq_api, download_plugins_in_channel, install_custom_plugins
 
+# Logging stuff
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
 
 async def main_startup():
     print("""

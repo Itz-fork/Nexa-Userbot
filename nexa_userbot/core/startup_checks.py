@@ -15,6 +15,11 @@ from nexa_userbot.core.nexaub_database.nexaub_db_conf import (
 from nexa_userbot.helpers.pyrogram_help import import_plugin
 from config import Config
 
+
+# Logging stuff
+logging.getLogger().setLevel(logging.INFO)
+logging.getLogger("pyrogram").setLevel(logging.WARNING)
+
 # Log Channel Checker
 async def check_or_set_log_channel():
     try:
@@ -64,7 +69,7 @@ async def install_custom_plugins():
         for plugin in os.listdir(custom_plugin_path):
             if plugin.endswith(".py"):
                 try:
-                    import_plugin(os.path.join(custom_plugin_path, plugin))
+                    import_plugin((os.path.join(custom_plugin_path, plugin)).replace(".py", ""))
                 except:
                     logging.warn(f"Error happened while installing {os.path.join(custom_plugin_path, plugin)} plugin")
     else:
