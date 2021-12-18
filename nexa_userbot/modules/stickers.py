@@ -8,11 +8,12 @@ import shutil
 import os
 
 from PIL import Image
+from pyrogram.types import Message
 from pyrogram.errors import StickersetInvalid, YouBlockedUser
 from pyrogram.raw.functions.messages import GetStickerSet
 from pyrogram.raw.types import InputStickerSetShortName
 
-from nexa_userbot import CMD_HELP
+from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
@@ -76,12 +77,13 @@ async def packinfo(client, message):
 
 
 @nexaub_on_cmd(command="kang", modlue=mod_file)
-async def kang_stick(client, message):
-    pablo = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
+async def kang_stick(_, message: Message):
+    kang_msg = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
     if not message.reply_to_message:
-        await pablo.edit("`Please Reply to a Sticker!`")
-        return
-    Hell = get_arg(message)
+        return await kang_msg.edit("`Please Reply to a Sticker!`")
+    if not message.reply_to_message.sticker:
+        return await kang_msg.edit("`Please Reply to a Sticker!`")
+    a_emoji = get_arg(message)
     name = ""
     pack = 1
     nm = message.from_user.username
@@ -95,10 +97,10 @@ async def kang_stick(client, message):
     non = [None, "None"]
     emoji = "🤔"
     try:
-        Hell = Hell.strip()
-        if not Hell.isalpha():
-            if not Hell.isnumeric():
-                emoji = Hell
+        a_emoji = a_emoji.strip()
+        if not a_emoji.isalpha():
+            if not a_emoji.isnumeric():
+                emoji = a_emoji
         else:
             emoji = "🤔"
     except:
@@ -106,7 +108,7 @@ async def kang_stick(client, message):
     exist = None
     is_anim = False
     if message.reply_to_message.sticker:
-        if not Hell:
+        if not a_emoji:
             emoji = message.reply_to_message.sticker.emoji or "🤔"
         is_anim = message.reply_to_message.sticker.is_animated
         if is_anim:
@@ -115,10 +117,9 @@ async def kang_stick(client, message):
         if message.reply_to_message.sticker.mime_type == "application/x-tgsticker":
             file_name = await message.reply_to_message.download("AnimatedSticker.tgs")
         else:
-            cool = await convert_to_image(message, client)
+            cool = await convert_to_image(message, NEXAUB)
             if not cool:
-                await pablo.edit("**Error:** `Unsupported Media`")
-                return
+                return await kang_msg.edit("**Error:** `Unsupported Media`")
             file_name = resize_image(cool)
     elif message.reply_to_message.document:
         if message.reply_to_message.document.mime_type == "application/x-tgsticker":
@@ -127,88 +128,88 @@ async def kang_stick(client, message):
             packname += " Animated"
             file_name = await message.reply_to_message.download("AnimatedSticker.tgs")
     else:
-        cool = await convert_to_image(message, client)
+        cool = await convert_to_image(message, NEXAUB)
         if not cool:
-            await pablo.edit("**Error:** `Unsupported Media`")
-            return
+            return await kang_msg.edit("**Error:** `Unsupported Media`")
         file_name = resize_image(cool)
     try:
-        exist = await client.send(
+        exist = await NEXAUB.send(
             GetStickerSet(stickerset=InputStickerSetShortName(short_name=packshortname))
         )
     except StickersetInvalid:
         pass
     if exist:
         try:
-            await client.send_message("stickers", "/addsticker")
+            await NEXAUB.send_message("Stickers", "/addsticker")
         except YouBlockedUser:
-            await pablo.edit("`Please Unblock @Stickers!`")
-            await client.unblock_user("stickers")
-        await client.send_message("stickers", packshortname)
+            await NEXAUB.edit("`Unblocking @Stickers ...`")
+            await NEXAUB.unblock_user("Stickers")
+            await NEXAUB.send_message("Stickers", "/addsticker")
+        await NEXAUB.send_message("Stickers", packshortname)
         await asyncio.sleep(0.2)
         limit = "50" if is_anim else "120"
-        messi = (await client.get_history("stickers", 1))[0]
+        messi = (await NEXAUB.get_history("Stickers", 1))[0]
         while limit in messi.text:
             pack += 1
             prev_pack = int(pack) - 1
-            await pablo.edit("He he, Kang Pack Number `{}` is Full Of Stickers! Now Switching to `{}` Pack!".format(prev_pack, pack))
+            await kang_msg.edit(f"He he, Kang Pack Number `{prev_pack}` is Full Of Stickers! Now Switching to `{pack}` Pack!")
             packname = f"@{nm} Kang Pack {pack}"
             packshortname = f"NEXAUB_{message.from_user.id}_{pack}"
             if is_anim:
                 packshortname += "_animated"
                 packname += " Animated"
-            await client.send_message("stickers", packshortname)
+            await NEXAUB.send_message("Stickers", packshortname)
             await asyncio.sleep(0.2)
-            messi = (await client.get_history("stickers", 1))[0]
+            messi = (await NEXAUB.get_history("Stickers", 1))[0]
             if messi.text == "Invalid pack selected.":
                 if is_anim:
-                    await client.send_message("stickers", "/newanimated")
+                    await NEXAUB.send_message("Stickers", "/newanimated")
                 else:
-                    await client.send_message("stickers", "/newpack")
+                    await NEXAUB.send_message("Stickers", "/newpack")
                 await asyncio.sleep(0.5)
-                await client.send_message("stickers", packname)
+                await NEXAUB.send_message("Stickers", packname)
                 await asyncio.sleep(0.2)
-                await client.send_document("stickers", file_name)
+                await NEXAUB.send_document("Stickers", file_name)
                 await asyncio.sleep(1)
-                await client.send_message("stickers", emoji)
+                await NEXAUB.send_message("Stickers", emoji)
                 await asyncio.sleep(0.8)
-                await client.send_message("stickers", "/publish")
+                await NEXAUB.send_message("Stickers", "/publish")
                 if is_anim:
-                    await client.send_message("stickers", f"<{packname}>")
-                await client.send_message("stickers", "/skip")
+                    await NEXAUB.send_message("Stickers", f"<{packname}>")
+                await NEXAUB.send_message("Stickers", "/skip")
                 await asyncio.sleep(0.5)
-                await client.send_message("stickers", packshortname)
-                await pablo.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
+                await NEXAUB.send_message("Stickers", packshortname)
+                await kang_msg.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
                 return
-        await client.send_document("stickers", file_name)
+        await NEXAUB.send_document("Stickers", file_name)
         await asyncio.sleep(1)
-        await client.send_message("stickers", emoji)
+        await NEXAUB.send_message("Stickers", emoji)
         await asyncio.sleep(0.5)
-        await client.send_message("stickers", "/done")
-        await pablo.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
+        await NEXAUB.send_message("Stickers", "/done")
+        await kang_msg.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
     else:
         if is_anim:
-            await client.send_message("stickers", "/newanimated")
+            await NEXAUB.send_message("Stickers", "/newanimated")
         else:
-            await client.send_message("stickers", "/newpack")
-        await client.send_message("stickers", packname)
+            await NEXAUB.send_message("Stickers", "/newpack")
+        await NEXAUB.send_message("Stickers", packname)
         await asyncio.sleep(0.2)
-        await client.send_document("stickers", file_name)
+        await NEXAUB.send_document("Stickers", file_name)
         await asyncio.sleep(1)
-        await client.send_message("stickers", emoji)
+        await NEXAUB.send_message("Stickers", emoji)
         await asyncio.sleep(0.5)
-        await client.send_message("stickers", "/publish")
+        await NEXAUB.send_message("Stickers", "/publish")
         await asyncio.sleep(0.5)
         if is_anim:
-            await client.send_message("stickers", f"<{packname}>")
-        await client.send_message("stickers", "/skip")
+            await NEXAUB.send_message("Stickers", f"<{packname}>")
+        await NEXAUB.send_message("Stickers", "/skip")
         await asyncio.sleep(0.5)
-        await client.send_message("stickers", packshortname)
-        await pablo.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
+        await NEXAUB.send_message("Stickers", packshortname)
+        await kang_msg.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
         try:
             if os.path.exists("Kanged_Sticker_NEXAUB.png"):
                 os.remove("Kanged_Sticker_NEXAUB.png")
-            downname = "./downloads"
+            downname = "./Downloads"
             if os.path.isdir(downname):
                 shutil.rmtree(downname)
         except:

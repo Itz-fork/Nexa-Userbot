@@ -11,7 +11,7 @@ import importlib
 import logging
 
 from PIL import Image
-from typing import Tuple
+from typing import Union, Tuple
 from time import time
 from nexa_userbot import NEXAUB
 
@@ -119,8 +119,10 @@ def get_args(message):
 
 
 # Convert to Image
-async def convert_to_image(message, client) -> [None, str]:
-    """Convert Most Media Formats To Raw Image"""
+async def convert_to_image(message, client) -> Union[None, str]:
+    """
+    Convert Most Media Formats To Raw Image
+    """
     if not message:
         return None
     if not message.reply_to_message:
