@@ -15,7 +15,7 @@ async def guess_and_send(input_file, chat_id, thumb_path):
     thumbnail_bpath = thumb_path
     in_file = f"{input_file}"
     guessedfilemime = filetype.guess(in_file)
-    if not guessedfilemime.mime:
+    if not guessedfilemime or not guessedfilemime.mime:
         return await NEXAUB.send_document(chat_id=chat_id, document=in_file, caption=f"`Uploaded by` {(await NEXAUB.get_me()).mention}")
     try:
         filemimespotted = guessedfilemime.mime

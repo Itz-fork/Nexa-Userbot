@@ -61,18 +61,15 @@ async def megatoolsdl(_, message: Message):
     cli_user_id = str(message.from_user.id)
     cli_download_path = megadir + "/" + cli_user_id
     if len(message.command) < 2:
-        await megatools_msg.edit("`Please send a valid mega.nz link to download!`")
-        return
+        return await megatools_msg.edit("`Please send a valid mega.nz link to download!`")
     # Mega url to download
     cli_url = url.split(None, 1)[1]
     # Checking if sent message has a vaild mega.nz url
     if "https://mega.nz/" not in url:
-        await megatools_msg.edit("`Please send a valid mega.nz link to download!`")
-        return
+        return await megatools_msg.edit("`Please send a valid mega.nz link to download!`")
     # Checking if there is a ongoing task for the user
     if os.path.isdir(cli_download_path):
-        await megatools_msg.edit("`Already One Process is Going On. Please wait until it's finished!`")
-        return
+        return await megatools_msg.edit("`Already One Process is Going On. Please wait until it's finished!`")
     else:
         os.makedirs(cli_download_path)
     await megatools_msg.edit(f"`Starting to download file / folder from mega.nz!` \n\nThis may take sometime. Depends on your file / folder size.")
