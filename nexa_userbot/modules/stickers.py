@@ -2,10 +2,10 @@
 # Part of: Nexa-Userbot
 # Credits: Friday Userbot | DevsExpo
 
-import asyncio
-import math
-import shutil
 import os
+import math
+import asyncio
+import shutil
 
 from PIL import Image
 from pyrogram.types import Message
@@ -40,6 +40,7 @@ CMD_HELP.update(
 )
 
 mod_file = os.path.basename(__file__)
+
 
 @nexaub_on_cmd(command="packinfo", modlue=mod_file)
 async def packinfo(client, message):
@@ -84,17 +85,10 @@ async def kang_stick(_, message: Message):
     if not message.reply_to_message.sticker:
         return await kang_msg.edit("`Please Reply to a Sticker!`")
     a_emoji = get_arg(message)
-    name = ""
     pack = 1
     nm = message.from_user.username
-    if nm:
-        nam = message.from_user.username
-        name = nam[1:]
-    else:
-        name = message.from_user.first_name
     packname = f"@{nm} Kang Pack {pack}"
     packshortname = f"NEXAUB_{message.from_user.id}_{pack}"
-    non = [None, "None"]
     emoji = "🤔"
     try:
         a_emoji = a_emoji.strip()
@@ -134,7 +128,8 @@ async def kang_stick(_, message: Message):
         file_name = resize_image(cool)
     try:
         exist = await NEXAUB.send(
-            GetStickerSet(stickerset=InputStickerSetShortName(short_name=packshortname))
+            GetStickerSet(stickerset=InputStickerSetShortName(
+                short_name=packshortname))
         )
     except StickersetInvalid:
         pass
@@ -179,8 +174,7 @@ async def kang_stick(_, message: Message):
                 await NEXAUB.send_message("Stickers", "/skip")
                 await asyncio.sleep(0.5)
                 await NEXAUB.send_message("Stickers", packshortname)
-                await kang_msg.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
-                return
+                return await kang_msg.edit("**Sticker Kanged!** \n\n**Emoji:** {} \n**Pack:** [Here](https://t.me/addstickers/{})".format(emoji, packshortname))
         await NEXAUB.send_document("Stickers", file_name)
         await asyncio.sleep(1)
         await NEXAUB.send_message("Stickers", emoji)
