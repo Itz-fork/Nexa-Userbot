@@ -58,7 +58,8 @@ async def packinfo(client, message):
         GetStickerSet(
             stickerset=InputStickerSetShortName(
                 short_name=message.reply_to_message.sticker.set_name
-            )
+            ),
+            hash=0
         )
     )
     emojis = []
@@ -128,8 +129,12 @@ async def kang_stick(_, message: Message):
         file_name = resize_image(cool)
     try:
         exist = await NEXAUB.send(
-            GetStickerSet(stickerset=InputStickerSetShortName(
-                short_name=packshortname))
+            GetStickerSet(
+                stickerset=InputStickerSetShortName(
+                    short_name=packshortname
+                ),
+                hash=0
+            )
         )
     except StickersetInvalid:
         pass
