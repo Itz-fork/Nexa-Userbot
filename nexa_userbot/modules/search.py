@@ -53,7 +53,7 @@ async def duckduckg_s(client, message):
 
 @nexaub_on_cmd(command="google", modlue=mod_file)
 async def google_s(client, message):
-    pablo = await e_or_r(nexaub_message=message, msg_text="`Searching in Google...`")
+    gsearch_msg = await e_or_r(nexaub_message=message, msg_text="`Searching in Google...`")
     query = get_arg(message)
     replied_msg = message.reply_to_message
     if not query:
@@ -61,8 +61,7 @@ async def google_s(client, message):
             if replied_msg:
                 query = replied_msg.text
         except:
-            await pablo.edit("`Give Something to Search!`")
-            return
+            return await gsearch_msg.edit("`Give Something to Search!`")
     query = urllib.parse.quote_plus(query)
     number_result = 8
     ua = UserAgent()
@@ -102,4 +101,4 @@ async def google_s(client, message):
 
     for tt, liek, d in zip(titles, clean_links, descriptions):
         msg += f"[{tt}]({liek})\n`{d}`\n\n"
-    await pablo.edit(f"**Query:** \n`{query}` \n\n**Result(s):** \n{msg}")
+    await gsearch_msg.edit(f"**Query:** \n`{query}` \n\n**Result(s):** \n{msg}")
