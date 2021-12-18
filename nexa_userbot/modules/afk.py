@@ -73,7 +73,7 @@ async def me_afk_tho(_, message: Message):
     usr_id = message.from_user.id
     if usr_id in AFK_SPAMMER_DB:
         AFK_SPAMMER_DB[usr_id] += 1
-        if AFK_SPAMMER_DB[usr_id] <= 5:
+        if AFK_SPAMMER_DB[usr_id] >= 6:
             return
     else:
         AFK_SPAMMER_DB[usr_id] = 1
