@@ -11,6 +11,8 @@ from nexa_userbot.core.startup_checks import check_or_set_log_channel, check_arq
 # Logging stuff
 logging.getLogger().setLevel(logging.INFO)
 logging.getLogger("pyrogram").setLevel(logging.WARNING)
+logging.getLogger("pyrogram.session.session").setLevel(logging.ERROR)
+logging.getLogger("pyrogram.parser.html").setLevel(logging.ERROR)
 
 
 async def main_startup():
