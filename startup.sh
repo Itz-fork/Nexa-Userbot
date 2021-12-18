@@ -1,12 +1,5 @@
 #!/usr/bin/bash
 
-echo "
-============ Nexa Userbot ============
-
-
-Copyright (c) 2021 Itz-fork | @NexaBotsUpdates
-"
-
 start_nexaub () {
   if [[ -z "$PYRO_STR_SESSION" ]]
   then
@@ -19,6 +12,12 @@ start_nexaub () {
 _install_nexaub () {
   echo ">>>> Starting Nexa-Userbot"
   start_nexaub
+  echo "
+============ Nexa Userbot ============
+
+
+Copyright (c) 2021 Itz-fork | @NexaBotsUpdates
+  "
 }
 
 _install_nexaub
