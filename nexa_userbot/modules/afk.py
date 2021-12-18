@@ -25,6 +25,9 @@ CMD_HELP.update(
 
   ✘ `afk`,
    ⤷ Send with reason = `{Config.CMD_PREFIX}afk This is the reason`
+   
+  **Tip 💡,**
+   ⤷ Send with `-del` flag to delete sent afk messages when you come back online = `{Config.CMD_PREFIX}afk -del This is the reason`
 """
     }
 )
@@ -33,6 +36,8 @@ mod_file = os.path.basename(__file__)
 
 # Dict to store messaged users details temporarily
 AFK_SPAMMER_DB = {}
+# List to store all afk messages that sent to chats
+AFK_MSGS_DB = {}
 
 
 # Check if afk
@@ -50,11 +55,23 @@ ya_afk = filters.create(func=u_afk_bro, name="is_ya_afk")
 @nexaub_on_cmd(command="afk", modlue=mod_file)
 async def me_goin_oflin(_, message: Message):
     afk_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-    afk_reason = get_arg(message)
-    if not afk_reason:
+    get_afk_reason = get_arg(message)
+    if get_afk_reason:
+        splitted_txt = get_afk_reason.split(None, 1)
+        if splitted_txt[0] == "-del":
+            del_afk_msgs_af = True
+            if len(splitted_txt) >= 2:
+                afk_reason = splitted_txt[1]
+            else:
+                afk_reason = "I'm Busy For Now! Will Come Online Later :)"
+        else:
+            del_afk_msgs_af = False
+            afk_reason = get_afk_reason
+    else:
         afk_reason = "I'm Busy For Now! Will Come Online Later :)"
+        del_afk_msgs_af = False
     afk_time = datetime.now().replace(microsecond=0)
-    await me_afk(afk_time=afk_time, afk_reason=afk_reason)
+    await me_afk(afk_time=afk_time, afk_reason=afk_reason, delete_afk_msgs=del_afk_msgs_af)
     await afk_msg.edit(f"**I'm Going AFK** \n\n**Reason:** `{afk_reason}`")
 
 
@@ -79,11 +96,20 @@ async def me_afk_tho(_, message: Message):
         AFK_SPAMMER_DB[usr_id] = 1
     # If user messaged you 5 times bot'll send him a nice reply :)
     if AFK_SPAMMER_DB[usr_id] == 5:
-        return await message.reply("`Enough! You messaged my master 5 times, Go get some brain you dumb ass!`")
-    s_time, a_reason = await get_afk()
+        return await message.reply("`Enough! You've messaged my master 5 times, Go get some brain you dumb ass!`")
+    s_time, a_reason, should_del_afks = await get_afk()
     now_time = datetime.now().replace(microsecond=0)
     afk_time = str((now_time - s_time))
-    await message.reply(f"**I'm AFK** \n\n**Last Online:** `{afk_time}` \n**Reason:** `{a_reason}`")
+    afk_reply = await message.reply(f"**I'm AFK** \n\n**Last Online:** `{afk_time}` \n**Reason:** `{a_reason}`")
+    # Saving current chat id and replied message id to a dict to delete when the user come back online
+    if should_del_afks:
+        afk_chat_id = message.chat.id
+        if afk_chat_id in AFK_MSGS_DB:
+            msg_list = AFK_MSGS_DB[afk_chat_id]
+            msg_list.append(afk_reply.message_id)
+            AFK_MSGS_DB[afk_chat_id] = msg_list
+        else:
+            AFK_MSGS_DB[afk_chat_id] = [afk_reply.message_id]
 
 @nexaub_on_cf(
     filters.me
@@ -91,8 +117,14 @@ async def me_afk_tho(_, message: Message):
     & ya_afk
 )
 async def back_online_bois(_, message: Message):
-    s_time, a_reason = await get_afk()
+    s_time, a_reason, should_del_afks = await get_afk()
     com_online = datetime.now().replace(microsecond=0)
     afk_time = str((com_online - s_time))
     await me_online()
     await e_or_r(nexaub_message=message, msg_text=f"**I'm No Longer AFK** \n\n**Afk Time:** `{afk_time}` \n**Reason:** `{a_reason}`")
+    # Deleting send afk messages
+    if should_del_afks:
+        status_msg = await message.reply("`Deleting sent afk messages...`")
+        for c_id, msgs_ids in AFK_MSGS_DB.items():
+            await NEXAUB.delete_messages(chat_id=c_id, message_ids=msgs_ids)
+        await status_msg.delete()

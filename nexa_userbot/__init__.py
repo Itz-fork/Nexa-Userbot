@@ -12,5 +12,6 @@ StartTime = time()
 NEXAUB = Client(
     api_hash=Config.API_HASH,
     api_id=Config.APP_ID,
-    session_name=Config.PYRO_STR_SESSION
+    session_name=Config.PYRO_STR_SESSION,
+    sleep_threshold=10
 )
