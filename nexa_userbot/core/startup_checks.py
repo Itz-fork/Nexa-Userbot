@@ -24,6 +24,8 @@ async def check_or_set_log_channel():
             return [True, al_log_channel]
         else:
             log_channel = await NEXAUB.create_channel(title="Nexa Userbot Logs", description="Logs of your Nexa Userbot")
+            log_channel_id = log_channel.id
+            await NEXAUB.set_chat_photo(chat_id=log_channel_id, photo="cache/NEXAUB.png")
             welcome_to_nexaub = f"""
 **Welcome to Nexa Userbot**
 Thanks for trying Nexa Userbot. If you found any error, bug or even a Feature Request please report it at **@NexaUB_Support**
@@ -33,7 +35,6 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 
  **~ Nexa Userbot, Developers**"""
-            log_channel_id = log_channel.id
             await set_log_channel(log_channel_id)
             await NEXAUB.send_message(chat_id=log_channel_id, text=welcome_to_nexaub, disable_web_page_preview=True)
             return [True, log_channel_id]
