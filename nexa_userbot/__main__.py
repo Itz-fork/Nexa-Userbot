@@ -18,15 +18,15 @@ Copyright (c) 2021 Itz-fork
     )
     await NEXAUB.start()
     # Downloading and installing Custom Plugins
-    logging.info("Downloading Custom Plugins...")
+    logging.info(">> Downloading Custom Plugins...")
     await download_plugins_in_channel()
-    logging.info("Installing Custom Plugins...")
+    logging.info(">> Installing Custom Plugins...")
     await install_custom_plugins()
     # Check or set log channel id
-    logging.info("Checking Log Channel...")
+    logging.info(">> Checking Log Channel...")
     log_channel_id = await check_or_set_log_channel()
     # Check if arq api is available else it'll obtain a one
-    logging.info("Checking ARQ API Key...")
+    logging.info(">> Checking ARQ API Key...")
     await check_arq_api()
     try:
         await NEXAUB.send_message(chat_id=log_channel_id[1], text="`Nexa Userbot is alive!`")

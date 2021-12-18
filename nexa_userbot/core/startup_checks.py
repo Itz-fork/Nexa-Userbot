@@ -37,7 +37,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
             await NEXAUB.send_message(chat_id=log_channel_id, text=welcome_to_nexaub, disable_web_page_preview=True)
             return [True, log_channel_id]
     except Exception as e:
-        print(f"Error \n\n{e} \n\nPlease check all variables and try again! \nReport this with logs at @NexaUB_Support if the problem persists!")
+        logging.warn(f"Error: \n{e} \n\nPlease check all variables and try again! \nReport this with logs at @NexaUB_Support if the problem persists!")
         exit()
 
 
@@ -52,9 +52,9 @@ async def download_plugins_in_channel():
                     if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                         await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/{plugin_name}")
         except Exception as e:
-            return logging.warn(f"Error \n\n{e} \n\nUnable to install plugins from custom plugin channels!")
+            logging.warn(f"Error: \n{e} \n\nUnable to install plugins from custom plugin channels!")
     else:
-        return logging.info("No Custom Plugin Channels were specified, Nexa-Userbot is running with default plugins only!")
+        logging.info("No Custom Plugin Channels were specified, Nexa-Userbot is running with default plugins only!")
 
 
 # Custom plugin collector
@@ -67,6 +67,8 @@ async def install_custom_plugins():
                     import_plugin(os.path.join(custom_plugin_path, plugin))
                 except:
                     logging.warn(f"Error happened while installing {os.path.join(custom_plugin_path, plugin)} plugin")
+    else:
+        logging.info("No Custom Plugins were found to install!")
 
 
 # ARQ API KEY Checker
@@ -99,4 +101,4 @@ async def check_arq_api():
         else:
             pass
     except Exception as e:
-        print(f"Error \n\n{e} \n\nThere was a problem while obtaining ARQ API KEY. However you can set it manually. Send, \n{Config.CMD_PREFIX}setvar ARQ_API_KEY your_api_key_here")
+        logging.warn(f"Error: \n{e} \n\nThere was a problem while obtaining ARQ API KEY. However you can set it manually. Send, \n{Config.CMD_PREFIX}setvar ARQ_API_KEY your_api_key_here")
