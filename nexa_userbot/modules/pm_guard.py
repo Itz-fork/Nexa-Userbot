@@ -199,15 +199,14 @@ async def handle_pm_guard(_, message: Message):
         return
     # User
     in_user = message.from_user
-    in_user_id = in_user.id
     # Checking if user is approved to pm
-    is_approved = await check_user_approved(in_user_id)
+    is_approved = await check_user_approved(in_user.id)
     if is_approved:
         return
     # Checking user's telegram status
     if in_user.is_fake or in_user.is_scam:
         await message.reply("`Damn looks like you're a spammer 🤔. Bye Bye!`")
-        return await NEXAUB.block_user(in_user_id)
+        return await NEXAUB.block_user(in_user.id)
     if in_user.is_support or in_user.is_verified or in_user.is_self:
         return
     # Collecting Pm guard configs
@@ -219,7 +218,7 @@ async def handle_pm_guard(_, message: Message):
     custom_pm_pic = getc_pm_pic if getc_pm_pic else DEFAULT_PM_PIC
     custom_pm_warns = getc_pm_warns if getc_pm_warns else DEFAULT_PM_MESSAGE_LIMIT
     # Checking user's warns
-    if in_user_id in PM_GUARD_WARNS_DB:
+    if in_user.id in PM_GUARD_WARNS_DB:
         # Deleting old warn messages (Uses try except block cuz this is completely unwanted and in case of error process might be stopped)
         chat_id = message.chat.id
         try:
@@ -229,17 +228,17 @@ async def handle_pm_guard(_, message: Message):
         except:
             pass
         # Giving warnings
-        PM_GUARD_WARNS_DB[in_user_id] += 1
-        if PM_GUARD_WARNS_DB[in_user_id] >= custom_pm_warns:
+        PM_GUARD_WARNS_DB[in_user.id] += 1
+        if PM_GUARD_WARNS_DB[in_user.id] >= custom_pm_warns:
             await message.reply(f"`That's it! I told you {custom_pm_warns} times, DO NOT pm my master and you didn't it! Anyway I've blocked you 😑!`")
-            return await NEXAUB.block_user(in_user_id)
+            return await NEXAUB.block_user(in_user.id)
         else:
-            rplied_msg = await message.reply_photo(photo=custom_pm_pic, caption=BASE_PM_TEXT.format(master.mention, custom_pm_txt, PM_GUARD_WARNS_DB[in_user_id], custom_pm_warns))
-            PM_GUARD_MSGS_DB[chat_id] = rplied_msg
-            return
+            rplied_msg = await message.reply_photo(photo=custom_pm_pic, caption=BASE_PM_TEXT.format(master.mention, custom_pm_txt, PM_GUARD_WARNS_DB[in_user.id], custom_pm_warns))
     else:
-        PM_GUARD_WARNS_DB[in_user_id] = 1
+        PM_GUARD_WARNS_DB[in_user.id] = 1
+        rplied_msg = await message.reply_photo(photo=custom_pm_pic, caption=BASE_PM_TEXT.format(master.mention, custom_pm_txt, PM_GUARD_WARNS_DB[in_user.id], custom_pm_warns))
+    PM_GUARD_MSGS_DB[chat_id] = rplied_msg
     # Logging details on the channel
     log_chnnel_id = await get_custom_var("LOG_CHANNEL_ID")
     copied = await message.copy(log_chnnel_id)
-    await copied.reply(f"#Pm_Guard_Log \n\n**User:** {in_user.mention} \n**User ID: `{in_user_id}`")
+    await copied.reply(f"#Pm_Guard_Log \n\n**User:** {in_user.mention} \n**User ID: `{in_user.id}`")
