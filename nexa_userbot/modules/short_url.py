@@ -60,7 +60,7 @@ async def short_urls(url, shortner: str):
 
 
 @nexaub_on_cmd(command="short", modlue=mod_file)
-async def cutr_short(_, message: Message):
+async def short_urls_func(_, message: Message):
     short_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message
     args = get_arg(message)
@@ -69,11 +69,11 @@ async def cutr_short(_, message: Message):
     elif args:
         base_txt = args
     else:
-        return short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
+        return await short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
     # Extracting urls from text
     urls = await extract_url_from_txt(base_txt)
     if not urls:
-        return short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
+        return await short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
     splitted_txt = base_txt.split(None)
     if len(splitted_txt) >= 2:
         if str(splitted_txt[0]) in SUPPORTED_URL_SHORTNERS:
