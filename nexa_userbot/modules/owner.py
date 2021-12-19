@@ -80,7 +80,7 @@ async def count_chats():
   async for dialog in NEXAUB.iter_dialogs():
     try:
       await NEXAUB.get_dialogs_count()
-      total = total+1
+      total += 1
     except FloodWait as e:
       await time.sleep(e.x)
   return total
