@@ -34,6 +34,7 @@ mod_file = os.path.basename(__file__)
 
 # Supported url shortners list
 SUPPORTED_URL_SHORTNERS = ["isgd", "dagd"]
+default_shtnr = "isgd"
 # Headers for da.gd
 dagd_header = {
     "User-Agent": "Mozilla/5.0 (Linux; Android 6.0.1; Moto G (4)) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36",
@@ -74,10 +75,9 @@ async def cutr_short(_, message: Message):
     if not urls:
         return short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
     splitted_txt = base_txt.split(None)
-    default_shtnr = "isgd"
     if len(splitted_txt) >= 2:
-        if str(splitted_txt[1]) in SUPPORTED_URL_SHORTNERS:
-            shortner = str(splitted_txt[1])
+        if str(splitted_txt[0]) in SUPPORTED_URL_SHORTNERS:
+            shortner = str(splitted_txt[0])
         else:
             shortner = default_shtnr
     else:
