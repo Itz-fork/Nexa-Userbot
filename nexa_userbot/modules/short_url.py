@@ -42,7 +42,7 @@ dagd_header = {
 }
 
 
-async def short_urls(url, shortner: str):
+async def short_urls(url, shortner):
     async with ClientSession() as shortner_session:
         if shortner == "isgd":
             pasted_url = await shortner_session.post(f"https://is.gd/create.php?format=json&url={url}")
@@ -85,6 +85,6 @@ async def short_urls_func(_, message: Message):
     # Short urls
     short_urls = "**Successfully Shortened the Url(s)** \n\n"
     for url in urls:
-        shorted = await short_urls(url, str(shortner))
+        shorted = await short_urls(url, shortner)
         short_urls += f"► **Shortened Url:** {shorted[0]} \n  **Original Url:** {url}"
     await short_msg.edit(short_urls, disable_web_page_preview=True)
