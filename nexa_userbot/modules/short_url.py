@@ -3,7 +3,7 @@
 
 import os
 
-from aiohttp import ClientSession
+from httpx import AsyncClient
 from bs4 import BeautifulSoup
 from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
@@ -43,20 +43,21 @@ dagd_header = {
 
 
 async def short_urls(url, shortner):
-    async with ClientSession() as shortner_session:
+    async with AsyncClient() as shortner_session:
         if shortner == "isgd":
-            pasted_url = await shortner_session.post(f"https://is.gd/create.php?format=json&url={url}")
-            json_data = await pasted_url.json()
-            return [json_data['shorturl']]
+            isgd_short = await shortner_session.get(f"https://is.gd/create.php?format=json&url={url}")
+            return [isgd_short.json()["shorturl"]]
         elif shortner == "dagd":
-            async with shortner_session.get(f"https://da.gd/?url={url}", headers=dagd_header) as dagd_short:
-                req_text = await dagd_short.text
-                soup = BeautifulSoup(req_text, "html.parser")
-                url_div = soup.find_all("div", attrs={"class": "constraint"})
-                links = url_div[1].find("a", href=True)
-                return await extract_url_from_txt(links)
+            dagd_short = await shortner_session.get(f"https://da.gd/?url={url}", headers=dagd_header)
+            req_text = dagd_short.text
+            soup = BeautifulSoup(req_text, "html.parser")
+            url_div = soup.find_all("div", attrs={"class": "constraint"})
+            links = url_div[1].find("a", href=True)
+            return await extract_url_from_txt(links)
         else:
-            return ["https://github.com/Itz-fork/Nexa-Userbot"]
+            async with shortner_session.get(f"https://is.gd/create.php?format=json&url={url}") as isgd_short:
+                json_data = await isgd_short.json()
+                return json_data
 
 
 @nexaub_on_cmd(command="short", modlue=mod_file)
