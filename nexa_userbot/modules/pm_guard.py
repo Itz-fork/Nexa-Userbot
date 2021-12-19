@@ -156,7 +156,7 @@ async def set_pm_guard_pic_nexaub(_, message: Message):
     if r_msg:
         if r_msg.photo:
             pm_pic = r_msg.download()
-        if r_msg.animation:
+        elif r_msg.animation:
             pm_pic = r_msg.download()
         else:
             return await st_pm_pic_msg.edit("`Reply to a picture or gif!`")
