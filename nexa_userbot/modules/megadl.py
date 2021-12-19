@@ -37,8 +37,6 @@ CMD_HELP.update(
 
 mod_file = os.path.basename(__file__)
 
-# Download path
-megadir = "./NexaUb/Megatools"
 
 # Run bash cmd in python
 def nexa_mega_runner(command):
@@ -59,7 +57,7 @@ async def megatoolsdl(_, message: Message):
     megatools_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     url = message.text
     cli_user_id = str(message.from_user.id)
-    cli_download_path = megadir + "/" + cli_user_id
+    cli_download_path = f"{os.getcwd()}/NexaUb/Megatools/{str(message.from_user.id)}"
     if len(message.command) < 2:
         return await megatools_msg.edit("`Please send a valid mega.nz link to download!`")
     # Mega url to download
@@ -78,7 +76,6 @@ async def megatoolsdl(_, message: Message):
     await loop.run_in_executor(None, partial(nexa_mega_runner, megacmd))
     nexaub_path_f = f"{os.getcwd()}/NexaUb/Megatools/{str(message.from_user.id)}"
     folder_f = [val for sublist in [[os.path.join(i[0], j) for j in i[2]] for i in os.walk(nexaub_path_f)] for val in sublist]
-    print(folder_f)
     await megatools_msg.edit("`Downloading Finished! Trying to upload now`")
     try:
         for nexa_m in folder_f:
