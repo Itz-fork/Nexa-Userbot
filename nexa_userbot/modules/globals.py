@@ -41,7 +41,7 @@ CMD_HELP.update(
 mod_file = os.path.basename(__file__)
 
 @nexaub_on_cmd(command="gban", modlue=mod_file)
-async def me_goin_oflin(_, message: Message):
+async def gbun_dis_usr(_, message: Message):
     gban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
     gban_rsn = get_arg(message)
@@ -90,7 +90,7 @@ async def me_goin_oflin(_, message: Message):
 
 
 @nexaub_on_cmd(command="ungban", modlue=mod_file)
-async def me_goin_oflin(_, message: Message):
+async def ungbun_dis_usr(_, message: Message):
     ungban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_ug_msg = message.reply_to_message
     gban_usr = get_arg(message)
@@ -125,7 +125,7 @@ async def me_goin_oflin(_, message: Message):
 
 
 @nexaub_on_cmd(command="gbans", modlue=mod_file)
-async def me_goin_oflin(_, message: Message):
+async def gbuns_in_whole_time(_, message: Message):
     glist_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     gban_list = await get_gbanned()
     total_gbans = len(gban_list)

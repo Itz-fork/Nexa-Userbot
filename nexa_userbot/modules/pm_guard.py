@@ -107,6 +107,8 @@ async def approve_user_to_pm(_, message: Message):
     if already_apprvd:
         return await apprv_msg.edit("`This user is already approved to PM!`")
     await add_approved_user(user_id)
+    if user_id in PM_GUARD_WARNS_DB:
+        PM_GUARD_WARNS_DB.pop(user_id)
     await apprv_msg.edit("**From now on, this user can PM my master!**")
 
 # Disapprove user
@@ -182,12 +184,13 @@ async def set_pm_guard_warns_nexaub(_, message: Message):
 
 # Custom handler to handle icoming pms
 @nexaub_on_cf(
-    filters.private
+    (filters.private
     & filters.incoming
     & ~filters.me
     & ~filters.service
     & ~filters.edited
-    & ~filters.bot
+    & ~filters.bot),
+    handler_group=-1
 )
 async def handle_pm_guard(_, message: Message):
     # Checking if pm guard is enabled

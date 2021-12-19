@@ -105,7 +105,7 @@ def nexaub_on_cmd(
 
 
 # Custom filter handling (Credits: Friday Userbot)
-def nexaub_on_cf(custom_filters):
+def nexaub_on_cf(custom_filters, handler_group=0):
     def decorate_nexaub_cf(func):
         async def x_wrapper_cf(client, message):
             try:
@@ -133,6 +133,6 @@ Forward this to @NexaUB_Support
                 else:
                     await NEXAUB.send_message(chat_id=LOG_CHANNEL_ID, text=error_text)
             message.continue_propagation()
-        NEXAUB.add_handler(MessageHandler(x_wrapper_cf, filters=custom_filters), group=0)
+        NEXAUB.add_handler(MessageHandler(x_wrapper_cf, filters=custom_filters), group=handler_group)
         return x_wrapper_cf
     return decorate_nexaub_cf
