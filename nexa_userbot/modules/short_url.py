@@ -41,7 +41,6 @@ dagd_header = {
     "Accept": "text/html"
 }
 
-
 async def short_urls(url, shortner):
     async with AsyncClient() as shortner_session:
         if shortner == "isgd":
@@ -56,8 +55,7 @@ async def short_urls(url, shortner):
             return await extract_url_from_txt(links)
         else:
             async with shortner_session.get(f"https://is.gd/create.php?format=json&url={url}") as isgd_short:
-                json_data = await isgd_short.json()
-                return json_data
+                return [isgd_short.json()["shorturl"]]
 
 
 @nexaub_on_cmd(command="short", modlue=mod_file)
@@ -76,16 +74,13 @@ async def short_urls_func(_, message: Message):
     if not urls:
         return await short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
     splitted_txt = base_txt.split(None)
-    if len(splitted_txt) >= 2:
-        if splitted_txt[0] in SUPPORTED_URL_SHORTNERS:
-            shortner = splitted_txt[0]
-        else:
-            shortner = default_shtnr
+    if splitted_txt[0] in SUPPORTED_URL_SHORTNERS:
+        shortner = splitted_txt[0]
     else:
         shortner = default_shtnr
     # Short urls
-    short_urls = "**Successfully Shortened the Url(s)** \n\n"
+    short_urls_txt = "**Successfully Shortened the Url(s)** \n\n"
     for url in urls:
-        shorted = await short_urls(url, shortner)
-        short_urls += f"► **Shortened Url:** {shorted[0]} \n  **Original Url:** {url}"
-    await short_msg.edit(short_urls, disable_web_page_preview=True)
+        shorted_url = await short_urls(url, shortner)
+        short_urls_txt += f"► **Shortened Url:** {shorted_url[0]} \n  **Original Url:** {url}"
+    await short_msg.edit(short_urls_txt, disable_web_page_preview=True)
