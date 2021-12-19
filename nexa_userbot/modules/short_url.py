@@ -82,5 +82,5 @@ async def short_urls_func(_, message: Message):
     short_urls_txt = "**Successfully Shortened the Url(s)** \n\n"
     for url in urls:
         shorted_url = await short_urls(url, shortner)
-        short_urls_txt += f"► **Shortened Url:** {shorted_url[0]} \n  **Original Url:** {url}"
+        short_urls_txt += f"► **Shortened Url:** {shorted_url[0]} \n   **Original Url:** {url} \n"
     await short_msg.edit(short_urls_txt, disable_web_page_preview=True)
