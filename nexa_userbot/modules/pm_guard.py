@@ -60,7 +60,7 @@ Because of the spam messages my master get all the time, he don't like to chat w
 So kindly please wait for his approval 🤗!
 """
 BASE_PM_TEXT = """
-**Heya 👋, This is PM Security of {} 👮!**
+**Heya 👋, This is the PM Security of {} 👮!**
 
 {}
 
@@ -220,11 +220,9 @@ async def handle_pm_guard(_, message: Message):
     # Checking user's warns
     if in_user.id in PM_GUARD_WARNS_DB:
         # Deleting old warn messages (Uses try except block cuz this is completely unwanted and in case of error process might be stopped)
-        chat_id = message.chat.id
         try:
-            if chat_id in PM_GUARD_MSGS_DB:
-                msg = PM_GUARD_MSGS_DB[chat_id]
-                await msg.delete()
+            if message.chat.id in PM_GUARD_MSGS_DB:
+                await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=PM_GUARD_MSGS_DB[message.chat.id])
         except:
             pass
         # Giving warnings
@@ -237,8 +235,8 @@ async def handle_pm_guard(_, message: Message):
     else:
         PM_GUARD_WARNS_DB[in_user.id] = 1
         rplied_msg = await message.reply_photo(photo=custom_pm_pic, caption=BASE_PM_TEXT.format(master.mention, custom_pm_txt, PM_GUARD_WARNS_DB[in_user.id], custom_pm_warns))
-    PM_GUARD_MSGS_DB[chat_id] = rplied_msg
+    PM_GUARD_MSGS_DB[message.chat.id] = [rplied_msg.message_id]
     # Logging details on the channel
     log_chnnel_id = await get_custom_var("LOG_CHANNEL_ID")
-    copied = await message.copy(log_chnnel_id)
-    await copied.reply(f"#Pm_Guard_Log \n\n**User:** {in_user.mention} \n**User ID: `{in_user.id}`")
+    copied = await message.forward(log_chnnel_id)
+    await copied.reply(f"**#Pm_Guard_Log** \n\n**User:** {in_user.mention} \n**User ID:** `{in_user.id}`")
