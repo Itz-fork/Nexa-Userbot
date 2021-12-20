@@ -15,10 +15,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "afk": f"""
+        f"{mod_name}": f"""
 **Afk,**
 
   ✘ `afk` - To Activate Afk Module
@@ -31,7 +32,7 @@ CMD_HELP.update(
   **Tip 💡,**
    ⤷ Send with `-del` flag to delete sent afk messages when you come back online = `{Config.CMD_PREFIX}afk -del This is the reason`
 """,
-        f"{mod_file[:-3]}_category": "utils"
+        f"{mod_name}_category": "utils"
     }
 )
 
@@ -54,7 +55,7 @@ async def u_afk_bro(filter, client, message):
 ya_afk = filters.create(func=u_afk_bro, name="is_ya_afk")
 
 
-@nexaub_on_cmd(command="afk", modlue=mod_file)
+@nexaub_on_cmd(command=["afk"], modlue=mod_file)
 async def me_goin_oflin(_, message: Message):
     afk_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     get_afk_reason = get_arg(message)

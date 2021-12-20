@@ -14,10 +14,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-      "owner": f"""
+      f"{mod_name}": f"""
 **Owner Stuff,**
 
   ✘ `block` - To Block a User
@@ -34,13 +35,13 @@ CMD_HELP.update(
   ✘ `unblock`
    ⤷ Send this command with user id to unblock = `{Config.CMD_PREFIX}unblock 1234567`
 """,
-        f"{mod_file[:-3]}_category": "utils"
+        f"{mod_name}_category": "utils"
     }
 )
 
 
 # To Block a user
-@nexaub_on_cmd(command="block", modlue=mod_file, no_sudos=True)
+@nexaub_on_cmd(command=["block"], modlue=mod_file, no_sudos=True)
 async def block_dumb(_, message: Message):
   shit_id = message.chat.id
   r_msg = message.reply_to_message
@@ -56,7 +57,7 @@ async def block_dumb(_, message: Message):
     await gonna_block_u.edit(f"**Error:** `{lol}`")
 
 # To Unblock User That Already Blocked
-@nexaub_on_cmd(command="unblock", modlue=mod_file, no_sudos=True)
+@nexaub_on_cmd(command=["unblock"], modlue=mod_file, no_sudos=True)
 async def unblock_boi(_, message: Message):
   good_bro = int(message.command[1])
   gonna_unblock_u = await e_or_r(nexaub_message=message, msg_text="`Unblocking User...`")
@@ -67,7 +68,7 @@ async def unblock_boi(_, message: Message):
     await gonna_unblock_u.edit(f"**Error:** `{lol}`")
 
 # Leave From a Chat
-@nexaub_on_cmd(command="kickme", modlue=mod_file, no_sudos=True, only_groups=True)
+@nexaub_on_cmd(command=["kickme"], modlue=mod_file, no_sudos=True, only_groups=True)
 async def ubkickme(_, message: Message):
   i_go_away = await e_or_r(nexaub_message=message, msg_text="`Leaving This Chat...`")
   try:
@@ -87,7 +88,7 @@ async def count_chats():
       await time.sleep(e.x)
   return total
 
-@nexaub_on_cmd(command="chats", modlue=mod_file, no_sudos=True)
+@nexaub_on_cmd(command=["chats"], modlue=mod_file, no_sudos=True)
 async def ubgetchats(_, message: Message):
   getting_chats = await e_or_r(nexaub_message=message, msg_text="`Checking Your Chats, Hang On...`")
   d_count = await count_chats()

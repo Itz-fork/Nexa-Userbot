@@ -14,9 +14,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
+
 CMD_HELP.update(
     {
-        "translator": f"""
+        f"{mod_name}": f"""
 **Translator (py-trans),**
 
   ✘ `ptr` - Translate text using 
@@ -43,12 +45,12 @@ CMD_HELP.update(
     **Ex:**
         `{Config.CMD_PREFIX}ptr si google Heya, I'm using telegram`
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
-@nexaub_on_cmd(command="ptr", modlue=mod_file)
+@nexaub_on_cmd(command=["ptr"], modlue=mod_file)
 async def pytrans_tr(_, message: Message):
   tr_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -56,6 +58,8 @@ async def pytrans_tr(_, message: Message):
   if r_msg:
     if r_msg.text:
       to_tr = r_msg.text
+    else:
+      return await tr_msg.edit("`Reply to a message that contains text!`")
     # Checks if dest lang is defined by the user
     if not args:
       return await tr_msg.edit(f"`Please define a destination language!` \n\n**Ex:** `{Config.CMD_PREFIX}ptr si Hey, I'm using telegram!`")

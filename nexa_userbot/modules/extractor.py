@@ -12,10 +12,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "extractor": f"""
+        f"{mod_name}": f"""
 **Extractor**
 
   ✘ `ext_aud` - To Extract all audios from a video
@@ -25,12 +26,12 @@ CMD_HELP.update(
   ✘ `ext_aud`
    ⤷ Reply to a video file with audio = `{Config.CMD_PREFIX}ext_aud` (Reply to a video file)
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
-@nexaub_on_cmd(command="ext_aud", modlue=mod_file)
+@nexaub_on_cmd(command=["ext_aud"], modlue=mod_file)
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

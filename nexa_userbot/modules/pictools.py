@@ -14,10 +14,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "pictools": f"""
+        f"{mod_name}": f"""
 **Picure Tools**
 
   ✘ `carbon` - To Carbonize a text
@@ -32,14 +33,14 @@ CMD_HELP.update(
   ✘ `rmbg`,
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}rmbg`
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
 # Carbon a text
 # Credits: Friday Userbot | DevsExpo
-@nexaub_on_cmd(command="carbon", modlue=mod_file)
+@nexaub_on_cmd(command=["carbon"], modlue=mod_file)
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
     carbon_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -69,7 +70,7 @@ async def get_rmbg_api():
         return None
 
 # Background Remover
-@nexaub_on_cmd(command="rmbg", modlue=mod_file)
+@nexaub_on_cmd(command=["rmbg"], modlue=mod_file)
 async def removebg(_, message: Message):
     rmbg_api = await get_rmbg_api()
     rmbg_r_msg = message.reply_to_message

@@ -15,10 +15,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "arq": f"""
+        f"{mod_name}": f"""
 **ARQ,**
 
   ✘ `lyrics` - To Get Lyrics for Given Keyword
@@ -44,7 +45,7 @@ CMD_HELP.update(
    ⤷ Send with keyword = `{Config.CMD_PREFIX}reddit doge`
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}reddit`
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
@@ -95,7 +96,7 @@ async def ARQ_NEXAUB(
         print(e)
 
 # Lyrics
-@nexaub_on_cmd(command="lyrics", modlue=mod_file)
+@nexaub_on_cmd(command=["lyrics"], modlue=mod_file)
 async def arq_lyrics(_, message: Message):
     lyrics_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     keyword = get_arg(message)
@@ -121,7 +122,7 @@ async def arq_lyrics(_, message: Message):
         await lyrics_msg.edit(nyc_lyrics)
 
 # Translator
-@nexaub_on_cmd(command="tr", modlue=mod_file)
+@nexaub_on_cmd(command=["tr"], modlue=mod_file)
 async def arq_trans(_, message: Message):
     trans_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     to_tr_text = get_arg(message)
@@ -160,7 +161,7 @@ async def arq_trans(_, message: Message):
         await trans_msg.edit(translated_str)
 
 # Wiki search
-@nexaub_on_cmd(command="wiki", modlue=mod_file)
+@nexaub_on_cmd(command=["wiki"], modlue=mod_file)
 async def arq_wiki(_, message: Message):
     wiki_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     wiki_key = get_arg(message)
@@ -190,7 +191,7 @@ async def arq_wiki(_, message: Message):
         await wiki_msg.edit(wiki_txt)
 
 # Reddit
-@nexaub_on_cmd(command="reddit", modlue=mod_file)
+@nexaub_on_cmd(command=["reddit"], modlue=mod_file)
 async def arq_reddit(_, message: Message):
     red_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     reddit_key = get_arg(message)

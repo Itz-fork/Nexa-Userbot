@@ -18,10 +18,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "search": f"""
+        f"{mod_name}": f"""
 **Search**
 
   ✘ `duck_s` - To Get Search Link In DuckDuckGo
@@ -36,12 +37,12 @@ CMD_HELP.update(
    ⤷ Send command with query = `{Config.CMD_PREFIX}google Nexa Userbot`
    ⤷ Reply to a text message = `{Config.CMD_PREFIX}google` (Reply to a text message)
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
-@nexaub_on_cmd(command="duck_s", modlue=mod_file)
+@nexaub_on_cmd(command=["duck_s"], modlue=mod_file)
 async def duckduckg_s(client, message):
     pablo = await e_or_r(nexaub_message=message, msg_text="`Searcing in DuckDuckGo...`")
     query = get_arg(message)
@@ -53,7 +54,7 @@ async def duckduckg_s(client, message):
     await pablo.edit(f"**Query:** \n`{query}` \n\n**Result(s):** \n{link}")
 
 
-@nexaub_on_cmd(command="google", modlue=mod_file)
+@nexaub_on_cmd(command=["google"], modlue=mod_file)
 async def google_s(client, message):
     gsearch_msg = await e_or_r(nexaub_message=message, msg_text="`Searching in Google...`")
     query = get_arg(message)

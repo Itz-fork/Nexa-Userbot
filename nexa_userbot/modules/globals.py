@@ -9,16 +9,17 @@ from . import nexaub_devs
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r, nexaub_on_cf, SUDO_IDS
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.nexaub_database.nexaub_db_gbans import gban_usr, get_gbanned, get_gban_reason, ungban_usr
+from nexa_userbot.core.nexaub_database.nexaub_db_globals import gban_usr, get_gbanned, get_gban_reason, ungban_usr
 from nexa_userbot.helpers.pyrogram_help import get_ma_chats
 
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "globals": """
+        f"{mod_name}": """
 **Globals,**
 
   ✘ `gban` - To Gban a user (Reply to a user or send this command with user id)
@@ -37,12 +38,13 @@ CMD_HELP.update(
    ⤷ by Username = `.ungban @Spammer_Guy`
    ⤷ Or Just Reply to a message from user to UnGban!
 """,
-        f"{mod_file[:-3]}_category": "utils"
+        f"{mod_name}_category": "utils"
     }
 )
 
 
-@nexaub_on_cmd(command="gban", modlue=mod_file)
+# Gban
+@nexaub_on_cmd(command=["gban"], modlue=mod_file)
 async def gbun_dis_usr(_, message: Message):
     gban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -91,7 +93,8 @@ async def gbun_dis_usr(_, message: Message):
     await gban_msg.edit(f"**#USER_GBANNED** \n\n**User:** `{gban_uid}` \n**Reason:** `{gban_rson}` \n**Total Chats:** `{total_f_chats-ub_failed}`")
 
 
-@nexaub_on_cmd(command="ungban", modlue=mod_file)
+# Ungban
+@nexaub_on_cmd(command=["ungban"], modlue=mod_file)
 async def ungbun_dis_usr(_, message: Message):
     ungban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_ug_msg = message.reply_to_message
@@ -126,7 +129,8 @@ async def ungbun_dis_usr(_, message: Message):
     await ungban_msg.edit(f"**#UN_GBANNED** \n\n**User:** `{ungban_uid}` \n**Affected To:** `{total_ung_chats-ub_failed} Chats`")
 
 
-@nexaub_on_cmd(command="gbans", modlue=mod_file)
+# Gbans
+@nexaub_on_cmd(command=["gbans"], modlue=mod_file)
 async def gbuns_in_whole_time(_, message: Message):
     glist_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     gban_list = await get_gbanned()
@@ -148,6 +152,190 @@ async def gbuns_in_whole_time(_, message: Message):
         os.remove("NEXAUB_Gban_List.txt")
     else:
         await glist_msg.edit(gban_txt)
+
+
+# Gpromote
+@nexaub_on_cmd(command=["gpromote"], modlue=mod_file)
+async def gpromote_dis_usr(_, message: Message):
+    gpromote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    r_msg = message.reply_to_message
+    options_args = get_arg(message)
+    nexaub_owner = await NEXAUB.get_me()
+    # Getting user id and options
+    if r_msg:
+        # Parsing arguments
+        if options_args:
+            base_options = options_args.split(" ")
+            if len(base_options) == 2:
+                where = base_options[0]
+                role = base_options[1]
+            elif len(base_options) == 1:
+                where = base_options[0]
+                role = None
+        else:
+            return await gpromote_msg.edit("`Give user id or username to promote that user globally!")
+        if message.from_user:
+            uid = r_msg.from_user.id
+        else:
+            return await gpromote_msg.edit("`Reply to a message from a user!`")
+    elif options_args:
+        # Parsing arguments
+        base_option_args = options_args.split(" ")
+        if len(base_option_args) == 3:
+            uid = base_option_args[0]
+            where = base_option_args[1]
+            role = base_option_args[2]
+        elif len(base_option_args) == 2:
+            uid = base_option_args[0]
+            where = base_option_args[1]
+            role = None
+        elif len(base_option_args) == 1:
+            uid = base_option_args[0]
+            where = None
+            role = None
+        else:
+            return await gpromote_msg.edit("`Give user id or username to promote that user globally!`")
+    else:
+        return await gpromote_msg.edit("`Give a User ID, Username or Reply to a user message to Gpromote!`")
+    
+    # Checking user id
+    if not uid.isnumeric():
+        if "@" in uid:
+            usrname = uid.replace("@", "")
+            gp_user_id = (await NEXAUB.get_users(usrname)).id
+        else:
+            return await gpromote_msg.edit("`Give a user id or username to promote that user globally!`")
+    else:
+        gp_user_id = int(uid)
+    # Checking gpromote places
+    if where in ["group", "channel", "all"]:
+        if where == "all":
+            where_to_promote = ["group", "supergroup", "channel"]
+        elif where == "group":
+            where_to_promote = ["group", "supergroup"]
+        else:
+            where_to_promote = ["channel"]
+    else:
+        return await gpromote_msg.edit("`Invalid chat type!` \n\n**Use:**\n ⤷ `all` - All chat types (private, group and channel) \n ⤷ `group` - Groups only \n ⤷ `channel` - Channels only")
+    # Checking role
+    if not role:
+        gp_role = "basic"
+    elif role.lower() in ["basic", "all"]:
+        gp_role = role.lower()
+    else:
+        return await gpromote_msg.edit("`Invalid gpromote role!` \n\n**Use:**\n ⤷ `basic` - User will able to manage chats/voice chats, post/pin messages and invite users. \n ⤷ `all` - Users will get all the permissions a admin can get.")
+    if nexaub_owner == nexaub_owner.id:
+        return await gpromote_msg.edit("`Wtf? You are trying to gpromote yourself?`")
+    # Fetching chats
+    await gpromote_msg.edit("`Fetching Chats For Gpromote...`")
+    gp_chats = await get_ma_chats(chat_types=where_to_promote)
+    if not gp_chats:
+        return await gpromote_msg.edit("`No Chats to Gpromote!`")
+    total_gp_chats = len(gp_chats)
+    # Promoting the user
+    for gp_u_chat in gp_chats:
+        ub_failed = 0
+        try:
+            if gp_role == "basic":
+                await NEXAUB.promote_chat_member(
+                    chat_id=gp_u_chat,
+                    user_id=gp_user_id,
+                    can_manage_chat=True,
+                    can_manage_voice_chats=True,
+                    can_post_messages=True,
+                    can_pin_messages=True,
+                    can_invite_users=True
+                )
+            else:
+                await NEXAUB.promote_chat_member(
+                    chat_id=gp_u_chat,
+                    user_id=gp_user_id,
+                    can_manage_chat=True,
+                    can_change_info=True,
+                    can_post_messages=True,
+                    can_edit_messages=True,
+                    can_delete_messages=True,
+                    can_restrict_members=True,
+                    can_invite_users=True,
+                    can_pin_messages=True,
+                    can_promote_members=True,
+                    can_manage_voice_chats=True
+                )
+        except:
+            ub_failed += 1
+    await gpromote_msg.edit(f"**#USER_PROMOTED** \n\n**Globally promoted** `{(await NEXAUB.get_users(gp_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
+
+
+# Gdemote
+@nexaub_on_cmd(command=["gdemote"], modlue=mod_file)
+async def gdemote_dis_usr(_, message: Message):
+    gdemote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    r_msg = message.reply_to_message
+    uid_args = get_arg(message)
+    if r_msg:
+        if message.from_user:
+            uid = r_msg.from_user.id
+        else:
+            return await gdemote_msg.edit("`Reply to a message from a user!`")
+        if uid_args:
+            where = uid_args
+    elif uid_args:
+        base_args = uid_args.split(" ")
+        if len(base_args) == 2:
+            uid = base_args[0]
+            where = base_args[1]
+        elif len(base_args) == 1:
+            uid = base_args[0]
+        else:
+            return await gdemote_msg.edit("`Give a User ID, Username or Reply to a user message to Gdemote!`")
+    else:
+        return await gdemote_msg.edit("`Give a User ID, Username or Reply to a user message to Gdemote!`")
+    # Checking user id
+    if not uid.isnumeric():
+        if "@" in uid:
+            usrname = uid.replace("@", "")
+            gd_user_id = (await NEXAUB.get_users(usrname)).id
+        else:
+            return await gdemote_msg.edit("`Give a user id or username to demote that user globally!`")
+    else:
+        gd_user_id = int(uid)
+    # Checking gdemote places
+    if where in ["group", "channel", "all"]:
+        if where == "all":
+            where_to_promote = ["group", "supergroup", "channel"]
+        elif where == "group":
+            where_to_promote = ["group", "supergroup"]
+        else:
+            where_to_promote = ["channel"]
+    else:
+        return await gdemote_msg.edit("`Invalid chat type!` \n\n**Use:**\n ⤷ `all` - All chat types (private, group and channel) \n ⤷ `group` - Groups only \n ⤷ `channel` - Channels only")
+    # Fetching chats
+    await gdemote_msg.edit("`Fetching Chats For Gdemote...`")
+    gp_chats = await get_ma_chats(chat_types=where_to_promote)
+    if not gp_chats:
+        return await gdemote_msg.edit("`No Chats to Gdemote!`")
+    total_gp_chats = len(gp_chats)
+    # Promoting the user
+    for gd_u_chat in gp_chats:
+        ub_failed = 0
+        try:
+            await NEXAUB.promote_chat_member(
+                chat_id=gd_u_chat,
+                user_id=gd_user_id,
+                can_manage_chat=False,
+                can_change_info=False,
+                can_post_messages=False,
+                can_edit_messages=False,
+                can_delete_messages=False,
+                can_restrict_members=False,
+                can_invite_users=False,
+                can_pin_messages=False,
+                can_promote_members=False,
+                can_manage_voice_chats=False
+            )
+        except:
+            ub_failed += 1
+    await gdemote_msg.edit(f"**#USER_DEMOTED** \n\n**Globally demoted** `{(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
 @nexaub_on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))

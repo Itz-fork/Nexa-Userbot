@@ -16,10 +16,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "pmguard": f"""
+        f"{mod_name}": f"""
 **Pm Guard,**
 
   ✘ `pmg` - To Enable or Disable Pm Guard
@@ -76,7 +77,7 @@ DEFAULT_PM_MESSAGE_LIMIT = 5
 
 
 # Enable PM Guard
-@nexaub_on_cmd(command="pmg", modlue=mod_file)
+@nexaub_on_cmd(command=["pmguard", "pmg"], modlue=mod_file)
 async def enable_disable_pm_guard_nexaub(_, message: Message):
     pmg_emsg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     on_or_off = get_arg(message)
@@ -98,7 +99,7 @@ async def enable_disable_pm_guard_nexaub(_, message: Message):
 
 
 # Approve user
-@nexaub_on_cmd(command="approve", modlue=mod_file)
+@nexaub_on_cmd(command=["a", "approve"], modlue=mod_file)
 async def approve_user_to_pm(_, message: Message):
     apprv_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     chat_type = message.chat.type
@@ -120,7 +121,7 @@ async def approve_user_to_pm(_, message: Message):
 
 
 # Disapprove user
-@nexaub_on_cmd(command="disapprove", modlue=mod_file)
+@nexaub_on_cmd(command=["da", "disapprove"], modlue=mod_file)
 async def disapprove_user_to_pm(_, message: Message):
     dapprv_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     chat_type = message.chat.type
@@ -139,7 +140,7 @@ async def disapprove_user_to_pm(_, message: Message):
     await dapprv_msg.edit("**From now on, this user can't PM my master!**")
 
 # Set PM Guard text
-@nexaub_on_cmd(command="setpmtxt", modlue=mod_file)
+@nexaub_on_cmd(command=["setpmtxt"], modlue=mod_file)
 async def set_pm_guard_txt_nexaub(_, message: Message):
     st_pm_txt_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -158,7 +159,7 @@ async def set_pm_guard_txt_nexaub(_, message: Message):
 
 
 # Set PM Guard pic
-@nexaub_on_cmd(command="setpmpic", modlue=mod_file)
+@nexaub_on_cmd(command=["setpmpic"], modlue=mod_file)
 async def set_pm_guard_pic_nexaub(_, message: Message):
     st_pm_pic_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -177,7 +178,7 @@ async def set_pm_guard_pic_nexaub(_, message: Message):
 
 
 # Set PM Guard warn limit
-@nexaub_on_cmd(command="setpmwarns", modlue=mod_file)
+@nexaub_on_cmd(command=["setpmwarns"], modlue=mod_file)
 async def set_pm_guard_warns_nexaub(_, message: Message):
     st_pm_warns_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     args_txt = get_arg(message)

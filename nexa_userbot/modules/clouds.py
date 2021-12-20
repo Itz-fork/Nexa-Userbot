@@ -17,10 +17,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "clouds": f"""
+        f"{mod_name}": f"""
 **Cloud Storages,**
 
   ✘ `gofile` - To upload telegram media to gofile.io
@@ -32,15 +33,15 @@ CMD_HELP.update(
    ⤷ Reply to telegram media = `{Config.CMD_PREFIX}gofile` (Reply to a valid telegram media file)
       Tip: You can also send a description alongside with command!
 
-  ✘ `meganz`,
+  ✘ `meganzup`,
    ⤷ Reply to telegram media = `{Config.CMD_PREFIX}meganz` (Reply to a valid telegram media file)
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
-@nexaub_on_cmd(command="meganz", modlue=mod_file)
+@nexaub_on_cmd(command=["meganzup"], modlue=mod_file)
 async def meganz_upload(_, message: Message):
     meganz_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Mega.nz Email and Pass
@@ -71,7 +72,7 @@ For functionality of this function you must set the `MEGA_EMAIL` and `MEGA_PASS`
 
 
 
-@nexaub_on_cmd(command="gofile", modlue=mod_file)
+@nexaub_on_cmd(command=["gofile"], modlue=mod_file)
 async def gofiles_up(_, message: Message):
     gofile_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_go_f = message.reply_to_message

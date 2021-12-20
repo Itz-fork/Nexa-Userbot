@@ -164,11 +164,14 @@ async def convert_to_image(message, client) -> Union[None, str]:
 
 
 # Get Your Chats
-async def get_ma_chats():
+async def get_ma_chats(chat_types: list = ["channel", "supergroup"], is_id_only=True):
     nexaub_chats = []
     async for dialog in NEXAUB.iter_dialogs():
-        if dialog.chat.type in ["channel", "supergroup"]:
-            nexaub_chats.append(dialog.chat.id)
+        if dialog.chat.type in chat_types:
+            if is_id_only:
+                nexaub_chats.append(dialog.chat.id)
+            else:
+                nexaub_chats.append(dialog.chat)
     return nexaub_chats
 
 # Load Plugins | Thanks for Friday Userbot for the idea

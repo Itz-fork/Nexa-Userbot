@@ -16,10 +16,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "eval": f"""
+        f"{mod_name}": f"""
 **Eval**
 
   ✘ `eval` - To Run Pyrogram Evaluations
@@ -33,7 +34,7 @@ CMD_HELP.update(
   ✘ `sh`,
    ⤷ Send with bash command = `{Config.CMD_PREFIX}sh pip3 install cowsay`
 """,
-        f"{mod_file[:-3]}_category": "dev"
+        f"{mod_name}_category": "dev"
     }
 )
 
@@ -46,7 +47,7 @@ async def aexec(code, client, message):
     return await locals()["__aexec"](client, message)
 
 
-@nexaub_on_cmd(command="eval", modlue=mod_file)
+@nexaub_on_cmd(command=["eval"], modlue=mod_file)
 async def evaluate(client, message):
     status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     try:
@@ -97,7 +98,7 @@ async def evaluate(client, message):
         await e_or_r(nexaub_message=status_message, msg_text=final_output)
 
 
-@nexaub_on_cmd(command="sh", modlue=mod_file)
+@nexaub_on_cmd(command=["sh"], modlue=mod_file)
 async def terminal(client, message):
     sh_eval_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if len(message.text.split()) == 1:

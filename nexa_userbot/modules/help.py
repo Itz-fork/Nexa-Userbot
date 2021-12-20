@@ -33,7 +33,7 @@ DEFAULT_HELP_TXT = """
 {unknown_help}
 """
 
-@nexaub_on_cmd(command="help", modlue=mod_file)
+@nexaub_on_cmd(command=["help"], modlue=mod_file)
 async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

@@ -19,10 +19,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "megadl": f"""
+        f"{mod_name}": f"""
 **Mega Downloader,**
 
   ✘ `megadl` - To Download Files / Folder from Mega.nz
@@ -34,7 +35,7 @@ CMD_HELP.update(
 
 **Both files and folders are supported**
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
@@ -53,7 +54,7 @@ def split_files(input_file, out_base_path):
     out_path = out_base_path
     nexa_fs.split(file=split_file, split_size=split_fsize, output_dir=out_path)
 
-@nexaub_on_cmd(command="megadl", modlue=mod_file)
+@nexaub_on_cmd(command=["megadl"], modlue=mod_file)
 async def megatoolsdl(_, message: Message):
     megatools_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     url = message.text

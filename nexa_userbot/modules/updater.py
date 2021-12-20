@@ -20,17 +20,18 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "updater": """
+        f"{mod_name}": """
 **Updater**
 
   ✘ `update` - To Updater Your Userbot
   ✘ `restart` - To Restart Your Userbot (Heroku Only)
   ✘ `logs` - To Get Logs of Your Userbot (Heroku Only)
 """,
-        f"{mod_file[:-3]}_category": "userbot"
+        f"{mod_name}_category": "userbot"
     }
 )
 
@@ -63,7 +64,7 @@ async def updateme_requirements():
         return repr(e)
 
 
-@nexaub_on_cmd(command="update", modlue=mod_file)
+@nexaub_on_cmd(command=["update"], modlue=mod_file)
 async def upstream(client, message):
     status = await e_or_r(nexaub_message=message, msg_text=f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
     conf = get_arg(message)
@@ -186,7 +187,7 @@ async def restart_nexaub():
         execle(sys.executable, *args, environ)
         exit()
 
-@nexaub_on_cmd(command="restart", modlue=mod_file)
+@nexaub_on_cmd(command=["restart"], modlue=mod_file)
 async def restart(client, message):
     restart_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     await restart_msg.edit("`Nexa-Userbot is restarting! Please wait...`")
@@ -196,7 +197,7 @@ async def restart(client, message):
         await restart_msg.edit(f"**Error:** `{e}`")
 
 
-@nexaub_on_cmd(command="logs", modlue=mod_file)
+@nexaub_on_cmd(command=["logs"], modlue=mod_file)
 async def log(client, message):
     try:
         await e_or_r(nexaub_message=message, msg_text="`Getting Logs`")

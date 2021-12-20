@@ -13,10 +13,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "telegraph": f"""
+        f"{mod_name}": f"""
 **Telegraph,**
 
   ✘ `telegraph` - To Paste Images/Text to Telegra.ph
@@ -27,7 +28,7 @@ CMD_HELP.update(
    ⤷ Reply to a message that contains text/image/mp4 file  = `{Config.CMD_PREFIX}telegraph`
      Tip: While pasting text to telegra.ph you can send title with command
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
@@ -58,7 +59,7 @@ async def upload_to_tgraph(file):
     return f"**Error:** {e}"
 
 
-@nexaub_on_cmd(command="telegraph", modlue=mod_file)
+@nexaub_on_cmd(command=["telegraph"], modlue=mod_file)
 async def telegraph_up(_, message: Message):
     tgraph_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

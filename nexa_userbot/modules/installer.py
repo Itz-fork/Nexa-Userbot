@@ -12,10 +12,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "installer": f"""
+        f"{mod_name}": f"""
 **Plugin Installler,**
 
   ✘ `install` - To Install a Plugin
@@ -28,12 +29,12 @@ CMD_HELP.update(
 
 **Note:** `All Official Plugins are available at` **@NexaUBPlugins**! `Please don't install unofficial Plugins!`
 """,
-        f"{mod_file[:-3]}_category": "userbot"
+        f"{mod_name}_category": "userbot"
     }
 )
 
 
-@nexaub_on_cmd(command="install", modlue=mod_file)
+@nexaub_on_cmd(command=["install"], modlue=mod_file)
 async def install_plugin(_, message: Message):
     msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message

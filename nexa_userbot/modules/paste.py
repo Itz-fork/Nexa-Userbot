@@ -13,10 +13,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "paste": f"""
+        f"{mod_name}": f"""
 **Paste,**
 
   ✘ `paste` - To Paste Text to Hastebin
@@ -28,12 +29,12 @@ CMD_HELP.update(
    ⤷ Reply to a text file = `{Config.CMD_PREFIX}paste` (Reply to a text file)
    ⤷ Reply to a text message = `{Config.CMD_PREFIX}paste (Reply to a text message)
 """,
-        f"{mod_file[:-3]}_category": "tools"
+        f"{mod_name}_category": "tools"
     }
 )
 
 
-@nexaub_on_cmd(command="paste", modlue=mod_file)
+@nexaub_on_cmd(command=["paste"], modlue=mod_file)
 async def paste(client, message):
     paste_msg = await e_or_r(nexaub_message=message, msg_text="`Pasting to Hastebin...`")
     replied_msg = message.reply_to_message

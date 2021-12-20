@@ -14,10 +14,11 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
+mod_name = {mod_file[:-3]}
 
 CMD_HELP.update(
     {
-        "groups": f"""
+        f"{mod_name}": f"""
 **Group Tools,**
 
   ✘ `purge` - To purge messages in a chat
@@ -49,13 +50,13 @@ CMD_HELP.update(
    ⤷ reply to a message = `{Config.CMD_PREFIX}unpin`
    ⤷ unpin all messages = `{Config.CMD_PREFIX}unpin -all`
 """,
-        f"{mod_file[:-3]}_category": "utils"
+        f"{mod_name}_category": "utils"
     }
 )
 
 
 # Purges
-@nexaub_on_cmd(command="purge", modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["purge"], modlue=mod_file, admins_only=True)
 async def purge_this(_, message: Message):
   p_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   if not message.reply_to_message:
@@ -74,7 +75,7 @@ async def purge_this(_, message: Message):
 
 
 # Bans / Kicks
-@nexaub_on_cmd(command="ban", modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["ban"], modlue=mod_file, admins_only=True)
 async def ban_usr(_, message: Message):
   b_k_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -113,7 +114,7 @@ async def ban_usr(_, message: Message):
 
 
 # Unbans
-@nexaub_on_cmd(command="unban", modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["unban"], modlue=mod_file, admins_only=True)
 async def unban_usr(_, message: Message):
   u_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -129,7 +130,7 @@ async def unban_usr(_, message: Message):
 
 
 # Pin message
-@nexaub_on_cmd(command="pin", modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub_on_cmd(command=["pin"], modlue=mod_file, admins_only=True, only_groups=True)
 async def pin_msg(_, message: Message):
   pin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -144,7 +145,7 @@ async def pin_msg(_, message: Message):
 
 
 # Unpin message
-@nexaub_on_cmd(command="unpin", modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub_on_cmd(command=["unpin"], modlue=mod_file, admins_only=True, only_groups=True)
 async def unpin_msg(_, message: Message):
   unpin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
