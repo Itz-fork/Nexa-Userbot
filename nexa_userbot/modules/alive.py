@@ -17,12 +17,13 @@ from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_alive_ms
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.core.startup_checks import check_or_set_log_channel
 from .telegraph import upload_to_tgraph
+from . import __all__ as all_mods
 from config import Config
 
 
 # Help
 mod_file = os.path.basename(__file__)
-mod_name = {mod_file[:-3]}
+mod_name = mod_file[:-3]
 
 CMD_HELP.update(
     {
@@ -103,6 +104,7 @@ async def pyroalive(_, message: Message):
     **》 Python Version:** `{python_version}`
     **》 Pyrogram Version:** `{pyrogram_version}`
     **》 Uptime: `{uptime}`**
+    **》 Loaded Plugins: `{len(all_mods)}`**
 
 
 **Deploy Your Own: @NexaBotsUpdates**"""

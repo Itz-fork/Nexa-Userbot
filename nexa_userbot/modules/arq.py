@@ -15,7 +15,7 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
-mod_name = {mod_file[:-3]}
+mod_name = mod_file[:-3]
 
 CMD_HELP.update(
     {

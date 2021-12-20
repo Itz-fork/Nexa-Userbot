@@ -16,7 +16,7 @@ from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
-mod_name = {mod_file[:-3]}
+mod_name = mod_file[:-3]
 
 CMD_HELP.update(
     {
@@ -53,7 +53,7 @@ CMD_HELP.update(
    ⤷ Send with text = `{Config.CMD_PREFIX}setpmwarns 4`
 
 """,
-        f"{mod_file[:-3]}_category": "utils"
+        f"{mod_name}_category": "utils"
     }
 )
 
@@ -72,7 +72,7 @@ BASE_PM_TEXT = """
 
 `You have {}/{} of warns! Be careful, if you've exceeded warn limit you'll be blocked 🛑!`
 """
-DEFAULT_PM_PIC = "cache/NEXAUB.png"
+DEFAULT_PM_PIC = "https://telegra.ph//file/44b07848c13bfabd2c76c.jpg"
 DEFAULT_PM_MESSAGE_LIMIT = 5
 
 

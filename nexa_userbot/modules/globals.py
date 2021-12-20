@@ -11,32 +11,45 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r, nexaub_on_cf, SUDO
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_globals import gban_usr, get_gbanned, get_gban_reason, ungban_usr
 from nexa_userbot.helpers.pyrogram_help import get_ma_chats
-
+from config import Config
 
 # Help
 mod_file = os.path.basename(__file__)
-mod_name = {mod_file[:-3]}
+mod_name = mod_file[:-3]
 
 CMD_HELP.update(
     {
-        f"{mod_name}": """
+        f"{mod_name}": f"""
 **Globals,**
 
   ✘ `gban` - To Gban a user (Reply to a user or send this command with user id)
   ✘ `ungban` - To UnGban a user
   ✘ `gbans` - To Get Gbanned User List
+  ✘ `gpromote` - To Promote a user globally
+  ✘ `gdemote` - To Demote a user globally
 
 **Example:**
 
   ✘ `gban`,
-   ⤷ by Userid = `.gban 1234567 Test Gban`
-   ⤷ by Username = `.gban @Spammer_Guy Test Gban`
+   ⤷ by Userid = `{Config.CMD_PREFIX}gban 1234567 Test Gban`
+   ⤷ by Username = `{Config.CMD_PREFIX}gban @Spammer_Guy Test Gban`
    ⤷ Or Just Reply to a message from user with reason to Gban!
 
   ✘ `gban`,
-   ⤷ by Userid = `.ungban 1234567`
-   ⤷ by Username = `.ungban @Spammer_Guy`
+   ⤷ by Userid = `{Config.CMD_PREFIX}ungban 1234567`
+   ⤷ by Username = `{Config.CMD_PREFIX}ungban @Spammer_Guy`
    ⤷ Or Just Reply to a message from user to UnGban!
+
+  ✘ `gpromote`,
+   ⤷ by Userid / Username = `{Config.CMD_PREFIX}gpromote 1234567`
+   ⤷ Or Just Reply to a message from user to Gpromote!
+   
+   **Tips 💡,**
+    ⤷ Define which chat types the user needed to be promoted - `{Config.CMD_PREFIX}gpromote [group/channel/all]`
+    ⤷ Define the user's permission role - `{Config.CMD_PREFIX}gpromote [basic/god]`
+
+  ✘ `gdemote`,
+   ⤷ Same arguments and logic as gpromote
 """,
         f"{mod_name}_category": "utils"
     }
@@ -220,10 +233,10 @@ async def gpromote_dis_usr(_, message: Message):
     # Checking role
     if not role:
         gp_role = "basic"
-    elif role.lower() in ["basic", "all"]:
+    elif role.lower() in ["basic", "god"]:
         gp_role = role.lower()
     else:
-        return await gpromote_msg.edit("`Invalid gpromote role!` \n\n**Use:**\n ⤷ `basic` - User will able to manage chats/voice chats, post/pin messages and invite users. \n ⤷ `all` - Users will get all the permissions a admin can get.")
+        return await gpromote_msg.edit("`Invalid gpromote role!` \n\n**Use:**\n ⤷ `basic` - User will able to manage chats/voice chats, post/pin messages and invite users. \n ⤷ `god` - Users will get all the permissions a admin can get.")
     if nexaub_owner == nexaub_owner.id:
         return await gpromote_msg.edit("`Wtf? You are trying to gpromote yourself?`")
     # Fetching chats
