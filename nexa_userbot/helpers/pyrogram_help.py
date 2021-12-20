@@ -172,6 +172,8 @@ async def get_ma_chats(chat_types: list = ["channel", "supergroup"], is_id_only=
                 nexaub_chats.append(dialog.chat.id)
             else:
                 nexaub_chats.append(dialog.chat)
+        else:
+            continue
     return nexaub_chats
 
 # Load Plugins | Thanks for Friday Userbot for the idea
