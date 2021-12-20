@@ -276,7 +276,7 @@ async def gpromote_dis_usr(_, message: Message):
                 )
         except:
             ub_failed += 1
-    await gpromote_msg.edit(f"**#USER_PROMOTED** \n\n**Globally promoted** `{(await NEXAUB.get_users(gp_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
+    await gpromote_msg.edit(f"**#USER_PROMOTED** \n\n**Globally promoted** {(await NEXAUB.get_users(gp_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
 # Gdemote
@@ -285,6 +285,7 @@ async def gdemote_dis_usr(_, message: Message):
     gdemote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
     uid_args = get_arg(message)
+    nexaub_owner = await NEXAUB.get_me()
     if r_msg:
         if message.from_user:
             uid = r_msg.from_user.id
@@ -312,6 +313,8 @@ async def gdemote_dis_usr(_, message: Message):
             return await gdemote_msg.edit("`Give a user id or username to demote that user globally!`")
     else:
         gd_user_id = int(uid)
+    if gd_user_id == nexaub_owner.id:
+        return await gdemote_msg.edit("`Wtf? You are trying to gdemote yourself?`")
     # Checking gdemote places
     if where in ["group", "channel", "all"]:
         if where == "all":
@@ -348,7 +351,7 @@ async def gdemote_dis_usr(_, message: Message):
             )
         except:
             ub_failed += 1
-    await gdemote_msg.edit(f"**#USER_DEMOTED** \n\n**Globally demoted** `{(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
+    await gdemote_msg.edit(f"**#USER_DEMOTED** \n\n**Globally demoted** {(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
 @nexaub_on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))
