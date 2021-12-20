@@ -20,8 +20,7 @@ CMD_HELP.update(
         "pmguard": f"""
 **Pm Guard,**
 
-  ✘ `enablepmg` - To Enable Pm Guard
-  ✘ `disablepmg` - To Disable Pm Guard
+  ✘ `pmg` - To Enable or Disable Pm Guard
   ✘ `approve` - To Approve a User to Pm
   ✘ `disapprove` - To Disapprove a User to Pm
   ✘ `setpmtxt` - To Set Custom Pm Guard Text
@@ -29,6 +28,10 @@ CMD_HELP.update(
   ✘ `setpmwarns` - To Set Custom Amount of Warns
 
 **Example:**
+
+  ✘ `pmg`,
+   ⤷ To turn Pm Guard ON = `{Config.CMD_PREFIX}pmg on`
+   ⤷ To turn Pm Guard OFF = `{Config.CMD_PREFIX}pmg off`
 
   ✘ `approve`,
    ⤷ Send in a private chat, if a group reply to user's message = `{Config.CMD_PREFIX}approve`
@@ -71,24 +74,26 @@ DEFAULT_PM_MESSAGE_LIMIT = 5
 
 
 # Enable PM Guard
-@nexaub_on_cmd(command="enablepmg", modlue=mod_file)
-async def enable_pm_guard_nexaub(_, message: Message):
+@nexaub_on_cmd(command="pmg", modlue=mod_file)
+async def enable_disable_pm_guard_nexaub(_, message: Message):
     pmg_emsg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    on_or_off = get_arg(message)
+    if not on_or_off:
+        return await pmg_emsg.edit(f"`What should I do?` \n\n**Ex:** \n ⤷ `{Config.CMD_PREFIX}pmg on` - To turn Pm Guard ON \n ⤷ `{Config.CMD_PREFIX}pmg off` - To turn Pm Guard OFF")
     is_already = await get_custom_var("ENABLE_PM_GUARD")
-    if is_already:
-        return await pmg_emsg.edit("`PM Guard is already enabled!`")
-    await set_custom_var("ENABLE_PM_GUARD", True)
-    await pmg_emsg.edit("**Successfully Enabled PM Guard!**")
+    if on_or_off.lower() == "on":
+        if is_already:
+            return await pmg_emsg.edit("`PM Guard is already enabled!`")
+        await set_custom_var("ENABLE_PM_GUARD", True)
+        await pmg_emsg.edit("**Successfully Enabled PM Guard!**")
+    elif on_or_off.lower() == "off":
+        if not is_already:
+            return await pmg_emsg.edit("`PM Guard isn't even enabled!`")
+        await set_custom_var("ENABLE_PM_GUARD", False)
+        await pmg_emsg.edit("**Successfully Disabled PM Guard!**")
+    else:
+        await pmg_emsg.edit(f"`Wait what?` \n\n**Ex:** \n ⤷ `{Config.CMD_PREFIX}pmg on` - To turn Pm Guard ON \n ⤷ `{Config.CMD_PREFIX}pmg off` - To turn Pm Guard OFF")
 
-# Disable PM Guard
-@nexaub_on_cmd(command="disablepmg", modlue=mod_file)
-async def disble_pm_guard_nexaub(_, message: Message):
-    pmg_dmsg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-    is_already = await get_custom_var("ENABLE_PM_GUARD")
-    if not is_already:
-        return await pmg_dmsg.edit("`PM Guard isn't even enabled!`")
-    await set_custom_var("ENABLE_PM_GUARD", False)
-    await pmg_dmsg.edit("**Successfully Disabled PM Guard!**")
 
 # Approve user
 @nexaub_on_cmd(command="approve", modlue=mod_file)
@@ -110,6 +115,7 @@ async def approve_user_to_pm(_, message: Message):
     if user_id in PM_GUARD_WARNS_DB:
         PM_GUARD_WARNS_DB.pop(user_id)
     await apprv_msg.edit("**From now on, this user can PM my master!**")
+
 
 # Disapprove user
 @nexaub_on_cmd(command="disapprove", modlue=mod_file)
@@ -148,6 +154,7 @@ async def set_pm_guard_txt_nexaub(_, message: Message):
     await set_custom_var("CUSTOM_PM_TEXT", pm_txt)
     await st_pm_txt_msg.edit(f"**Successfully Added Custom PM Guard Text!** \n\n**New Message:** `{pm_txt}`")
 
+
 # Set PM Guard pic
 @nexaub_on_cmd(command="setpmpic", modlue=mod_file)
 async def set_pm_guard_pic_nexaub(_, message: Message):
@@ -155,9 +162,9 @@ async def set_pm_guard_pic_nexaub(_, message: Message):
     r_msg = message.reply_to_message
     if r_msg:
         if r_msg.photo:
-            pm_pic = r_msg.download()
+            pm_pic = await r_msg.download()
         elif r_msg.animation:
-            pm_pic = r_msg.download()
+            pm_pic = await r_msg.download()
         else:
             return await st_pm_pic_msg.edit("`Reply to a picture or gif!`")
     else:
@@ -165,6 +172,7 @@ async def set_pm_guard_pic_nexaub(_, message: Message):
     pm_pic_link = await upload_to_tgraph(pm_pic)
     await set_custom_var("CUSTOM_PM_PIC", pm_pic_link)
     await st_pm_pic_msg.edit(f"**Successfully Added Custom PM Guard Pic!** \n\n**New Pic:** {pm_pic_link}")
+
 
 # Set PM Guard warn limit
 @nexaub_on_cmd(command="setpmwarns", modlue=mod_file)
