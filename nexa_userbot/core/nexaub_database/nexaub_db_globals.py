@@ -4,9 +4,6 @@
 from . import nexa_mongodb
 
 nexaub_gban = nexa_mongodb["gban_db"]
-# I'm lazy to implement both into one, so Do NOT question!
-nexaub_other_globals = nexa_mongodb["other_globals"]
-
 
 ## Gban
 # Database for storing gban details
@@ -40,18 +37,3 @@ async def ungban_usr(gban_id):
         await nexaub_gban.delete_one({"gbanned_usr": gban_user_id})
     else:
         return False
-
-
-## Gpromote
-DEFAULT_CONFIGURATION = {
-    "is_anonymous": False,
-    "can_manage_chat": True,
-    "can_change_info": True,
-    "can_post_messages": True,
-    "can_delete_messages": True,
-    "can_restrict_members": True,
-    "can_invite_users": True,
-    "can_pin_messages": True,
-    "can_promote_members": True,
-    "can_manage_voice_chats": True
-}
