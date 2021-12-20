@@ -237,7 +237,7 @@ async def gpromote_dis_usr(_, message: Message):
         gp_role = role.lower()
     else:
         return await gpromote_msg.edit("`Invalid gpromote role!` \n\n**Use:**\n ⤷ `basic` - User will able to manage chats/voice chats, post/pin messages and invite users. \n ⤷ `god` - Users will get all the permissions a admin can get.")
-    if nexaub_owner == nexaub_owner.id:
+    if gp_user_id == nexaub_owner.id:
         return await gpromote_msg.edit("`Wtf? You are trying to gpromote yourself?`")
     # Fetching chats
     await gpromote_msg.edit("`Fetching Chats For Gpromote...`")
