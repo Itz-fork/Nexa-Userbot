@@ -13,6 +13,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
       "owner": f"""
@@ -31,11 +33,11 @@ CMD_HELP.update(
 
   ✘ `unblock`
    ⤷ Send this command with user id to unblock = `{Config.CMD_PREFIX}unblock 1234567`
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # To Block a user
 @nexaub_on_cmd(command="block", modlue=mod_file, no_sudos=True)

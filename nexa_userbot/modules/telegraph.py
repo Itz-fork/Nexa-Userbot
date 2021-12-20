@@ -12,6 +12,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "telegraph": f"""
@@ -24,11 +26,10 @@ CMD_HELP.update(
   ✘ `telegraph`,
    ⤷ Reply to a message that contains text/image/mp4 file  = `{Config.CMD_PREFIX}telegraph`
      Tip: While pasting text to telegra.ph you can send title with command
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 # Telegraph client

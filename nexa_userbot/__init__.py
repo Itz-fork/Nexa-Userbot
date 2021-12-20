@@ -5,7 +5,6 @@ from pyrogram import Client
 from config import Config
 
 # Configs
-HELP = {}
 CMD_HELP = {}
 StartTime = time()
 

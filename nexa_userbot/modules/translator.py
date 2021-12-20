@@ -11,7 +11,9 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
+
 # Help
+mod_file = os.path.basename(__file__)
 CMD_HELP.update(
     {
         "translator": f"""
@@ -40,11 +42,11 @@ CMD_HELP.update(
         `{Config.CMD_PREFIX}ptr [dest_lang] [tr_engine] [to_tr_text]`
     **Ex:**
         `{Config.CMD_PREFIX}ptr si google Heya, I'm using telegram`
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 @nexaub_on_cmd(command="ptr", modlue=mod_file)
 async def pytrans_tr(_, message: Message):

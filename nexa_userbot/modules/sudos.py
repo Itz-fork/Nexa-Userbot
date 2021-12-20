@@ -13,6 +13,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "sudos": f"""
@@ -42,11 +44,10 @@ CMD_HELP.update(
   ✘ `rsudo`,
    ⤷ Send command with sudo user id = `{Config.CMD_PREFIX}rsudo 1234567`
    ⤷ Reply to a sudo user message = `{Config.CMD_PREFIX}rsudo` (Reply to a user message)
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 @nexaub_on_cmd(command="addsudo", modlue=mod_file)

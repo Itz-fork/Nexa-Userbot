@@ -20,6 +20,8 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "stickers": f"""
@@ -35,11 +37,10 @@ CMD_HELP.update(
 
   ✘ `kang`,
    ⤷ Reply to a sticker = `{Config.CMD_PREFIX}kang` (Reply to a sticker)
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 @nexaub_on_cmd(command="packinfo", modlue=mod_file)

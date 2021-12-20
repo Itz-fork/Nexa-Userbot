@@ -15,6 +15,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "eval": f"""
@@ -30,11 +32,10 @@ CMD_HELP.update(
 
   ✘ `sh`,
    ⤷ Send with bash command = `{Config.CMD_PREFIX}sh pip3 install cowsay`
-"""
+""",
+        f"{mod_file[:-3]}_category": "dev"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 async def aexec(code, client, message):

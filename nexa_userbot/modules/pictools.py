@@ -13,6 +13,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "pictools": f"""
@@ -29,11 +31,11 @@ CMD_HELP.update(
 
   ✘ `rmbg`,
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}rmbg`
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # Carbon a text
 # Credits: Friday Userbot | DevsExpo

@@ -10,6 +10,9 @@ from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
 
+# Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "extractor": f"""
@@ -21,11 +24,10 @@ CMD_HELP.update(
 
   ✘ `ext_aud`
    ⤷ Reply to a video file with audio = `{Config.CMD_PREFIX}ext_aud` (Reply to a video file)
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 @nexaub_on_cmd(command="ext_aud", modlue=mod_file)

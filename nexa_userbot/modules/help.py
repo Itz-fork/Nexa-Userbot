@@ -4,33 +4,73 @@
 import os
 from pyrogram.types import Message
 
-from nexa_userbot import HELP, CMD_HELP
+from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from . import __all__ as ALL_MODULES
 
-
-# Help
-HELP.update(
-    {
-        "**🧭 Userbot**": "`alive`, `installer`, `updater`",
-        "**👨‍💻 Dev**": "`eval`",
-        "**⚙️ Tools**": "`paste`, `short_url`, `search`, `pictools`, `extractor`, `megatools`, `arq`, `telegraph`, `clouds`, `translator`",
-        "**🗂 Utils**": "`stickers`, `owner`, `sudos`, `afk`, `globals`, `groups`",
-        "\n**Usage**": "`.help [module_name]`"
-    }
-)
 
 mod_file = os.path.basename(__file__)
+
+
+# Removing last comma from variables
+async def rm_last_comma(text):
+    index = text.rfind(",")
+    return text[:index] + "" + text[index+1:]
+
+# Configs
+DEFAULT_HELP_TXT = """
+**Available Modules**
+
+{userbot_help}
+
+{dev_help}
+
+{tools_help}
+
+{utils_help}
+
+{unknown_help}
+"""
 
 @nexaub_on_cmd(command="help", modlue=mod_file)
 async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if not args:
-        text = "**Available Modules**\n\n"
-        for key, value in HELP.items():
-            text += f"{key}: {value}\n\n"
-        return await help_user_msg.edit(text)
+        # Base texts
+        base_userbot_txt = "**🧭 Userbot:** "
+        base_dev_txt = "**👨‍💻 Dev:** "
+        base_tools_txt = "**⚙️ Tools:** "
+        base_utils_txt = "**🗂 Utils:** "
+        base_unknown_txt = "**🥷 Unknown:** "
+        # Generating help menu text
+        for module in ALL_MODULES:
+            # Checks the category of the module
+            cat = CMD_HELP.get(f"{module}_category", False)
+            if cat == "userbot":
+                base_userbot_txt += f"`{module}`, "
+            elif cat == "dev":
+                base_dev_txt += f"`{module}`, "
+            elif cat == "tools":
+                base_tools_txt += f"`{module}`, "
+            elif cat == "utils":
+                base_utils_txt += f"`{module}`, "
+            else:
+                base_unknown_txt += f"`{module}`, "
+        # Removing last comma from the text
+        userbot_txt = await rm_last_comma(base_userbot_txt)
+        dev_txt = await rm_last_comma(base_dev_txt)
+        tools_txt = await rm_last_comma(base_tools_txt)
+        utils_txt = await rm_last_comma(base_utils_txt)
+        unknown_txt = await rm_last_comma(base_unknown_txt)
+        return await help_user_msg.edit(DEFAULT_HELP_TXT.format(
+            userbot_help=userbot_txt,
+            dev_help=dev_txt,
+            tools_help=tools_txt,
+            utils_help=utils_txt,
+            unknown_help=unknown_txt
+        ))
     else:
         module_help = CMD_HELP.get(args, False)
         if not module_help:

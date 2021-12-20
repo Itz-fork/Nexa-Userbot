@@ -13,6 +13,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "groups": f"""
@@ -46,11 +48,11 @@ CMD_HELP.update(
   ✘ `unpin`,
    ⤷ reply to a message = `{Config.CMD_PREFIX}unpin`
    ⤷ unpin all messages = `{Config.CMD_PREFIX}unpin -all`
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # Purges
 @nexaub_on_cmd(command="purge", modlue=mod_file, admins_only=True)

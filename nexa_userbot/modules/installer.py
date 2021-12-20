@@ -11,6 +11,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "installer": f"""
@@ -25,11 +27,10 @@ CMD_HELP.update(
 
 
 **Note:** `All Official Plugins are available at` **@NexaUBPlugins**! `Please don't install unofficial Plugins!`
-"""
+""",
+        f"{mod_file[:-3]}_category": "userbot"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 @nexaub_on_cmd(command="install", modlue=mod_file)

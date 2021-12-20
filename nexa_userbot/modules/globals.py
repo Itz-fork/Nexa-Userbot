@@ -14,6 +14,8 @@ from nexa_userbot.helpers.pyrogram_help import get_ma_chats
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "globals": """
@@ -34,11 +36,11 @@ CMD_HELP.update(
    ⤷ by Userid = `.ungban 1234567`
    ⤷ by Username = `.ungban @Spammer_Guy`
    ⤷ Or Just Reply to a message from user to UnGban!
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 @nexaub_on_cmd(command="gban", modlue=mod_file)
 async def gbun_dis_usr(_, message: Message):

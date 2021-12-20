@@ -19,6 +19,8 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "updater": """
@@ -27,11 +29,11 @@ CMD_HELP.update(
   ✘ `update` - To Updater Your Userbot
   ✘ `restart` - To Restart Your Userbot (Heroku Only)
   ✘ `logs` - To Get Logs of Your Userbot (Heroku Only)
-"""
+""",
+        f"{mod_file[:-3]}_category": "userbot"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 UPSTREAM_REPO_URL = "https://github.com/Itz-fork/Nexa-Userbot"
 requirements_path = path.join(

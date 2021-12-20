@@ -14,6 +14,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "arq": f"""
@@ -41,11 +43,10 @@ CMD_HELP.update(
   ✘ `reddit`,
    ⤷ Send with keyword = `{Config.CMD_PREFIX}reddit doge`
    ⤷ Reply to a text message with `{Config.CMD_PREFIX}reddit`
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 # Do stuff with arq

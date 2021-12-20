@@ -18,6 +18,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "megadl": f"""
@@ -31,11 +33,10 @@ CMD_HELP.update(
    ⤷ Send with command = `{Config.CMD_PREFIX}megadl https://mega.nz/file/#43445234` (Link is fake tho)
 
 **Both files and folders are supported**
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 # Run bash cmd in python

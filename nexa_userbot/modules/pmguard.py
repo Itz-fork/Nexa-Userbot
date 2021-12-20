@@ -15,6 +15,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "pmguard": f"""
@@ -49,11 +51,11 @@ CMD_HELP.update(
   ✘ `setpmwarns`,
    ⤷ Send with text = `{Config.CMD_PREFIX}setpmwarns 4`
 
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # Configs
 PM_GUARD_WARNS_DB = {}

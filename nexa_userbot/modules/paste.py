@@ -12,6 +12,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "paste": f"""
@@ -25,11 +27,11 @@ CMD_HELP.update(
    ⤷ Send text with command = `{Config.CMD_PREFIX}paste Paste this text`
    ⤷ Reply to a text file = `{Config.CMD_PREFIX}paste` (Reply to a text file)
    ⤷ Reply to a text message = `{Config.CMD_PREFIX}paste (Reply to a text message)
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 @nexaub_on_cmd(command="paste", modlue=mod_file)
 async def paste(client, message):

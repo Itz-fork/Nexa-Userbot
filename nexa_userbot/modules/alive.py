@@ -21,6 +21,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "alive": f"""
@@ -41,11 +43,11 @@ CMD_HELP.update(
 
   ✘ `setalivepic`,
    ⤷ Reply to a picture/gif/sticker with `{Config.CMD_PREFIX}setalivepic` (Under 5MB)
-"""
+""",
+        f"{mod_file[:-3]}_category": "userbot"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # Get python version
 python_version = f"{version_info[0]}.{version_info[1]}.{version_info[2]}"

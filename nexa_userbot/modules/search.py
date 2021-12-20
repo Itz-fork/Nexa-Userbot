@@ -17,6 +17,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "search": f"""
@@ -33,11 +35,11 @@ CMD_HELP.update(
   ✘ `google`,
    ⤷ Send command with query = `{Config.CMD_PREFIX}google Nexa Userbot`
    ⤷ Reply to a text message = `{Config.CMD_PREFIX}google` (Reply to a text message)
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 @nexaub_on_cmd(command="duck_s", modlue=mod_file)
 async def duckduckg_s(client, message):

@@ -16,6 +16,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "clouds": f"""
@@ -32,11 +34,10 @@ CMD_HELP.update(
 
   ✘ `meganz`,
    ⤷ Reply to telegram media = `{Config.CMD_PREFIX}meganz` (Reply to a valid telegram media file)
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 @nexaub_on_cmd(command="meganz", modlue=mod_file)

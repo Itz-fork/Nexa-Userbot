@@ -13,6 +13,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "short_url": f"""
@@ -25,11 +27,10 @@ CMD_HELP.update(
   ✘ `short`,
    ⤷ Send command with url = `{Config.CMD_PREFIX}short https://google.com`
    ⤷ Reply to a url message = `{Config.CMD_PREFIX}short` (Reply to a message with url)
-"""
+""",
+        f"{mod_file[:-3]}_category": "tools"
     }
 )
-
-mod_file = os.path.basename(__file__)
 
 
 # Supported url shortners list

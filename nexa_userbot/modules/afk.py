@@ -14,6 +14,8 @@ from config import Config
 
 
 # Help
+mod_file = os.path.basename(__file__)
+
 CMD_HELP.update(
     {
         "afk": f"""
@@ -28,11 +30,11 @@ CMD_HELP.update(
    
   **Tip 💡,**
    ⤷ Send with `-del` flag to delete sent afk messages when you come back online = `{Config.CMD_PREFIX}afk -del This is the reason`
-"""
+""",
+        f"{mod_file[:-3]}_category": "utils"
     }
 )
 
-mod_file = os.path.basename(__file__)
 
 # Dict to store messaged users details temporarily
 AFK_SPAMMER_DB = {}
