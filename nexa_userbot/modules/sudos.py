@@ -8,7 +8,7 @@ from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_var, get_custom_var, del_custom_var
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import add_sudo, remove_sudo, check_if_sudo
-from .ub_updater import restart_nexaub
+from .updater import restart_nexaub
 from config import Config
 
 

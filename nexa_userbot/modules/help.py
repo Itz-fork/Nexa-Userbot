@@ -30,12 +30,10 @@ async def help(_, message: Message):
         text = "**Available Modules**\n\n"
         for key, value in HELP.items():
             text += f"{key}: {value}\n\n"
-        await help_user_msg.edit(text)
-        return
+        return await help_user_msg.edit(text)
     else:
         module_help = CMD_HELP.get(args, False)
         if not module_help:
-            await help_user_msg.edit("`Invalid Module Name!`")
-            return
+            return await help_user_msg.edit("`Invalid Module Name!`")
         else:
             await help_user_msg.edit(module_help)

@@ -20,8 +20,8 @@ from config import Config
 # Help
 CMD_HELP.update(
     {
-        "megatools": f"""
-**Megatools,**
+        "megadl": f"""
+**Mega Downloader,**
 
   ✘ `megadl` - To Download Files / Folder from Mega.nz
 
