@@ -78,20 +78,22 @@ async def purge_this(_, message: Message):
 
 
 # Bans
-@nexaub_on_cmd(command=["ban"], modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["ban"], modlue=mod_file, admins_only=True, only_groups=True)
 async def ban_usr(_, message: Message):
   ban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
   is_me = await NEXAUB.get_me()
-  args = int(get_arg(message))
+  args = get_arg(message)
   # Getting user id
   if args and args.isnumeric():
-    b_user_id = str(args).replace("@", "")
+    b_user_id = args.replace("@", "")
   elif r_msg:
     if r_msg.from_user:
       b_user_id = r_msg.from_user.id
     else:
       return await ban_msg.edit("`Reply to a message from a user to ban!`")
+  else:
+    return await ban_msg.edit("`Give a user id / username or eply to a message from a user to ban!`")
   # User id checks
   if b_user_id in nexaub_devs:
     return await ban_msg.edit("`Lmao! Tryna ban my devs? Using me? 😂`")
@@ -102,7 +104,7 @@ async def ban_usr(_, message: Message):
 
 
 # Kick
-@nexaub_on_cmd(command=["kick"], modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["kick"], modlue=mod_file, admins_only=True, only_groups=True)
 async def kick_usr(_, message: Message):
   kick_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -127,6 +129,8 @@ async def kick_usr(_, message: Message):
       return await kick_msg.edit("`Reply to a message from a user to kick!`")
     if args and args.isdigit():
       default_ban_time = args
+  else:
+    return await kick_msg.edit("`Give a user id / username or eply to a message from a user to kick!`")
   # User id checks
   if b_user_id in nexaub_devs:
     return await kick_msg.edit("`Lmao! Tryna kick my devs? Using me? 😂`")
@@ -140,7 +144,7 @@ async def kick_usr(_, message: Message):
 
 
 # Unbans
-@nexaub_on_cmd(command=["unban"], modlue=mod_file, admins_only=True)
+@nexaub_on_cmd(command=["unban"], modlue=mod_file, admins_only=True, only_groups=True)
 async def unban_usr(_, message: Message):
   u_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
