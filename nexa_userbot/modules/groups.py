@@ -3,9 +3,8 @@
 import os
 import asyncio
 
-from pyrogram.types import Message
-
 from . import nexaub_devs
+from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
@@ -93,9 +92,10 @@ async def ban_usr(_, message: Message):
       b_user_id = r_msg.from_user.id
     else:
       return await ban_msg.edit("`Reply to a message from a user to ban!`")
+  # User id checks
   if b_user_id in nexaub_devs:
     return await ban_msg.edit("`Lmao! Tryna ban my devs? Using me? 😂`")
-  elif b_user_id == is_me.id:
+  if b_user_id == is_me.id:
     return await ban_msg.edit("`Why should I ban my self?`")
   await message.chat.kick_member(user_id=int(b_user_id))
   await ban_msg.edit(f"**Banned 👊** \n\n**User ID:** `{b_user_id}`")
@@ -127,14 +127,15 @@ async def kick_usr(_, message: Message):
       return await kick_msg.edit("`Reply to a message from a user to kick!`")
     if args and args.isdigit():
       default_ban_time = args
+  # User id checks
   if b_user_id in nexaub_devs:
     return await kick_msg.edit("`Lmao! Tryna kick my devs? Using me? 😂`")
-  elif b_user_id == is_me.id:
+  if b_user_id == is_me.id:
     return await kick_msg.edit("`Why should I kick my self?`")  
   # Kicking the user
   await message.chat.kick_member(user_id=int(b_user_id))
   await kick_msg.edit(f"**Kicked ✊** \n\n**User ID:** `{b_user_id}` \n\n`⚠️ Unbanning after {default_ban_time} secs! ⚠️`")
-  asyncio.sleep(float(default_ban_time))
+  await asyncio.sleep(float(default_ban_time))
   await message.chat.unban_member(user_id=int(b_user_id))
 
 
@@ -183,4 +184,4 @@ async def unpin_msg(_, message: Message):
     if not r_msg:
       return await unpin_msg.edit("`Reply to a pinned message to unpin it!`")
     await r_msg.unpin()
-    await unpin_msg.edit(f"[Message]({r_msg.link}) `Unpinned successfully!`")
+    await unpin_msg.edit(f"[Message]({r_msg.link}) `Unpinned successfully!`", disable_web_page_preview=True)
