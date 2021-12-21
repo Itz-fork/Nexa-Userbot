@@ -85,8 +85,11 @@ async def ban_usr(_, message: Message):
   is_me = await NEXAUB.get_me()
   args = get_arg(message)
   # Getting user id
-  if args and args.isnumeric():
-    b_user_id = args.replace("@", "")
+  if args:
+    if args.isnumeric():
+      b_user_id = args
+    else:
+      b_user_id = args.replace("@", "")
   elif r_msg:
     if r_msg.from_user:
       b_user_id = r_msg.from_user.id
@@ -115,11 +118,11 @@ async def kick_usr(_, message: Message):
   if args:
     spl_args = args.split(None)
     if len(spl_args) == 2:
-      b_user_id = str(spl_args[0]).replace("@", "")
-      if spl_args[1].isdigit():
+      b_user_id = spl_args[0].replace("@", "")
+      if spl_args[1].isnumeric():
         default_ban_time = spl_args[1]
     elif len(spl_args) == 1:
-      b_user_id = str(args).replace("@", "")
+      b_user_id = args.replace("@", "")
     else:
       return await kick_msg.edit("`Reply to a message from a user or give a user id to kick!`")
   elif r_msg:
@@ -127,7 +130,7 @@ async def kick_usr(_, message: Message):
       b_user_id = r_msg.from_user.id
     else:
       return await kick_msg.edit("`Reply to a message from a user to kick!`")
-    if args and args.isdigit():
+    if args and args.isnumeric():
       default_ban_time = args
   else:
     return await kick_msg.edit("`Give a user id / username or eply to a message from a user to kick!`")
