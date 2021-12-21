@@ -81,7 +81,7 @@ async def who_tf_is(_, message: Message):
     user_info_text = f"""
 **︾ First Name:** `{usr_info["first_name"]}`
 **︾ Last Name:** `{usr_info["last_name"]}`
-**︾ User Name:** {usr_info["user_name"]}
+**︾ User Name:** @{usr_info["user_name"]}
 **︾ Mention:** {usr_info["user_mension"]}
 **︾ User ID:** `{usr_info["id"]}`
 **︾ DC ID:** `{usr_info["dc"]}`
