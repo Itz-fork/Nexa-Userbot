@@ -4,10 +4,11 @@
 import os
 from pyrogram.types import Message
 
+from . import __all__ as ALL_MODULES
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
-from . import __all__ as ALL_MODULES
+from config import Config
 
 
 mod_file = os.path.basename(__file__)
@@ -31,6 +32,9 @@ DEFAULT_HELP_TXT = """
 {utils_help}
 
 {unknown_help}
+
+
+`{cmd_prfx}help [module name]`
 """
 
 @nexaub_on_cmd(command=["help"], modlue=mod_file)
@@ -64,12 +68,13 @@ async def help(_, message: Message):
         tools_txt = await rm_last_comma(base_tools_txt)
         utils_txt = await rm_last_comma(base_utils_txt)
         unknown_txt = await rm_last_comma(base_unknown_txt)
-        return await help_user_msg.edit(DEFAULT_HELP_TXT.format(
+        await help_user_msg.edit(DEFAULT_HELP_TXT.format(
             userbot_help=userbot_txt,
             dev_help=dev_txt,
             tools_help=tools_txt,
             utils_help=utils_txt,
-            unknown_help=unknown_txt
+            unknown_help=unknown_txt,
+            cmd_prfx=Config.CMD_PREFIX
         ))
     else:
         module_help = CMD_HELP.get(args, False)

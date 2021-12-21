@@ -94,7 +94,7 @@ async def gbun_dis_usr(_, message: Message):
     await gban_msg.edit("`Fetching Chats For Gban Process...`")
     f_chats = await get_ma_chats()
     if not f_chats:
-        return await gban_msg.edit("`No Chats to Gban! Lmao!`")
+        return await gban_msg.edit("`No Chats to Gban!`")
     total_f_chats = len(f_chats)
     for gokid in f_chats:
         ub_failed = 0
@@ -123,11 +123,14 @@ async def ungbun_dis_usr(_, message: Message):
             get_him = await NEXAUB.get_users(usr_name)
             ungban_uid = get_him.id
     else:
-        ungban_uid = r_ug_msg.from_user.id
+        if r_ug_msg:
+            ungban_uid = r_ug_msg.from_user.id
+        else:
+            return await ungban_msg.edit("`Reply to a message from a user or give a user id to UnGban that user!`")
     await ungban_msg.edit("`Fetching Your Chats...`")
     ung_chats = await get_ma_chats()
     if not ung_chats:
-        return await ungban_msg.edit("`No Chats to Gban! Lmao!`")
+        return await ungban_msg.edit("`No Chats to Gban!`")
     total_ung_chats = len(ung_chats)
     is_gbanned = await get_gban_reason(ungban_uid)
     if is_gbanned is None:
@@ -139,7 +142,7 @@ async def ungbun_dis_usr(_, message: Message):
         except:
             ub_failed += 1
     await ungban_usr(ungban_uid)
-    await ungban_msg.edit(f"**#UN_GBANNED** \n\n**User:** `{ungban_uid}` \n**Affected To:** `{total_ung_chats-ub_failed} Chats`")
+    await ungban_msg.edit(f"**#UN_GBANNED** \n\n**User:** `{ungban_uid}` \n**Affected To:** `{total_ung_chats-ub_failed}` **Chats**")
 
 
 # Gbans
