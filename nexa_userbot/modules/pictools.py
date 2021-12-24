@@ -82,6 +82,7 @@ async def removebg(_, message: Message):
     if not rmbg_r_msg.photo:
         return await rmbg_msg.edit("`Give a Photo to Remove Background from It!`")
     else:
+        rmbg_chat_id = message.chat.id
         rmbg_image = await rmbg_r_msg.download()
         rmbg_header = requests.post(
     'https://api.remove.bg/v1.0/removebg',
@@ -90,9 +91,9 @@ async def removebg(_, message: Message):
     headers={'X-Api-Key': rmbg_api},
     )
     if rmbg_header.status_code == requests.codes.ok:
-        with open("NEXAUB-rmbg.png", "wb") as rmbg_out_image:
+        with open(f"NEXAUB-rmbg_{rmbg_chat_id}.png", "wb") as rmbg_out_image:
             rmbg_out_image.write(rmbg_header.content)
-            await NEXAUB.send_photo(chat_id=message.chat.id, photo="NEXAUB-rmbg.png")
-            os.remove("NEXAUB-rmbg.png")
+            await NEXAUB.send_document(chat_id=message.chat.id, photo=f"NEXAUB-rmbg_{rmbg_chat_id}.png")
+            os.remove(f"NEXAUB-rmbg_{rmbg_chat_id}.png")
     else:
         return await rmbg_msg.edit(f"**Error:** \nError Code `{rmbg_header.status_code}` and Error is `{rmbg_header.text}`")
