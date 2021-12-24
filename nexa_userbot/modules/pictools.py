@@ -93,7 +93,7 @@ async def removebg(_, message: Message):
     if rmbg_header.status_code == requests.codes.ok:
         with open(f"NEXAUB-rmbg_{rmbg_chat_id}.png", "wb") as rmbg_out_image:
             rmbg_out_image.write(rmbg_header.content)
-            await NEXAUB.send_document(chat_id=message.chat.id, photo=f"NEXAUB-rmbg_{rmbg_chat_id}.png")
+            await NEXAUB.send_document(chat_id=message.chat.id, document=f"NEXAUB-rmbg_{rmbg_chat_id}.png")
             os.remove(f"NEXAUB-rmbg_{rmbg_chat_id}.png")
     else:
         return await rmbg_msg.edit(f"**Error:** \nError Code `{rmbg_header.status_code}` and Error is `{rmbg_header.text}`")
