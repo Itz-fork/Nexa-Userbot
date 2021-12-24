@@ -80,7 +80,7 @@ def nexaub_on_cmd(
             except MessageIdInvalid:
                 logging.warning("Don't delete message while processing. It may crash the bot!")
             except BaseException as e:
-                logging.error(f"\nModule - {modlue} | Command: {command} | Traceback: \n{e}")
+                logging.error(f"\nModule - {modlue} | Command: {command[0]} | Traceback: \n{e}")
                 error_text = f"""
 **#ERROR**
 
