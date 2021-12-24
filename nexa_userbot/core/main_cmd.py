@@ -85,7 +85,7 @@ def nexaub_on_cmd(
 **#ERROR**
 
 **Module:** `{modlue}`
-**Command:** `{Config.CMD_PREFIX + command}`
+**Command:** `{Config.CMD_PREFIX[0] + command}`
 **Traceback:**
 `{e}`
 
