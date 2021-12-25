@@ -94,7 +94,7 @@ class PasteBins:
     
     async def paste_to_hastebin(self, text):
         async with AsyncClient() as spacbc:
-            resp = await spacbc.post(self.spacebin_api, data=str(text))
+            resp = await spacbc.post(self.hastebin_api, data=str(text))
             chck = await self.__check_status(resp.status_code, 200)
             if not chck == "ok":
                 return None
