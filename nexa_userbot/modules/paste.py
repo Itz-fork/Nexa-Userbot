@@ -65,7 +65,7 @@ class PasteBins:
     
     async def __check_status(self, resp_status, status_code: int = 201):
         if int(resp_status) != status_code:
-            return "real_shit"
+            return "real shit"
         else:
             return "ok"
 
@@ -77,10 +77,7 @@ class PasteBins:
                 return None
             else:
                 jsned = resp.json()
-                if not bool(jsned["ok"]):
-                    return None
-                else:
-                    return f"{self.nekobin}/{jsned['result']['key']}"
+                return f"{self.nekobin}/{jsned['result']['key']}"
     
     async def paste_to_spacebin(self, text):
         async with AsyncClient() as spacbc:
