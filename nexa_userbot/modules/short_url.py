@@ -21,13 +21,20 @@ CMD_HELP.update(
         f"{mod_name}": f"""
 **Short Url,**
 
-  ✘ `short` - To short long url using is.gd's free api
+  ✘ `short` - To short long url using is.gd or da.gd
 
 **Example:**
 
-  ✘ `short`,
-   ⤷ Send command with url = `{Config.CMD_PREFIX}short https://google.com`
-   ⤷ Reply to a url message = `{Config.CMD_PREFIX}short` (Reply to a message with url)
+  ✘ Usage Format,
+   ⤷ Send command with urls - `{Config.CMD_PREFIX}short [shortner_name] [links]`
+   ⤷ Reply to a message - `{Config.CMD_PREFIX}short [shortner_name]`
+
+   ✘ dagd Example,
+    ⤷ Send command with url = `{Config.CMD_PREFIX}short dagd https://google.com`
+    ⤷ Reply to a message = `{Config.CMD_PREFIX}short dagd`
+
+  **Tip 💡,**
+   ⤷ You can short multiple urls at the same time
 """,
         f"{mod_name}_category": "tools"
     }
