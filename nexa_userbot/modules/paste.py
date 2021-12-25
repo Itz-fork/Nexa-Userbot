@@ -107,8 +107,10 @@ async def get_pastebin_service(text: str):
         pastebin = "hastebin"
     elif re.search(r'\bspacebin\b', text):
         pastebin = "spacebin"
-    else:
+    elif re.search(r'\bnekobin\b', text):
         pastebin = "nekobin"
+    else:
+        pastebin = "spacebin"
     return pastebin
 
 @nexaub_on_cmd(command=["paste", "nekobin", "hastebin", "spacebin"], modlue=mod_file)
