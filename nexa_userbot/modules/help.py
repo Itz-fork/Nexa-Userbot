@@ -7,7 +7,7 @@ import re
 from pyrogram.types import Message
 
 from . import __all__ as ALL_MODULES
-from .Extras import __xall__ as ALL_XTRA_MODULES
+from .Extras import get_xtra_modules_names
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
@@ -42,7 +42,7 @@ DEFAULT_HELP_TXT = """
 
 async def get_help_type(htx):
     if re.search(r'\bxhelp|chelp\b', htx):
-        help_list = ALL_XTRA_MODULES
+        help_list = await get_xtra_modules_names()
     else:
         help_list = ALL_MODULES
     return help_list
