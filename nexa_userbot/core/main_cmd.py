@@ -1,8 +1,8 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
+import os
 import logging
 import asyncio
-import os
 
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
@@ -10,6 +10,7 @@ from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_log_channel
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_sudos
+from nexa_userbot.helpers.pyrogram_help import rm_markdown
 from nexa_userbot import NEXAUB
 from config import Config
 
@@ -92,8 +93,9 @@ def nexaub_on_cmd(
 **Forward this to @NexaUB_Support**
 """
                 if len(error_text) > 4000:
+                    clean_error_text = await rm_markdown(error_text)
                     file = open("error_nexaub.txt", "w+")
-                    file.write(error_text)
+                    file.write(clean_error_text)
                     file.close()
                     await NEXAUB.send_document(LOG_CHANNEL_ID, "error_nexaub.txt", caption="`Error of Nexa Userbot`")
                     os.remove("error_nexaub.txt")
@@ -125,8 +127,9 @@ def nexaub_on_cf(custom_filters, handler_group=0):
 Forward this to @NexaUB_Support
 """
                 if len(error_text) > 4000:
+                    clean_error_text = await rm_markdown(error_text)
                     file = open("error_nexaub.txt", "w+")
-                    file.write(error_text)
+                    file.write(clean_error_text)
                     file.close()
                     await NEXAUB.send_document(LOG_CHANNEL_ID, "error_nexaub.txt", caption="`Error of Nexa Userbot`")
                     os.remove("error_nexaub.txt")

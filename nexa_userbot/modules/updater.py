@@ -14,7 +14,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
-from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.helpers.pyrogram_help import get_arg, rm_markdown
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
@@ -110,9 +110,10 @@ async def upstream(client, message):
 **🕊 New version:** `{req_ver.json()["version"]}`
 **☘️ Changelog (last >10):** \n\n{changelog}"""
             if len(changelog_str) > 4096:
+                clean_changelog_str = await rm_markdown(changelog_str)
                 await status.edit("`Changelog is too big, sending it as a file!`")
                 file = open("NEXAUB_git_commit_log.txt", "w+")
-                file.write(changelog_str)
+                file.write(clean_changelog_str)
                 file.close()
                 await NEXAUB.send_document(
                     message.chat.id,
