@@ -60,8 +60,10 @@ class PasteBins:
             return await self.paste_to_spacebin(text)
         elif paste_bin == "hastebin":
             return await self.paste_to_hastebin(text)
-        else:
+        elif paste_bin == "nekobin":
             return await self.paste_to_nekobin(text)
+        else:
+            return "`Invalid pastebin service selected!`"
     
     async def __check_status(self, resp_status, status_code: int = 201):
         if int(resp_status) != status_code:
