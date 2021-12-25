@@ -20,7 +20,10 @@ mod_file = os.path.basename(__file__)
 # Removing last comma from variables
 async def rm_last_comma(text):
     index = text.rfind(",")
-    return text[:index] + "" + text[index+1:]
+    if not index < 0:
+        return text[:index] + "" + text[index+1:]
+    else:
+        return text
 
 # Configs
 DEFAULT_HELP_TXT = """
