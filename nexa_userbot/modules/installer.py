@@ -39,13 +39,11 @@ async def install_plugin(_, message: Message):
     msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message
     if not replied_msg:
-        await msg.edit("`Please reply to a valid python module to install!`")
-        return
+        return await msg.edit("`Please reply to a valid python module to install!`")
     if not replied_msg.document:
-        await msg.edit("`Please reply to a valid python module to install!`")
-        return
+        return await msg.edit("`Please reply to a valid python module to install!`")
     plugin_name = replied_msg.document.file_name
-    plugin_path = f"nexa_userbot/modules/{plugin_name}"
+    plugin_path = f"nexa_userbot/modules/Extras/{plugin_name}"
     plugin_extension = plugin_name.split(".")[1].lower()
     plugin_name_no_exe = plugin_name.split(".")[0]
     if plugin_extension != "py":

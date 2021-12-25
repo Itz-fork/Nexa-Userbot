@@ -2,9 +2,12 @@
 # Part of: Nexa-Userbot
 # Credits: Developers Userbot
 import os
+import re
+
 from pyrogram.types import Message
 
 from . import __all__ as ALL_MODULES
+from .Extras import __xall__ as ALL_XTRA_MODULES
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
@@ -37,10 +40,18 @@ DEFAULT_HELP_TXT = """
 `{cmd_prfx}help [module name]`
 """
 
-@nexaub_on_cmd(command=["help"], modlue=mod_file)
+async def get_help_type(htx):
+    if re.search(r'\bxhelp|chelp\b', htx):
+        help_list = ALL_XTRA_MODULES
+    else:
+        help_list = ALL_MODULES
+    return help_list
+
+@nexaub_on_cmd(command=["help", "xhelp", "chelp"], modlue=mod_file)
 async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    MODULE_LIST = await get_help_type(message.text.split(" ")[0])
     if not args:
         # Base texts
         base_userbot_txt = "**🧭 Userbot:** "
@@ -49,7 +60,7 @@ async def help(_, message: Message):
         base_utils_txt = "**🗂 Utils:** "
         base_unknown_txt = "**🥷 Unknown:** "
         # Generating help menu text
-        for module in ALL_MODULES:
+        for module in MODULE_LIST:
             # Checks the category of the module
             cat = CMD_HELP.get(f"{module}_category", False)
             if cat == "userbot":
