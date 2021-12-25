@@ -181,9 +181,9 @@ def import_plugin(p_path):
     nexaub_xplugin = p_path.replace("/", ".")
     try:
         importlib.import_module(nexaub_xplugin)
-        logging.info(f"LOADED PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")
+        logging.info(f" LOADED PLUGIN: - {os.path.basename(p_path)}")
     except:
-        logging.warn(f"FAILED TO LOAD PLUGIN: - {os.path.basename(p_path)} - Nexa-Userbot")
+        logging.warn(f" FAILED TO LOAD PLUGIN: - {os.path.basename(p_path)}")
 
 
 async def extract_url_from_txt(url):
