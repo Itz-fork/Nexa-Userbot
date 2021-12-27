@@ -16,6 +16,7 @@ from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_alive_msg, get_custom_alive_msg, set_custom_var, get_custom_var
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.core.startup_checks import check_or_set_log_channel
+from .Extras import get_xtra_modules_names
 from .telegraph import upload_to_tgraph
 from . import __all__ as all_mods
 from config import Config
@@ -93,6 +94,7 @@ async def pyroalive(_, message: Message):
     g_al_pic = await get_custom_var(var="ALIVE_PIC")
     alive_pic = g_al_pic[1] if g_al_pic else "cache/NEXAUB.png"
     NEXAUB_VERSION = await get_nexaub_version()
+    xtra_modules = await get_xtra_modules_names()
     alive_msg = f"""
 **{custom_alive_msg}**
 
@@ -102,8 +104,9 @@ async def pyroalive(_, message: Message):
     **》 Nexa Userbot Version:** `{NEXAUB_VERSION}`
     **》 Python Version:** `{python_version}`
     **》 Pyrogram Version:** `{pyrogram_version}`
-    **》 Uptime: `{uptime}`**
-    **》 Loaded Plugins: `{len(all_mods)}`**
+    **》 Uptime:** `{uptime}`
+    **》 Loaded Plugins:** `{len(all_mods)}`
+    **》 Loaded Custom Plugins:** `{len(xtra_modules)}`
 
 
 **Deploy Your Own: @NexaBotsUpdates**"""
