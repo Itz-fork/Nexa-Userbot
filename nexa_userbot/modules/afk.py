@@ -124,7 +124,7 @@ async def back_online_bois(_, message: Message):
     com_online = datetime.now().replace(microsecond=0)
     afk_time = str((com_online - s_time))
     await me_online()
-    await e_or_r(nexaub_message=message, msg_text=f"**I'm No Longer AFK** \n\n**Afk Time:** `{afk_time}` \n**Reason:** `{a_reason}`")
+    await message.reply(f"**I'm No Longer AFK** \n\n**Afk Time:** `{afk_time}` \n**Reason:** `{a_reason}`")
     # Deleting send afk messages
     if should_del_afks:
         status_msg = await message.reply("`Deleting sent afk messages...`")
