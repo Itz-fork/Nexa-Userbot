@@ -45,11 +45,11 @@ CMD_HELP.update(
 # Function to get screenshot of the page
 async def gen_ss(url, full_page=False):
     if full_page:
-        url = f"https://mini.s-shot.ru/1360x0/png/1024/Z100/?{url}"
+        req_url = f"https://mini.s-shot.ru/1360x0/png/1024/Z100/?{url}"
     else:
-        url = f"https://render-tron.appspot.com/screenshot/{url}"
+        req_url = f"https://render-tron.appspot.com/screenshot/{url}"
     async with ClientSession() as webss_c:
-        req = await webss_c.post(url)
+        req = await webss_c.post(req_url)
         read_bytes = await req.read()
         screens = BytesIO(read_bytes)
     screens.name = f"Nexa-Userbot-webss_{url}.png"
