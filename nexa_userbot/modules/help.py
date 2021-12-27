@@ -43,11 +43,28 @@ DEFAULT_HELP_TXT = """
 `{cmd_prfx}help [module name]`
 """
 
+CUSTOM_HELP_TXT = """
+**Available Custom Modules**
+
+{userbot_help}
+
+{dev_help}
+
+{tools_help}
+
+{utils_help}
+
+{unknown_help}
+
+
+`{cmd_prfx}xhelp [module name]`
+"""
+
 async def get_help_type(htx):
     if re.search(r'\bxhelp|chelp\b', htx):
-        help_list = await get_xtra_modules_names()
+        help_list = [await get_xtra_modules_names(), CUSTOM_HELP_TXT]
     else:
-        help_list = ALL_MODULES
+        help_list = [ALL_MODULES, DEFAULT_HELP_TXT]
     return help_list
 
 @nexaub_on_cmd(command=["help", "xhelp", "chelp"], modlue=mod_file)
@@ -63,7 +80,7 @@ async def help(_, message: Message):
         base_utils_txt = "**🗂 Utils:** "
         base_unknown_txt = "**🥷 Unknown:** "
         # Generating help menu text
-        for module in MODULE_LIST:
+        for module in MODULE_LIST[0]:
             # Checks the category of the module
             cat = CMD_HELP.get(f"{module}_category", False)
             if cat == "userbot":
@@ -82,7 +99,7 @@ async def help(_, message: Message):
         tools_txt = await rm_last_comma(base_tools_txt)
         utils_txt = await rm_last_comma(base_utils_txt)
         unknown_txt = await rm_last_comma(base_unknown_txt)
-        await help_user_msg.edit(DEFAULT_HELP_TXT.format(
+        await help_user_msg.edit(MODULE_LIST[1].format(
             userbot_help=userbot_txt,
             dev_help=dev_txt,
             tools_help=tools_txt,
