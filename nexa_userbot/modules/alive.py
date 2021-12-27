@@ -90,9 +90,8 @@ async def pyroalive(_, message: Message):
     get_alive_msg = await get_custom_alive_msg()
     custom_alive_msg = get_alive_msg if get_alive_msg else "Heya, I'm Using Nexa Userbot"
     # Alive Pic
-    gap = await get_custom_var(var="ALIVE_PIC")
-    g_al_pic = list(gap)
-    alive_pic = g_al_pic[1] if g_al_pic[1] else "cache/NEXAUB.png"
+    g_al_pic = await get_custom_var(var="ALIVE_PIC")
+    alive_pic = g_al_pic[1] if g_al_pic else "cache/NEXAUB.png"
     NEXAUB_VERSION = await get_nexaub_version()
     alive_msg = f"""
 **{custom_alive_msg}**
@@ -174,11 +173,10 @@ async def set_alive_pic(_, message: Message):
 @nexaub_on_cmd(command=["getalivepic"], modlue=mod_file)
 async def get_alive_pic(_, message: Message):
     get_pic_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-    gap = await get_custom_var(var="ALIVE_PIC")
-    g_al_pic = list(gap)
-    picture = g_al_pic[1]
-    ptype = g_al_pic[0]
-    if picture:
+    g_al_pic = await get_custom_var(var="ALIVE_PIC")
+    if g_al_pic:
+        picture = g_al_pic[1]
+        ptype = g_al_pic[0]
         await get_pic_msg.delete()
         if ptype == "gif":
             await NEXAUB.send_animation(chat_id=message.chat.id, animation=picture, caption=f"**Nexa-Userbot's Custom Alive Picture** \n\n**Type:** `{ptype}`")
