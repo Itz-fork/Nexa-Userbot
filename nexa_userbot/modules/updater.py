@@ -201,7 +201,7 @@ async def restart(client, message):
 @nexaub_on_cmd(command=["logs"], modlue=mod_file)
 async def log(client, message):
     try:
-        await e_or_r(nexaub_message=message, msg_text="`Getting Logs`")
+        st_msg = await e_or_r(nexaub_message=message, msg_text="`Getting Logs...`")
         heroku_conn = heroku3.from_key(Config.HEROKU_API_KEY)
         server = heroku_conn.get_app_log(Config.HEROKU_APP_NAME, dyno='worker', lines=100, source='app', timeout=100)
         f_logs = server
@@ -209,6 +209,7 @@ async def log(client, message):
             file = open("logs.txt", "w+")
             file.write(f_logs)
             file.close()
+            await st_msg.delete()
             await NEXAUB.send_document(message.chat.id, "logs.txt", caption=f"Logs of `{Config.HEROKU_APP_NAME}`")
             remove("logs.txt")
     except Exception as e:

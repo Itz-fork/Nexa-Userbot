@@ -2,8 +2,8 @@
 # Part of: Nexa-Userbot
 # Credits: Developers Userbot | Nexa Userbot
 
-import time
 import os
+import time
 import json
 
 from sys import version_info
@@ -75,7 +75,7 @@ def get_readable_time(seconds: int) -> str:
     return ping_time
 
 # Get current version of Nexa Userbot
-def get_nexaub_version():
+async def get_nexaub_version():
     with open("cache/nexaub_data.json", "r") as jsn_f:
         ver = json.load(jsn_f)
         return ver["version"]
@@ -93,7 +93,7 @@ async def pyroalive(_, message: Message):
     gap = await get_custom_var(var="ALIVE_PIC")
     g_al_pic = list(gap)
     alive_pic = g_al_pic[1] if g_al_pic[1] else "cache/NEXAUB.png"
-    NEXAUB_VERSION = get_nexaub_version()
+    NEXAUB_VERSION = await get_nexaub_version()
     alive_msg = f"""
 **{custom_alive_msg}**
 
@@ -109,7 +109,7 @@ async def pyroalive(_, message: Message):
 
 **Deploy Your Own: @NexaBotsUpdates**"""
     await alive_bef_msg.delete()
-    if g_al_pic[0] == "gif":
+    if g_al_pic and g_al_pic[0] == "gif":
         await NEXAUB.send_animation(chat_id=message.chat.id, animation=alive_pic, caption=alive_msg)
     else:
         await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)

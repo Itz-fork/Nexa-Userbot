@@ -10,7 +10,7 @@ Copyright (c) 2021 Itz-fork | @NexaBotsUpdates
 start_nexaub () {
   if [[ -z "$PYRO_STR_SESSION" ]]
   then
-    echo "Please add Pyrogram String Session"
+    echo "WARNING: Please add Pyrogram String Session"
   else
 	  python3 -m nexa_userbot
   fi
