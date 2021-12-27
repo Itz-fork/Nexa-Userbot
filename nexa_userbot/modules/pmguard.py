@@ -103,7 +103,9 @@ async def enable_disable_pm_guard_nexaub(_, message: Message):
 async def approve_user_to_pm(_, message: Message):
     apprv_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     chat_type = message.chat.type
-    if chat_type in ["group", "supergroup"]:
+    if chat_type == "me":
+        return await apprv_msg.edit("`Bruh, Why should I approve my self?`")
+    elif chat_type in ["group", "supergroup"]:
         if not message.reply_to_message.from_user:
             return await apprv_msg.edit("`Reply to a user id to approve that user!`")
         user_id = message.reply_to_message.from_user.id
@@ -117,7 +119,12 @@ async def approve_user_to_pm(_, message: Message):
     await add_approved_user(user_id)
     if user_id in PM_GUARD_WARNS_DB:
         PM_GUARD_WARNS_DB.pop(user_id)
+        try:
+            await NEXAUB.delete_messages(chat_id=user_id, message_ids=PM_GUARD_MSGS_DB[user_id])
+        except:
+            pass
     await apprv_msg.edit("**From now on, this user can PM my master!**")
+    
 
 
 # Disapprove user
