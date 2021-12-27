@@ -142,7 +142,7 @@ async def ungbun_dis_usr(_, message: Message):
         except:
             ub_failed += 1
     await ungban_usr(ungban_uid)
-    await ungban_msg.edit(f"**#UN_GBANNED** \n\n**User:** `{ungban_uid}` \n**Affected To:** `{total_ung_chats-ub_failed}` **Chats**")
+    await ungban_msg.edit(f"**#USER_UNGBANNED** \n\n**User:** `{ungban_uid}` \n**Affected To:** `{total_ung_chats-ub_failed}` **Chats**")
 
 
 # Gbans
@@ -153,7 +153,7 @@ async def gbuns_in_whole_time(_, message: Message):
     total_gbans = len(gban_list)
     gban_txt = "**#GBAN_LIST** \n\n"
     if total_gbans == 0:
-        return await glist_msg.edit("`There isn't any Gbanned User!`")
+        return await glist_msg.edit("`There aren't any Gbanned User!`")
     for gb in gban_list:
         gban_txt += f" ⤷ **User:** `{gb['gbanned_usr']}` \n ⤷ **Reason:** `{gb['reason_for_gban']}`"
     if len(gban_txt) > 4096:
@@ -279,7 +279,7 @@ async def gpromote_dis_usr(_, message: Message):
                 )
         except:
             ub_failed += 1
-    await gpromote_msg.edit(f"**#USER_PROMOTED** \n\n**Globally promoted** {(await NEXAUB.get_users(gp_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
+    await gpromote_msg.edit(f"**#USER_GPROMOTED** \n\n**Globally promoted** {(await NEXAUB.get_users(gp_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
 # Gdemote
@@ -354,7 +354,7 @@ async def gdemote_dis_usr(_, message: Message):
             )
         except:
             ub_failed += 1
-    await gdemote_msg.edit(f"**#USER_DEMOTED** \n\n**Globally demoted** {(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
+    await gdemote_msg.edit(f"**#USER_GDEMOTED** \n\n**Globally demoted** {(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
 @nexaub_on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))
@@ -374,8 +374,8 @@ async def gbanner(_m, message: Message):
         else:
             try:
                 await NEXAUB.kick_chat_member(chat_id=gban_chat_id, user_id=gbanned_usr_id)
+                await NEXAUB.send_message(chat_id=gban_chat_id, text=f"**#GBAN_DB** \n`Gbanned User Joined to this chat. So I've Banned Him!` \n\n**User ID:** `{gbanned_usr_id}` \n**Reason:** `{is_gbanned}`")
             except:
-                return
-        await NEXAUB.send_message(chat_id=gban_chat_id, text=f"**#GBAN_DB** \n`Gbanned User Joined to this chat. So I've Banned Him!` \n\n**User ID:** `{gbanned_usr_id}` \n**Reason:** `{is_gbanned}`")
+                return await NEXAUB.send_message(chat_id=gban_chat_id, text=f"**#GBAN_DB** \n`Gbanned User Joined to this chat!` \n\n**User ID:** `{gbanned_usr_id}` \n**Reason:** `{is_gbanned}`")
     else:
         return
