@@ -50,9 +50,9 @@ async def packinfo(client, message):
     if not message.reply_to_message:
         await pablo.edit("`Please Reply to a Sticker!`")
         return
-    if not message.reply_to_message.sticker:
-        await pablo.edit("`Please Reply to a Sticker!`")
-        return
+#     if not message.reply_to_message.sticker:
+#         await pablo.edit("`Please Reply to a Sticker!`")
+#         return
     if not message.reply_to_message.sticker.set_name:
         await pablo.delete()
         return
