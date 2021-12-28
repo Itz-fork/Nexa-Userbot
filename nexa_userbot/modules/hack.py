@@ -29,7 +29,7 @@ CMD_HELP.update(
 @nexaub_on_cmd(command=["hack", "heck"], modlue=mod_file)
 async def heck_dat(_, message: Message):
     r_msg = message.reply_to_message
-    heck_msg = await e_or_r(nexaub_message=message, msg_text="**[root@Nexa-Ub]** `enable tg-hacker`")
+    heck_msg = await e_or_r(nexaub_message=message, msg_text="**[root@Nexa-Ub]** `enable tg-hacker && clear`")
     if not r_msg.from_user:
         return await heck_msg.edit("`⚠ Reply to a telegram user to perform a hack!`")
     # User info
