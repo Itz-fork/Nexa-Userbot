@@ -50,9 +50,8 @@ async def packinfo(client, message):
     if not message.reply_to_message:
         await pablo.edit("`Please Reply to a Sticker!`")
         return
-#     if not message.reply_to_message.sticker:
-#         await pablo.edit("`Please Reply to a Sticker!`")
-#         return
+    if not message.reply_to_message.sticker:
+        return await pablo.edit("`Please Reply to a Sticker!`")
     if not message.reply_to_message.sticker.set_name:
         await pablo.delete()
         return
@@ -84,9 +83,9 @@ async def packinfo(client, message):
 async def kang_stick(_, message: Message):
     kang_msg = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
     if not message.reply_to_message:
-        return await kang_msg.edit("`Please Reply to a Sticker!`")
-    if not message.reply_to_message.sticker:
-        return await kang_msg.edit("`Please Reply to a Sticker!`")
+        return await kang_msg.edit("`Please Reply to a Sticker or a image!`")
+#     if not message.reply_to_message.sticker:
+#         return await kang_msg.edit("`Please Reply to a Sticker!`")
     a_emoji = get_arg(message)
     pack = 1
     nm = message.from_user.username
