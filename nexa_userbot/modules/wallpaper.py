@@ -91,13 +91,17 @@ async def gib_wallpapers(_, message: Message):
     else:
         return await wall_msg.edit("`Give something to search!`")
     # Fetching the wallpapers from reddit api or Nexa-APis
+    await wall_msg.edit("`Fetching wallpapers from the API...`")
     fetch_walls = await fetch_wallpapers(query, limit)
     if not fetch_walls:
         return await wall_msg.edit("`Ooops, Nothing found!`")
-    # Downloading the images
+    # Downloading the wallpapers
+    await wall_msg.edit("`Downloading the wallpapers. This may take a while! Until then go and drink some coffee ☕`")
     downld_walls = await download_images(fetch_walls)
     if not fetch_walls:
         return await wall_msg.edit("`Ooops, Download failed!`")
+    # Uploading the wallpapers
     media_list = await make_input_media_list(downld_walls)
+    await wall_msg.edit("`Uploading the wallpapers. This may take a while! Until then go and drink some coffee ☕`")
     await wall_msg.reply_media_group(media_list)
     await wall_msg.delete()
