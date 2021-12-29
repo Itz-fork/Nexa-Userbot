@@ -11,9 +11,11 @@ import math
 import importlib
 import logging
 
+from time import time
 from PIL import Image
 from typing import Union, Tuple
-from time import time
+from aiohttp import ClientSession
+from aiofiles import open as open_image
 from nexa_userbot import NEXAUB
 
 
@@ -195,3 +197,23 @@ async def rm_markdown(text: str):
     "Remove basic markdown syntax from a string"
     rmed = re.sub("[*`_]","", text)
     return rmed
+
+
+# Function to download images in a list
+async def download_images(images: list):
+    download_images = []
+    async with ClientSession() as image_dl:
+        # Making dirs
+        base_dir ="cache/NEXAUB_Image_Downloader"
+        os.makedirs(base_dir)
+        for image in images:
+            req = await image_dl.get(image)
+            if req.status == 200:
+                file_name = f"{base_dir}/{os.path.basename(image)}"
+                file = await open_image(file_name, mode="wb")
+                await file.write(await req.read())
+                await file.close()
+                download_images.append(file_name)
+            else:
+                continue
+    return download_images
