@@ -4,7 +4,7 @@
 import os
 
 from aiohttp import ClientSession
-from pyrogram.types import Message, InputMediaPhoto
+from pyrogram.types import Message, InputMediaDocument
 
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
@@ -62,7 +62,7 @@ async def make_input_media_list(image_paths: list):
     input_media_list = []
     for path in image_paths:
         input_media_list.append(
-            InputMediaPhoto(path, caption=f"**Uploaded with ✨ Nexa Userbot!**")
+            InputMediaDocument(path, caption=f"**Uploaded with ✨ Nexa Userbot!**")
         )
     return input_media_list
 
