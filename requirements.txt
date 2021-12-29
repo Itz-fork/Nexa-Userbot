@@ -2,6 +2,7 @@ pyrogram
 TgCrypto
 requests
 aiohttp
+aiofiles
 pillow
 numpy
 beautifulsoup4
