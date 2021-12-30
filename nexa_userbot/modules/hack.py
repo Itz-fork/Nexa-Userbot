@@ -64,7 +64,6 @@ async def heck_dat(_, message: Message):
     ]
     # Hack animation characters (stage 3)
     stage3_msg = ""
-    stage3_prgrs_msg = ""
     hack_animation_stage3_progress = [
         "`▱▱▱▱▱▱▱▱▱▱▱▱▱ 0%` \n",
         "`▰▱▱▱▱▱▱▱▱▱▱▱▱ 5%` \n",
@@ -94,7 +93,7 @@ async def heck_dat(_, message: Message):
     stage4_msg = ""
     hack_animation_stage4_chars = [
         "**[root@Nexa-Ub]** `tg-hacker check-if-completed` \n",
-        "`>> Checking...`"
+        "`>> Checking...` \n"
         "`>> Hacking completed ✓` \n\n",
         "**[root@Nexa-Ub]** `tg-hacker show --fix-for-tg-msg` \n\n\n",
         f"**Dear {user_mention}, Your telegram account has been hacked by me ☠! \nYou have to pay at least $98 to fix your telegram account!**"
@@ -120,13 +119,12 @@ async def heck_dat(_, message: Message):
         await heck_msg.edit(stage3_msg)
     await asyncio.sleep(3)
     for prgs in hack_animation_stage3_progress:
-        await asyncio.sleep(3)
-        stage3_prgrs_msg = prgs
-        stage3_msg += stage3_prgrs_msg
-        await heck_msg.edit(stage3_msg)
+        await asyncio.sleep(3) 
+        actual_prgs_msg = stage3_msg + prgs
+        await heck_msg.edit(actual_prgs_msg)
     await asyncio.sleep(4)
     # Editing the message (stage 4)
-    await heck_msg.edit(f"{stage3_msg} \n**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage4`")
+    await heck_msg.edit(f"{actual_prgs_msg} \n**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage4`")
     for char4 in hack_animation_stage4_chars:
         await asyncio.sleep(3)
         stage4_msg += char4
