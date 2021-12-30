@@ -9,6 +9,7 @@ from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 
 
+# Help
 mod_file = os.path.basename(__file__)
 mod_name = mod_file[:-3]
 
@@ -24,12 +25,12 @@ CMD_HELP.update(
 )
 
 
-
-
 @nexaub_on_cmd(command=["hack", "heck"], modlue=mod_file)
 async def heck_dat(_, message: Message):
     r_msg = message.reply_to_message
     heck_msg = await e_or_r(nexaub_message=message, msg_text="**[root@Nexa-Ub]** `enable tg-hacker && clear`")
+    if not r_msg:
+        return await heck_msg.edit("`⚠ Reply to a telegram user to perform a hack!`")
     if not r_msg.from_user:
         return await heck_msg.edit("`⚠ Reply to a telegram user to perform a hack!`")
     # User info
@@ -63,6 +64,7 @@ async def heck_dat(_, message: Message):
     ]
     # Hack animation characters (stage 3)
     stage3_msg = ""
+    stage3_prgrs_msg = ""
     hack_animation_stage3_progress = [
         "`▱▱▱▱▱▱▱▱▱▱▱▱▱ 0%` \n",
         "`▰▱▱▱▱▱▱▱▱▱▱▱▱ 5%` \n",
@@ -78,18 +80,21 @@ async def heck_dat(_, message: Message):
         "`▰▰▰▰▰▰▰▰▰▰▰▰▰ 100%` \n"
     ]
     hack_animation_stage3_chars = [
-        "**[root@Nexa-Ub]** `tg-hacker start --use-tg-brut --less-verbose` \n",
+        "**[root@Nexa-Ub]** `tg-hacker start --use-tg-brut --less-verbose --auto-cmd` \n",
         "`>> Starting the hack...` \n",
         "`>> Downloading Telegram-Bruteforce-8.3.2.tar.gz (1.9MiB)` \n"
         "`>> Download Completed ✓` \n\n",
         "**[root@Nexa-Ub]** `tg-hacker --check-config` \n",
         "`>> Checking user config file...` \n"
         f"`>> Found config file - {user_id}.conf` \n",
-        f"`>> Uploading the hacked accound details to telegram server - ID {user_dc if user_dc else 'Main'}` \n",
+        "**[root@Nexa-Ub]** `tg-hacker --upload` \n",
+        f"`>> Uploading the hacked accound details to telegram server - ID {user_dc if user_dc else 'Main'}` \n\n",
     ]
     # Hack animation characters (stage 4)
     stage4_msg = ""
     hack_animation_stage4_chars = [
+        "**[root@Nexa-Ub]** `tg-hacker check-if-completed` \n",
+        "`>> Checking...`"
         "`>> Hacking completed ✓` \n\n",
         "**[root@Nexa-Ub]** `tg-hacker show --fix-for-tg-msg` \n\n\n",
         f"**Dear {user_mention}, Your telegram account has been hacked by me ☠! \nYou have to pay at least $98 to fix your telegram account!**"
@@ -101,14 +106,14 @@ async def heck_dat(_, message: Message):
         await heck_msg.edit(stage1_msg)
     await asyncio.sleep(3)
     # Editing the message (stage 2)
-    await heck_msg.edit("**[root@Nexa-Ub]** `clear`")
+    await heck_msg.edit(f"{stage1_msg} \n\n**[root@Nexa-Ub]** `clear`")
     for char2 in hack_animation_stage2_chars:
         await asyncio.sleep(2)
         stage2_msg += char2
         await heck_msg.edit(stage2_msg)
     await asyncio.sleep(4)
     # Editing the message (stage 3)
-    await heck_msg.edit("**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage3`")
+    await heck_msg.edit(f"{stage2_msg} \n\n**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage3`")
     for char3 in hack_animation_stage3_chars:
         await asyncio.sleep(3)
         stage3_msg += char3
@@ -116,11 +121,12 @@ async def heck_dat(_, message: Message):
     await asyncio.sleep(3)
     for prgs in hack_animation_stage3_progress:
         await asyncio.sleep(3)
-        stage3_msg += prgs
+        stage3_prgrs_msg = prgs
+        stage3_msg += stage3_prgrs_msg
         await heck_msg.edit(stage3_msg)
     await asyncio.sleep(4)
     # Editing the message (stage 4)
-    await heck_msg.edit("**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage4`")
+    await heck_msg.edit(f"{stage3_msg} \n**[root@Nexa-Ub]** `clear && tg-hacker --set-stage stage4`")
     for char4 in hack_animation_stage4_chars:
         await asyncio.sleep(3)
         stage4_msg += char4

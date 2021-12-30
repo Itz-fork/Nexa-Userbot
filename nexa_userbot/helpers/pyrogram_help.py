@@ -204,7 +204,7 @@ async def download_images(images: list):
     download_images = []
     async with ClientSession() as image_dl:
         # Making dirs
-        base_dir ="cache/NEXAUB_Image_Downloader"
+        base_dir = "cache/NEXAUB_Image_Downloader"
         os.makedirs(base_dir)
         for image in images:
             req = await image_dl.get(image)

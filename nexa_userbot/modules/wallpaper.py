@@ -2,6 +2,7 @@
 # Part of: Nexa-Userbot
 
 import os
+import shutil
 
 from aiohttp import ClientSession
 from pyrogram.types import Message, InputMediaDocument
@@ -105,3 +106,4 @@ async def gib_wallpapers(_, message: Message):
     await wall_msg.edit("`Uploading the wallpapers. This may take a while! Until then go and drink some coffee ☕`")
     await wall_msg.reply_media_group(media_list)
     await wall_msg.delete()
+    shutil.rmtree("cache/NEXAUB_Image_Downloader")
