@@ -104,6 +104,15 @@ async def gib_wallpapers(_, message: Message):
     # Uploading the wallpapers
     media_list = await make_input_media_list(downld_walls)
     await wall_msg.edit("`Uploading the wallpapers. This may take a while! Until then go and drink some coffee ☕`")
-    await wall_msg.reply_media_group(media_list)
+    # Splitting list if the lenght is greater than 10
+    full_wall_list = []
+    if len(media_list) >= 10:
+        full_wall_list.append(media_list[:10])
+        full_wall_list.append(media_list[10:])
+    if full_wall_list:
+        for spl_list in full_wall_list:
+            await wall_msg.reply_media_group(spl_list)
+    else:
+        await wall_msg.reply_media_group(media_list)
     await wall_msg.delete()
     shutil.rmtree("cache/NEXAUB_Image_Downloader")
