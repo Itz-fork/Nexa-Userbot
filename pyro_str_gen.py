@@ -7,7 +7,6 @@ from pyrogram import Client
 
 print("""
 || Nexa Userbot ||
-
 Copyright (c) 2021 Itz-fork
 """)
 
@@ -18,8 +17,8 @@ async def pyro_str():
     async with Client(":memory:", api_id, api_hash) as NEXAUB:
         pyro_session = await NEXAUB.export_session_string()
         session_msg = await NEXAUB.send_message("me", f"`{pyro_session}`")
-        await session_msg.reply_text("Successfully Generated String Session! Thanks for trying [Nexa Userbot](https://github.com/Itz-fork/Nexa-Userbot) \n\n**Join @NexaBotsUpdates**", disable_web_page_preview=True)
-        print("\nString Session has been sent to your saved messages. Please check it. Thank You!\n")
+        await session_msg.reply_text("Successfully Generated String Session! **Thanks for trying [Nexa Userbot](https://github.com/Itz-fork/Nexa-Userbot) 😊** \n\n**Join @NexaBotsUpdates**", disable_web_page_preview=True)
+        print("\n🎉 String Session has been sent to your saved messages. Please check it. Thank You!\n")
 
 if __name__ == "__main__":
     loop = asyncio.get_event_loop()
