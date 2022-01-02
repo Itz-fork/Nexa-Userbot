@@ -142,7 +142,7 @@ async def kick_usr(_, message: Message):
   # Kicking the user
   await message.chat.kick_member(user_id=int(b_user_id))
   await kick_msg.edit(f"**Kicked ✊** \n\n**User ID:** `{b_user_id}` \n\n`⚠️ Unbanning after {default_ban_time} secs! ⚠️`")
-  await asyncio.sleep(float(default_ban_time))
+  await asyncio.sleep(int(default_ban_time))
   await message.chat.unban_member(user_id=int(b_user_id))
 
 

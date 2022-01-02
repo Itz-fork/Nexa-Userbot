@@ -82,7 +82,7 @@ async def short_urls_func(_, message: Message):
     urls = await extract_url_from_txt(base_txt)
     if not urls:
         return await short_msg.edit("`Give some urls or reply to a message that contains urls to short!`")
-    splitted_txt = base_txt.split(None)
+    splitted_txt = base_txt.split(" ")
     if splitted_txt[0] in SUPPORTED_URL_SHORTNERS:
         shortner = splitted_txt[0]
     else:

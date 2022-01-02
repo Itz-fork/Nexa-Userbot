@@ -10,7 +10,7 @@ import requests
 
 from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
-from nexa_userbot import NEXAUB, CMD_HELP
+from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config

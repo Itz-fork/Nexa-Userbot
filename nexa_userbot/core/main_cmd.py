@@ -49,7 +49,7 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
 def nexaub_on_cmd(
     command: list,
     modlue,
-    group: int = 1,
+    group: int = 0,
     admins_only: bool = False,
     only_pm: bool = False,
     only_groups: bool = False,
