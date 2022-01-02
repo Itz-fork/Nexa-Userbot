@@ -121,6 +121,7 @@ async def pyroalive(_, message: Message):
 async def pingme(_, message: Message):
     ping_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     start = datetime.now()
+    await ping_msg.edit("`Pinging...`")
     end = datetime.now()
     ping_time = (end - start).microseconds / 1000
     await ping_msg.edit(f"**Pong:** `{ping_time} ms` \n\n ~ **✨ Nexa-Userbot**", disable_web_page_preview=True)
