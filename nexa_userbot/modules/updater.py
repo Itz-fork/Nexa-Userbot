@@ -2,9 +2,9 @@
 # Part of: Nexa-Userbot
 # Credits: Nexa Userbot | Zect Userbot
 
-import asyncio
-import sys
 import os
+import sys
+import asyncio
 import requests
 import heroku3
 
@@ -28,7 +28,7 @@ CMD_HELP.update(
 **Updater**
 
   ✘ `update` - To Updater Your Userbot
-  ✘ `restart` - To Restart Your Userbot (Heroku Only)
+  ✘ `restart` - To Restart Your Userbot
   ✘ `logs` - To Get Logs of Your Userbot (Heroku Only)
 """,
         f"{mod_name}_category": "userbot"
@@ -163,7 +163,7 @@ async def upstream(client, message):
             remote = repo.create_remote("heroku", heroku_git_url)
         try:
             remote.push(refspec=f"HEAD:refs/heads/{ac_br}", force=True)
-        except GitCommandError as error:
+        except GitCommandError:
             pass
         await status.edit("`🎉 Successfully Updated!` \n**Restarting Now...**")
     else:
