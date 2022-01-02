@@ -26,8 +26,8 @@ sudos.append("me")
 SUDO_IDS = sudos
 
 
-def add_handler(x_wrapper, nexaub_filter):
-    NEXAUB.add_handler(MessageHandler(x_wrapper, filters=nexaub_filter), group=0)
+def add_handler(x_wrapper, nexaub_filter, cmd_grp):
+    NEXAUB.add_handler(MessageHandler(x_wrapper, filters=nexaub_filter), group=cmd_grp)
 
 
 # Edit or reply
@@ -49,6 +49,7 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
 def nexaub_on_cmd(
     command: list,
     modlue,
+    group: int = 1,
     admins_only: bool = False,
     only_pm: bool = False,
     only_groups: bool = False,
@@ -101,7 +102,7 @@ def nexaub_on_cmd(
                     os.remove("error_nexaub.txt")
                 else:
                     await NEXAUB.send_message(chat_id=LOG_CHANNEL_ID, text=error_text)
-        add_handler(x_wrapper, nexaub_filter)
+        add_handler(x_wrapper, nexaub_filter, group)
         return x_wrapper
     return decorate_nexaub
 

@@ -117,7 +117,7 @@ async def pyroalive(_, message: Message):
         await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
 
 # Ping
-@nexaub_on_cmd(command=["ping"], modlue=mod_file)
+@nexaub_on_cmd(command=["ping"], modlue=mod_file, group=-1)
 async def pingme(_, message: Message):
     ping_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     start = datetime.now()
