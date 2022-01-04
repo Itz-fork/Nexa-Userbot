@@ -1,6 +1,5 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa-Userbot
-# Thanks to: Friday Userbot for idea / trick
 
 import os
 import re

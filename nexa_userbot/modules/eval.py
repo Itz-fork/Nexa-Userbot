@@ -11,6 +11,7 @@ import subprocess
 from io import StringIO
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_custom_var
 from config import Config
 
 
@@ -46,15 +47,32 @@ async def aexec(code, client, message):
     )
     return await locals()["__aexec"](client, message)
 
+# Configs
+NON_DEV_WARN_MSG = f"""
+**Warning ⚠️!**
+
+`Be careful with the codes that you gonna run with this userbot as eval mode is the most powerful plugin and it can even delete your telegram account. Therefore it's only available for developers!`
+
+
+**If you want to enable it,**
+
+`{Config.CMD_PREFIX}.setvar DEV_MODE True`
+
+
+__**Don't blame the developer after doing stupid things with this ❗**__
+"""
 
 @nexaub_on_cmd(command=["eval"], modlue=mod_file)
 async def evaluate(client, message):
     status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+    # Checks if the developer mode is enabled
+    is_dev = bool((await get_custom_var("DEV_MODE")))
+    if not is_dev:
+        return await status_message.edit(NON_DEV_WARN_MSG)
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
-        await status_message.delete()
-        return
+        return await status_message.delete()
     reply_to_id = message.message_id
     if message.reply_to_message:
         reply_to_id = message.reply_to_message.message_id
