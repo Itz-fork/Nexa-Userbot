@@ -56,7 +56,7 @@ NON_DEV_WARN_MSG = f"""
 
 **If you want to enable it,**
 
-`{Config.CMD_PREFIX}.setvar DEV_MODE True`
+`{Config.CMD_PREFIX}setvar DEV_MODE True`
 
 
 __**Don't blame the developer after doing stupid things with this ❗**__

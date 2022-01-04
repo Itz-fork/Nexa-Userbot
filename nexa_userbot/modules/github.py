@@ -40,6 +40,7 @@ async def get_data(username):
         # Parsing data
         try:
             avatar = req["avatar_url"]
+            twitter = req['twitter_username']
             base_msg += "**❆ Gitub Information ❆** \n\n"
             base_msg += f"**Profile Url:** {req['html_url']} \n"
             base_msg += f"**Name:** `{req['name']}` \n"
@@ -48,7 +49,7 @@ async def get_data(username):
             base_msg += f"**Location:** `{req['location']}` \n"
             base_msg += f"**Company:** `{req['company']}` \n"
             base_msg += f"**Blog:** `{req['name']}` \n"
-            base_msg += f"**Twitter:** `{req['twitter_username']}` \n"
+            base_msg += f"**Twitter:** `{f'https://twitter.com/{twitter}' if twitter else 'None'}` \n"
             base_msg += f"**Bio:** `{req['bio']}` \n"
             base_msg += f"**Public Repos:** `{req['public_repos']}` \n"
             base_msg += f"**Public Gists:** `{req['public_gists']}` \n"
