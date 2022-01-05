@@ -7,7 +7,7 @@ from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_custom_var, get_custom_var, del_custom_var
-from nexa_userbot.core.nexaub_database.nexaub_db_sudos import add_sudo, remove_sudo, check_if_sudo
+from nexa_userbot.core.nexaub_database.nexaub_db_sudos import add_sudo, remove_sudo, check_if_sudo, add_custom_plugin_channel, get_custom_plugin_channels, remove_custom_plugin_channel
 from .updater import restart_nexaub
 from config import Config
 
@@ -28,6 +28,7 @@ CMD_HELP.update(
   ✘ `rsudo` - To Remove a Sudo User
   ✘ `add_plugin_channel` - To Add Custom Plugin Channel
   ✘ `rm_plugin_channel` - To Remove Custom Plugin Channel
+  ✘ `get_plugin_channels` - To Get Custom Plugin Channels
 
 **Example:**
 
@@ -138,7 +139,7 @@ async def del_var(_, message: Message):
 
 
 @nexaub_on_cmd(command=["add_plugin_channel", "a_p_c", "add_plugins"], modlue=mod_file)
-async def add_custom_plugin_channel(_, message: Message):
+async def add_custom_plug(_, message: Message):
   acpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   get_c_name = get_arg(message)
   if not get_c_name:
@@ -147,26 +148,31 @@ async def add_custom_plugin_channel(_, message: Message):
     plug_channel = int(get_c_name)
   else:
     plug_channel = get_c_name.replace("@", "")
-  is_exists = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
-  if is_exists:
-    if not plug_channel in is_exists:
-      await set_custom_var("CUSTOM_PLUGINS_CHANNELS", is_exists.append(plug_channel))
-    else:
-      return await acpc.edit("`Channel is already added!`")
-  else:
-    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", [plug_channel])
+  custp_list = await get_custom_plugin_channels()
+  if plug_channel in custp_list:
+    return await acpc.edit("`Channel is already added!`")
+  await add_custom_plugin_channel(plug_channel)
   await acpc.edit(f"**Successfully Added Custom Plugin Channel** \n\n**Channel:** {get_c_name}")
 
-@nexaub_on_cmd(command=["rm_plugin_channel", "r_m_c", "rm_plugins"], modlue=mod_file)
-async def remove_custom_plugin_channel(_, message: Message):
+@nexaub_on_cmd(command=["rm_plugin_channel", "rm_c", "rm_plugins"], modlue=mod_file)
+async def remove_custom_plug(_, message: Message):
   rmcpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   rm_c_name = get_arg(message)
   if not rm_c_name:
     return await rmcpc.edit("`Give a channel username to remove it from custom plugin channel database!`")
-  cstm_plgin_c = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
-  if cstm_plgin_c and rm_c_name in cstm_plgin_c:
-    new_custm_plgin_chnls = cstm_plgin_c.remove(rm_c_name)
-    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", new_custm_plgin_chnls)
-    await rmcpc.edit(f"**Successfully Removed Custom Plugin Channel** \n\n**Channel:** {rm_c_name}")
-  else:
+  custp_list = await get_custom_plugin_channels()
+  if rm_c_name not in custp_list:
     await rmcpc.edit("`First add custom plugin channel, then we can remove it :)`")
+  await remove_custom_plugin_channel(rm_c_name)
+  await rmcpc.edit(f"**Successfully Removed Custom Plugin Channel** \n\n**Channel:** {rm_c_name}")
+
+@nexaub_on_cmd(command=["get_plugin_channels", "get_c", "get_plugins"], modlue=mod_file)
+async def get_custom_plug(_, message: Message):
+  getcpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  channel_list = await get_custom_plugin_channels()
+  if not channel_list:
+    return await getcpc.edit("`Add some custom plugin channels!`")
+  channel_str = "**Available Custom Plugin Channels!** \n\n"
+  for ch in channel_list:
+    channel_str += f" ➥ `{ch}` \n"
+  await getcpc.edit(channel_str)

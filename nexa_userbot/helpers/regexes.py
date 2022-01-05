@@ -12,7 +12,10 @@ class REGEXES:
 
         arab: Arabic Language
         chinese: Chinese Language
-        japanese: Japanese language (Includes Hiragana, Kanji and Katakana)
+        japanese: Japanese Language (Includes Hiragana, Kanji and Katakana)
+        sinhala: Sinhala Language
+        tamil: Tamil Language
+        cyrillic: Cyrillic Language
     """
 
     arab = compile('[\u0627-\u064a]')
@@ -23,7 +26,7 @@ class REGEXES:
     cyrillic = compile('[\u0400-\u04FF]')
 
 
-from re import search
+# from re import search
 
-if search(REGEXES.sinhala, "திற"):
-    print("NOISE")
+# if search(REGEXES.tamil, "திற"):
+#     print("NOISE")

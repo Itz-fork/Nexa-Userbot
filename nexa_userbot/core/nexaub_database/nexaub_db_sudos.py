@@ -45,3 +45,30 @@ async def check_if_sudo(sudo_id):
             return False
     else:
         return False
+
+
+# Custom Plugin channel database
+
+async def add_custom_plugin_channel(channel):
+    cpcdb = await nexaub_sudos.find_one({"_id": "CUSTOM_PLUGINS_CHANNELS"})
+    if cpcdb:
+        await nexaub_sudos.update_one({"_id": "CUSTOM_PLUGINS_CHANNELS"}, {"$push": {"channel": channel}})
+    else:
+        cp_channel = [channel]
+        await nexaub_sudos.insert_one({"_id": "CUSTOM_PLUGINS_CHANNELS", "channel": cp_channel})
+
+# Get sudo users from database
+async def get_custom_plugin_channels():
+    s_cp_i = await nexaub_sudos.find_one({"_id": "CUSTOM_PLUGINS_CHANNELS"})
+    if s_cp_i:
+        return [cp_channel for cp_channel in s_cp_i.get("channel")]
+    else:
+        return []
+
+# Remove sudo user from databse
+async def remove_custom_plugin_channel(channel):
+    r_cpcdb = await nexaub_sudos.find_one({"_id": "CUSTOM_PLUGINS_CHANNELS"})
+    if r_cpcdb:
+        await nexaub_sudos.update_one({"_id": "CUSTOM_PLUGINS_CHANNELS"}, {"$pull": {"channel": channel}})
+    else:
+        return False

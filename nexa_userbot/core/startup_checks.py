@@ -12,6 +12,7 @@ from nexa_userbot.core.nexaub_database.nexaub_db_conf import (
     set_arq_key,
     get_arq_key,
     get_custom_var)
+from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_custom_plugin_channels
 from nexa_userbot.helpers.pyrogram_help import import_plugin
 from config import Config
 
@@ -45,7 +46,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 # Plugin installer for channels
 async def download_plugins_in_channel():
-    plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
+    plugin_channels = await get_custom_plugin_channels()
     if plugin_channels:
         for channel in plugin_channels:
             try:
