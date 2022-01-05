@@ -47,7 +47,7 @@ async def checks_unicode(_, message: Message):
         try:
             char.encode("ascii")
         except:
-            if char in UNICODE_EMOJI:
+            if char in UNICODE_EMOJI["en"]:
                 return
             uni_count += 1
     if uni_count == 0:
