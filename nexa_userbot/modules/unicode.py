@@ -5,6 +5,7 @@
 import os
 
 from pyrogram.types import Message
+from emoji import UNICODE_EMOJI
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
@@ -43,9 +44,11 @@ async def checks_unicode(_, message: Message):
     # Checking if the message have unicode characters
     uni_count = 0
     for char in list(msg_text):
-        if char.encode("ascii", "ignore"):
-            pass
-        else:
+        try:
+            char.encode("ascii")
+        except:
+            if char in UNICODE_EMOJI:
+                return
             uni_count += 1
     if uni_count == 0:
         await uni_msg.edit("`Non-Unicode Characters are included in this message!`")
