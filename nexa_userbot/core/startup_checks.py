@@ -47,14 +47,16 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 async def download_plugins_in_channel():
     plugin_channels = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
     if plugin_channels:
-        try:
-            for channel in plugin_channels:
+        for channel in plugin_channels:
+            try:
                 async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
                     plugin_name = plugin.document.file_name
+                    if str(plugin_name).startswith("__"):
+                        return
                     if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                         await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/Extras/{plugin_name}")
-        except Exception as e:
-            logging.warn(f"Error: \n{e} \n\nUnable to install plugins from custom plugin channels!")
+            except Exception as e:
+                logging.warn(f"Error: \n{e} \n\nUnable to install plugins from custom plugin channels!")
     else:
         logging.info("No Custom Plugin Channels were specified, Nexa-Userbot is running with default plugins only!")
 

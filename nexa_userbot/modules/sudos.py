@@ -26,6 +26,8 @@ CMD_HELP.update(
   ✘ `delvar` - To Delete a variable
   ✘ `addsudo` - To Add a Sudo User
   ✘ `rsudo` - To Remove a Sudo User
+  ✘ `add_plugin_channel` - To Add Custom Plugin Channel
+  ✘ `rm_plugin_channel` - To Remove Custom Plugin Channel
 
 **Example:**
 
@@ -141,12 +143,18 @@ async def add_custom_plugin_channel(_, message: Message):
   get_c_name = get_arg(message)
   if not get_c_name:
     return await acpc.edit("`Give a channel username to add it as a custom plugin channel!`")
-  channel_username = get_c_name.replace("@", "")
+  if get_c_name.isnumeric():
+    plug_channel = int(get_c_name)
+  else:
+    plug_channel = get_c_name.replace("@", "")
   is_exists = await get_custom_var("CUSTOM_PLUGINS_CHANNELS")
   if is_exists:
-    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", is_exists.append(channel_username))
+    if not plug_channel in is_exists:
+      await set_custom_var("CUSTOM_PLUGINS_CHANNELS", is_exists.append(plug_channel))
+    else:
+      return await acpc.edit("`Channel is already added!`")
   else:
-    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", [channel_username])
+    await set_custom_var("CUSTOM_PLUGINS_CHANNELS", [plug_channel])
   await acpc.edit(f"**Successfully Added Custom Plugin Channel** \n\n**Channel:** {get_c_name}")
 
 @nexaub_on_cmd(command=["rm_plugin_channel", "r_m_c", "rm_plugins"], modlue=mod_file)
