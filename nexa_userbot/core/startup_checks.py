@@ -8,7 +8,7 @@ from pyrogram.errors import YouBlockedUser
 from nexa_userbot import NEXAUB
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_log_channel, get_log_channel, set_arq_key, get_arq_key
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_custom_plugin_channels
-from nexa_userbot.helpers.pyrogram_help import import_plugin
+from nexa_userbot.helpers.pyrogram_help import import_plugin, resolve_peer
 from config import Config
 
 
@@ -46,12 +46,8 @@ async def download_plugins_in_channel():
     if plugin_channels:
         for channel in plugin_channels:
             try:
-                if channel.isnumeric():
-                    the_channel = int(channel)
-                else:
-                    the_channel = str(channel)
-                await NEXAUB.resolve_peer(the_channel)
-                async for plugin in NEXAUB.search_messages(chat_id=the_channel, query=".py", filter="document"):
+                await resolve_peer(channel)
+                async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
                     plugin_name = plugin.document.file_name
                     if str(plugin_name).startswith("__"):
                         return

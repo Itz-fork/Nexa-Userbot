@@ -217,3 +217,13 @@ async def download_images(images: list):
             else:
                 continue
     return download_images
+
+# Resolve peer (Max: 2 Tries)
+async def resolve_peer(pr, max_tries=2):
+    tri_c = 1
+    try:
+        await NEXAUB.resolve_peer(pr)
+    except:
+        if not tri_c >= max_tries:
+            await resolve_peer(pr)
+            tri_c += 1
