@@ -43,9 +43,13 @@ async def checks_unicode(_, message: Message):
     if not msg_text:
         return await uni_msg.edit("`Reply to a text message!`")
     # Checking if the message have unicode characters
-    async with AsyncClient() as htpx:
-        uni_count = int((await htpx.get(f"https://nexa-apis.herokuapp.com/unicode?text={msg_text}")))
-        if uni_count == 0:
-            await uni_msg.edit("`Non-Unicode Characters are included in this message!`")
+    uni_count = 0
+    for char in list(msg_text):
+        if char.encode("ascii", "ignore"):
+            pass
         else:
-            await uni_msg.edit(f"`{uni_count} Unicode Characters are included in this message!`")
+            uni_count += 1
+    if uni_count == 0:
+        await uni_msg.edit("`Non-Unicode Characters are included in this message!`")
+    else:
+        await uni_msg.edit(f"`{uni_count} Unicode Characters are included in this message!`")
