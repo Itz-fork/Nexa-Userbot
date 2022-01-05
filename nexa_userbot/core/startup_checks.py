@@ -41,7 +41,9 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 
 # Plugin installer for channels
-async def search_and_download_plugs(channel):
+async def search_and_download_plugs(channel, max_tries=2, counted=1):
+    if counted >= max_tries:
+        return
     try:
         async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
             plugin_name = plugin.document.file_name
@@ -50,7 +52,9 @@ async def search_and_download_plugs(channel):
             if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                 await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/Extras/{plugin_name}")
     except PeerIdInvalid:
+        counted += 1
         await resolve_peer(channel, max_tries=1)
+        return await search_and_download_plugs(channel, counted=counted)
 
 async def download_plugins_in_channel():
     plugin_channels = await get_custom_plugin_channels()
