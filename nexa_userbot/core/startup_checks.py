@@ -6,12 +6,7 @@ import logging
 
 from pyrogram.errors import YouBlockedUser
 from nexa_userbot import NEXAUB
-from nexa_userbot.core.nexaub_database.nexaub_db_conf import (
-    set_log_channel,
-    get_log_channel,
-    set_arq_key,
-    get_arq_key,
-    get_custom_var)
+from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_log_channel, get_log_channel, set_arq_key, get_arq_key
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_custom_plugin_channels
 from nexa_userbot.helpers.pyrogram_help import import_plugin
 from config import Config
@@ -40,7 +35,8 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
             await NEXAUB.send_message(chat_id=log_channel_id, text=welcome_to_nexaub, disable_web_page_preview=True)
             return [True, log_channel_id]
     except Exception as e:
-        logging.warn(f"Error: \n{e} \n\nPlease check all variables and try again! \nReport this with logs at @NexaUB_Support if the problem persists!")
+        logging.warn(
+            f"Error: \n{e} \n\nPlease check all variables and try again! \nReport this with logs at @NexaUB_Support if the problem persists!")
         exit()
 
 
@@ -50,16 +46,23 @@ async def download_plugins_in_channel():
     if plugin_channels:
         for channel in plugin_channels:
             try:
-                async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
+                if channel.isnumeric():
+                    the_channel = int(channel)
+                else:
+                    the_channel = str(channel)
+                await NEXAUB.resolve_peer(the_channel)
+                async for plugin in NEXAUB.search_messages(chat_id=the_channel, query=".py", filter="document"):
                     plugin_name = plugin.document.file_name
                     if str(plugin_name).startswith("__"):
                         return
                     if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                         await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/Extras/{plugin_name}")
             except Exception as e:
-                logging.warn(f"Error: \n{e} \n\nUnable to install plugins from custom plugin channels!")
+                logging.warn(
+                    f"Error: \n{e} \n\nUnable to install plugins from custom plugin channels!")
     else:
-        logging.info("No Custom Plugin Channels were specified, Nexa-Userbot is running with default plugins only!")
+        logging.info(
+            "No Custom Plugin Channels were specified, Nexa-Userbot is running with default plugins only!")
 
 
 # Custom plugin collector
@@ -69,9 +72,15 @@ async def install_custom_plugins():
         for plugin in os.listdir(custom_plugin_path):
             if plugin.endswith(".py"):
                 try:
-                    import_plugin((os.path.join(custom_plugin_path, plugin)).replace(".py", ""))
+                    import_plugin(
+                        (os.path.join(custom_plugin_path, plugin)).replace(".py", ""))
                 except:
-                    logging.warn(f"Error happened while installing {os.path.join(custom_plugin_path, plugin)} plugin")
+                    logging.warn(
+                        f"Error happened while installing {os.path.join(custom_plugin_path, plugin)} plugin")
+                    try:
+                        os.remove(plugin)
+                    except:
+                        pass
     else:
         logging.info("No Custom Plugins were found to install!")
 
@@ -106,4 +115,5 @@ async def check_arq_api():
         else:
             pass
     except Exception as e:
-        logging.warn(f"Error: \n{e} \n\nThere was a problem while obtaining ARQ API KEY. However you can set it manually. Send, \n{Config.CMD_PREFIX}setvar ARQ_API_KEY your_api_key_here")
+        logging.warn(
+            f"Error: \n{e} \n\nThere was a problem while obtaining ARQ API KEY. However you can set it manually. Send, \n{Config.CMD_PREFIX}setvar ARQ_API_KEY your_api_key_here")
