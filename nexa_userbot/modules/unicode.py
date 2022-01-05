@@ -5,8 +5,6 @@
 import os
 
 from pyrogram.types import Message
-from httpx import AsyncClient
-
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
 from config import Config
