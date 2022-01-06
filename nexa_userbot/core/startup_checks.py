@@ -41,7 +41,7 @@ If you don't know how to use this Userbot please send `{Config.CMD_PREFIX}help` 
 
 
 # Plugin installer for channels
-async def search_and_download_plugs(channel, max_tries=2, counted=1):
+async def search_and_download_plugs(channel, max_tries=2, counted=0):
     if counted >= max_tries:
         return
     try:
