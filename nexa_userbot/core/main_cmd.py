@@ -44,6 +44,10 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
 
 
 class nexaub:
+    """
+    Main class of Nexa Userbot
+    """
+    @classmethod
     def on_cmd(
         self,
         command: list,
@@ -118,6 +122,7 @@ class nexaub:
         return decorate_nexaub
     
     # Custom filter handling (Credits: Friday Userbot)
+    @classmethod
     def on_cf(self, custom_filters, handler_group: int = 0):
         """
         Decorator to handle custom filters
@@ -158,6 +163,7 @@ Forward this to @NexaUB_Support
             return x_wrapper_cf
         return decorate_nexaub_cf
     
+    @classmethod
     def add_handler(self, x_wrapper, nexaub_filter, cmd_grp):
         """
         Add handler to the userbot
