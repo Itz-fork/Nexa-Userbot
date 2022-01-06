@@ -29,6 +29,14 @@ SUDO_IDS = sudos
 
 # Edit or reply
 async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_preview=True):
+    """
+    Arguments:
+
+        ``nexaub_message``: Message object
+        ``msg_text``: Text that you want to perform the task
+        ``parse_mode`` (optional): Parse mode (Defaults to markdown)
+        ``disable_web_page_preview`` (optional): Pass False if you don't want to disable web page preview (Defaults to True)
+    """
     message = nexaub_message
     if not message:
         return await message.edit(msg_text, parse_mode=parse_mode, disable_web_page_preview=disable_web_page_preview)
