@@ -46,6 +46,11 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
 class nexaub:
     """
     Main class of Nexa Userbot
+
+    Available Functions:
+        on_cmd: Main decorator
+        on_cf: Decorator to handle custom filters
+        add_handler: Add handler to userbot
     """
     @classmethod
     def on_cmd(
@@ -59,16 +64,17 @@ class nexaub:
         no_sudos: bool = False
     ):
         """
-        Main decorator
+        ## Main decorator
 
-        Arguments:
-            command: List of commands
-            modlue: Name of the module
-            group (optional): Handler group (Defaults to 0)
-            admins_only: True if the command is only for admins (Defaults to False)
-            only_pm: True if the command is only for private chats (Defaults to False)
-            only_groups: True if the command is only for groups / supergroups (Defaults to False)
-            no_sudos: True if the command is restricted for sudo users (Defaults to False)
+        ### Arguments:
+
+            ``command``: List of commands
+            ``modlue``: Name of the module
+            ``group`` (optional): Handler group (Defaults to 0)
+            ``admins_only`` (optional): True if the command is only for admins (Defaults to False)
+            ``only_pm`` (optional): True if the command is only for private chats (Defaults to False)
+            ``only_groups`` (optional): True if the command is only for groups / supergroups (Defaults to False)
+            ``no_sudos`` (optional): True if the command is restricted for sudo users (Defaults to False)
         """
         if no_sudos:
             nexaub_filter = (filters.me & filters.command(command, Config.CMD_PREFIX) & ~filters.via_bot & ~filters.forwarded)
@@ -125,11 +131,11 @@ class nexaub:
     @classmethod
     def on_cf(self, custom_filters, handler_group: int = 0):
         """
-        Decorator to handle custom filters
+        ## Decorator to handle custom filters
 
-        Arguments:
-            custom_filters: Custom filters to handle
-            handler_group (optional): Handler group (Defaults to 0)
+        ### Arguments:
+            ``custom_filters``: Custom filters to handle
+            ``handler_group`` (optional): Handler group (Defaults to 0)
         """
         def decorate_nexaub_cf(func):
             async def x_wrapper_cf(client, message):
