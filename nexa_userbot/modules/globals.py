@@ -7,7 +7,7 @@ from pyrogram.types import Message
 
 from . import nexaub_devs
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r, nexaub_on_cf, SUDO_IDS
+from nexa_userbot.core.main_cmd import nexaub, e_or_r, SUDO_IDS
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from nexa_userbot.core.nexaub_database.nexaub_db_globals import gban_usr, get_gbanned, get_gban_reason, ungban_usr
 from nexa_userbot.helpers.pyrogram_help import get_ma_chats
@@ -57,7 +57,7 @@ CMD_HELP.update(
 
 
 # Gban
-@nexaub_on_cmd(command=["gban"], modlue=mod_file)
+@nexaub.on_cmd(command=["gban"], modlue=mod_file)
 async def gbun_dis_usr(_, message: Message):
     gban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -107,7 +107,7 @@ async def gbun_dis_usr(_, message: Message):
 
 
 # Ungban
-@nexaub_on_cmd(command=["ungban"], modlue=mod_file)
+@nexaub.on_cmd(command=["ungban"], modlue=mod_file)
 async def ungbun_dis_usr(_, message: Message):
     ungban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_ug_msg = message.reply_to_message
@@ -146,7 +146,7 @@ async def ungbun_dis_usr(_, message: Message):
 
 
 # Gbans
-@nexaub_on_cmd(command=["gbans"], modlue=mod_file)
+@nexaub.on_cmd(command=["gbans"], modlue=mod_file)
 async def gbuns_in_whole_time(_, message: Message):
     glist_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     gban_list = await get_gbanned()
@@ -171,7 +171,7 @@ async def gbuns_in_whole_time(_, message: Message):
 
 
 # Gpromote
-@nexaub_on_cmd(command=["gpromote"], modlue=mod_file)
+@nexaub.on_cmd(command=["gpromote"], modlue=mod_file)
 async def gpromote_dis_usr(_, message: Message):
     gpromote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -283,7 +283,7 @@ async def gpromote_dis_usr(_, message: Message):
 
 
 # Gdemote
-@nexaub_on_cmd(command=["gdemote"], modlue=mod_file)
+@nexaub.on_cmd(command=["gdemote"], modlue=mod_file)
 async def gdemote_dis_usr(_, message: Message):
     gdemote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -357,7 +357,7 @@ async def gdemote_dis_usr(_, message: Message):
     await gdemote_msg.edit(f"**#USER_GDEMOTED** \n\n**Globally demoted** {(await NEXAUB.get_users(gd_user_id)).mention} **in ** `{total_gp_chats - ub_failed}` **chats!**")
 
 
-@nexaub_on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))
+@nexaub.on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))
 async def gbanner(_m, message: Message):
     if not message:
         return

@@ -16,7 +16,7 @@ from pyrogram.raw.types import InputStickerSetShortName
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
@@ -44,7 +44,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["packinfo"], modlue=mod_file)
+@nexaub.on_cmd(command=["packinfo"], modlue=mod_file)
 async def packinfo(client, message):
     pablo = await e_or_r(nexaub_message=message, msg_text="Processing...")
     if not message.reply_to_message:
@@ -79,7 +79,7 @@ async def packinfo(client, message):
     await pablo.edit(output)
 
 
-@nexaub_on_cmd(command=["kang"], modlue=mod_file)
+@nexaub.on_cmd(command=["kang"], modlue=mod_file)
 async def kang_stick(_, message: Message):
     kang_msg = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
     if not message.reply_to_message:

@@ -7,7 +7,7 @@ import os
 from pyrogram.types import Message
 from emoji import UNICODE_EMOJI
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -32,7 +32,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["unicode", "uni"], modlue=mod_file)
+@nexaub.on_cmd(command=["unicode", "uni"], modlue=mod_file)
 async def checks_unicode(_, message: Message):
     uni_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

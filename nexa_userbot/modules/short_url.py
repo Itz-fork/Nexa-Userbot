@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg, extract_url_from_txt
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -67,7 +67,7 @@ async def short_urls(url, shortner):
                 return [isgd_short.json()["shorturl"]]
 
 
-@nexaub_on_cmd(command=["short"], modlue=mod_file)
+@nexaub.on_cmd(command=["short"], modlue=mod_file)
 async def short_urls_func(_, message: Message):
     short_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message

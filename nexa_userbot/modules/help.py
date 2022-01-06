@@ -10,7 +10,7 @@ from . import __all__ as ALL_MODULES
 from .Extras import get_xtra_modules_names
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -67,7 +67,7 @@ async def get_help_type(htx):
         help_list = [ALL_MODULES, DEFAULT_HELP_TXT]
     return help_list
 
-@nexaub_on_cmd(command=["help", "xhelp", "chelp"], modlue=mod_file)
+@nexaub.on_cmd(command=["help", "xhelp", "chelp"], modlue=mod_file)
 async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

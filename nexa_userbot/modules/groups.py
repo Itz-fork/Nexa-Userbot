@@ -6,7 +6,7 @@ import asyncio
 from . import nexaub_devs
 from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
@@ -59,7 +59,7 @@ CMD_HELP.update(
 
 
 # Purges
-@nexaub_on_cmd(command=["purge"], modlue=mod_file, admins_only=True)
+@nexaub.on_cmd(command=["purge"], modlue=mod_file, admins_only=True)
 async def purge_this(_, message: Message):
   p_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   if not message.reply_to_message:
@@ -78,7 +78,7 @@ async def purge_this(_, message: Message):
 
 
 # Bans
-@nexaub_on_cmd(command=["ban"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["ban"], modlue=mod_file, admins_only=True, only_groups=True)
 async def ban_usr(_, message: Message):
   ban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -107,7 +107,7 @@ async def ban_usr(_, message: Message):
 
 
 # Kick
-@nexaub_on_cmd(command=["kick"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["kick"], modlue=mod_file, admins_only=True, only_groups=True)
 async def kick_usr(_, message: Message):
   kick_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -147,7 +147,7 @@ async def kick_usr(_, message: Message):
 
 
 # Unbans
-@nexaub_on_cmd(command=["unban"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["unban"], modlue=mod_file, admins_only=True, only_groups=True)
 async def unban_usr(_, message: Message):
   u_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -163,7 +163,7 @@ async def unban_usr(_, message: Message):
 
 
 # Pin message
-@nexaub_on_cmd(command=["pin"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["pin"], modlue=mod_file, admins_only=True, only_groups=True)
 async def pin_msg(_, message: Message):
   pin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -178,7 +178,7 @@ async def pin_msg(_, message: Message):
 
 
 # Unpin message
-@nexaub_on_cmd(command=["unpin"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["unpin"], modlue=mod_file, admins_only=True, only_groups=True)
 async def unpin_msg(_, message: Message):
   unpin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message

@@ -5,7 +5,7 @@ import os
 
 from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.core.nexaub_database.nexaub_db_globals import get_gban_reason
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import check_if_sudo
 from nexa_userbot.helpers.pyrogram_help import get_arg
@@ -58,7 +58,7 @@ async def get_user_info(user):
     return user_info
 
 
-@nexaub_on_cmd(command=["whois", "info"], modlue=mod_file)
+@nexaub.on_cmd(command=["whois", "info"], modlue=mod_file)
 async def who_tf_is(_, message: Message):
     who_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

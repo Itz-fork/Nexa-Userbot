@@ -7,7 +7,7 @@ from pyrogram.types import Message
 from httpx import AsyncClient
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -63,7 +63,7 @@ async def get_data(username):
             return [base_msg, "https://telegra.ph//file/32f69c18190666ea96553.jpg"]
 
 
-@nexaub_on_cmd(command=["github", "git"], modlue=mod_file)
+@nexaub.on_cmd(command=["github", "git"], modlue=mod_file)
 async def github_search(_, message: Message):
     git_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     username = get_arg(message)

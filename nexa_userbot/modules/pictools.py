@@ -7,7 +7,7 @@ from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.helpers.pictool_help import gib_carbon_sar
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_custom_var
 from config import Config
 
@@ -40,7 +40,7 @@ CMD_HELP.update(
 
 # Carbon a text
 # Credits: Friday Userbot | DevsExpo
-@nexaub_on_cmd(command=["carbon"], modlue=mod_file)
+@nexaub.on_cmd(command=["carbon"], modlue=mod_file)
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
     carbon_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -70,7 +70,7 @@ async def get_rmbg_api():
         return None
 
 # Background Remover
-@nexaub_on_cmd(command=["rmbg"], modlue=mod_file)
+@nexaub.on_cmd(command=["rmbg"], modlue=mod_file)
 async def removebg(_, message: Message):
     rmbg_api = await get_rmbg_api()
     rmbg_r_msg = message.reply_to_message

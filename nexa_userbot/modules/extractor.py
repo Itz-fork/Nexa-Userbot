@@ -7,7 +7,7 @@ from pyrogram.types import Message
 from py_extract import Video_tools
 
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 # Help
@@ -31,7 +31,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["ext_aud"], modlue=mod_file)
+@nexaub.on_cmd(command=["ext_aud"], modlue=mod_file)
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

@@ -8,7 +8,7 @@ from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -41,7 +41,7 @@ CMD_HELP.update(
 
 
 # To Block a user
-@nexaub_on_cmd(command=["block"], modlue=mod_file, no_sudos=True)
+@nexaub.on_cmd(command=["block"], modlue=mod_file, no_sudos=True)
 async def block_dumb(_, message: Message):
   shit_id = message.chat.id
   r_msg = message.reply_to_message
@@ -57,7 +57,7 @@ async def block_dumb(_, message: Message):
     await gonna_block_u.edit(f"**Error:** `{lol}`")
 
 # To Unblock User That Already Blocked
-@nexaub_on_cmd(command=["unblock"], modlue=mod_file, no_sudos=True)
+@nexaub.on_cmd(command=["unblock"], modlue=mod_file, no_sudos=True)
 async def unblock_boi(_, message: Message):
   good_bro = int(message.command[1])
   gonna_unblock_u = await e_or_r(nexaub_message=message, msg_text="`Unblocking User...`")
@@ -68,7 +68,7 @@ async def unblock_boi(_, message: Message):
     await gonna_unblock_u.edit(f"**Error:** `{lol}`")
 
 # Leave From a Chat
-@nexaub_on_cmd(command=["kickme"], modlue=mod_file, no_sudos=True, only_groups=True)
+@nexaub.on_cmd(command=["kickme"], modlue=mod_file, no_sudos=True, only_groups=True)
 async def ubkickme(_, message: Message):
   i_go_away = await e_or_r(nexaub_message=message, msg_text="`Leaving This Chat...`")
   try:
@@ -88,7 +88,7 @@ async def count_chats():
       await time.sleep(e.x)
   return total
 
-@nexaub_on_cmd(command=["chats"], modlue=mod_file, no_sudos=True)
+@nexaub.on_cmd(command=["chats"], modlue=mod_file, no_sudos=True)
 async def ubgetchats(_, message: Message):
   getting_chats = await e_or_r(nexaub_message=message, msg_text="`Checking Your Chats, Hang On...`")
   d_count = await count_chats()

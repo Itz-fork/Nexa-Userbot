@@ -10,7 +10,7 @@ import subprocess
 
 from io import StringIO
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_custom_var
 from config import Config
 
@@ -62,7 +62,7 @@ NON_DEV_WARN_MSG = f"""
 __**Don't blame the developer after doing stupid things with this ❗**__
 """
 
-@nexaub_on_cmd(command=["eval"], modlue=mod_file)
+@nexaub.on_cmd(command=["eval"], modlue=mod_file)
 async def evaluate(client, message):
     status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Checks if the developer mode is enabled
@@ -116,7 +116,7 @@ async def evaluate(client, message):
         await e_or_r(nexaub_message=status_message, msg_text=final_output)
 
 
-@nexaub_on_cmd(command=["sh"], modlue=mod_file)
+@nexaub.on_cmd(command=["sh"], modlue=mod_file)
 async def terminal(client, message):
     sh_eval_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if len(message.text.split()) == 1:

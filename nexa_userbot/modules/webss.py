@@ -9,7 +9,7 @@ from io import BytesIO
 from aiohttp import ClientSession
 
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg, extract_url_from_txt
 from config import Config
 
@@ -63,7 +63,7 @@ async def is_full_page(cmd):
         full_page = False
     return full_page
 
-@nexaub_on_cmd(command=["webss", "wss", "fwss", "fwebss", "wssf", "webssf"], modlue=mod_file)
+@nexaub.on_cmd(command=["webss", "wss", "fwss", "fwebss", "wssf", "webssf"], modlue=mod_file)
 async def gimme_a_damn_ss(_, message: Message):
     webss_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

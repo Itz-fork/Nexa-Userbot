@@ -6,7 +6,7 @@ import asyncio
 
 from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
@@ -25,7 +25,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["hack", "heck"], modlue=mod_file)
+@nexaub.on_cmd(command=["hack", "heck"], modlue=mod_file)
 async def heck_dat(_, message: Message):
     r_msg = message.reply_to_message
     heck_msg = await e_or_r(nexaub_message=message, msg_text="**[root@Nexa-Ub]** `enable tg-hacker && clear`")

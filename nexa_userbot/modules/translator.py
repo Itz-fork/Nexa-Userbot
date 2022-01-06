@@ -7,7 +7,7 @@ from pyrogram.types import Message
 from py_trans import Async_PyTranslator
 
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
 
@@ -50,7 +50,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["ptr"], modlue=mod_file)
+@nexaub.on_cmd(command=["ptr"], modlue=mod_file)
 async def pytrans_tr(_, message: Message):
   tr_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message

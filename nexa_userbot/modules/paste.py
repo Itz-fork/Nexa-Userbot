@@ -8,7 +8,7 @@ from pyrogram.types import Message
 from httpx import AsyncClient
 from nexa_userbot import CMD_HELP
 from nexa_userbot.helpers.pyrogram_help import get_arg
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 
@@ -112,7 +112,7 @@ async def get_pastebin_service(text: str):
         pastebin = "spacebin"
     return pastebin
 
-@nexaub_on_cmd(command=["paste", "nekobin", "hastebin", "spacebin"], modlue=mod_file)
+@nexaub.on_cmd(command=["paste", "nekobin", "hastebin", "spacebin"], modlue=mod_file)
 async def paste_dis_text(_, message: Message):
     pstbin_serv = await get_pastebin_service(message.text.split(" ")[0])
     paste_msg = await e_or_r(nexaub_message=message, msg_text=f"`Pasting to {pstbin_serv.capitalize()}...`")

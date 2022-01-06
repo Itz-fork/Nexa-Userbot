@@ -15,7 +15,7 @@ from git.exc import GitCommandError, InvalidGitRepositoryError
 from nexa_userbot import NEXAUB, CMD_HELP
 from config import Config
 from nexa_userbot.helpers.pyrogram_help import get_arg, rm_markdown
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
@@ -64,7 +64,7 @@ async def updateme_requirements():
         return repr(e)
 
 
-@nexaub_on_cmd(command=["update"], modlue=mod_file)
+@nexaub.on_cmd(command=["update"], modlue=mod_file)
 async def upstream(client, message):
     status = await e_or_r(nexaub_message=message, msg_text=f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
     conf = get_arg(message)
@@ -188,7 +188,7 @@ async def restart_nexaub():
         execle(sys.executable, *args, environ)
         exit()
 
-@nexaub_on_cmd(command=["restart"], modlue=mod_file)
+@nexaub.on_cmd(command=["restart"], modlue=mod_file)
 async def restart(client, message):
     restart_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     await restart_msg.edit("`Nexa-Userbot is restarting! Please wait...`")
@@ -198,7 +198,7 @@ async def restart(client, message):
         await restart_msg.edit(f"**Error:** `{e}`")
 
 
-@nexaub_on_cmd(command=["logs"], modlue=mod_file)
+@nexaub.on_cmd(command=["logs"], modlue=mod_file)
 async def log(client, message):
     try:
         st_msg = await e_or_r(nexaub_message=message, msg_text="`Getting Logs...`")

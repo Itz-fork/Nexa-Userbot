@@ -5,7 +5,7 @@ import os
 
 from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import import_plugin
 from config import Config
 
@@ -34,7 +34,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub_on_cmd(command=["install"], modlue=mod_file)
+@nexaub.on_cmd(command=["install"], modlue=mod_file)
 async def install_plugin(_, message: Message):
     msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message

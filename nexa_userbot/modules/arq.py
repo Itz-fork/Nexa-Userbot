@@ -7,7 +7,7 @@ from Python_ARQ import ARQ
 from pyrogram.types import Message
 
 from nexa_userbot import CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_arq_key
 from nexa_userbot.helpers.pyrogram_help import get_arg
 from config import Config
@@ -96,7 +96,7 @@ async def ARQ_NEXAUB(
         print(e)
 
 # Lyrics
-@nexaub_on_cmd(command=["lyrics"], modlue=mod_file)
+@nexaub.on_cmd(command=["lyrics"], modlue=mod_file)
 async def arq_lyrics(_, message: Message):
     lyrics_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     keyword = get_arg(message)
@@ -122,7 +122,7 @@ async def arq_lyrics(_, message: Message):
         await lyrics_msg.edit(nyc_lyrics)
 
 # Translator
-@nexaub_on_cmd(command=["tr"], modlue=mod_file)
+@nexaub.on_cmd(command=["tr"], modlue=mod_file)
 async def arq_trans(_, message: Message):
     trans_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     to_tr_text = get_arg(message)
@@ -161,7 +161,7 @@ async def arq_trans(_, message: Message):
         await trans_msg.edit(translated_str)
 
 # Wiki search
-@nexaub_on_cmd(command=["wiki"], modlue=mod_file)
+@nexaub.on_cmd(command=["wiki"], modlue=mod_file)
 async def arq_wiki(_, message: Message):
     wiki_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     wiki_key = get_arg(message)
@@ -191,7 +191,7 @@ async def arq_wiki(_, message: Message):
         await wiki_msg.edit(wiki_txt)
 
 # Reddit
-@nexaub_on_cmd(command=["reddit"], modlue=mod_file)
+@nexaub.on_cmd(command=["reddit"], modlue=mod_file)
 async def arq_reddit(_, message: Message):
     red_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     reddit_key = get_arg(message)

@@ -6,7 +6,7 @@ from telegraph import Telegraph
 from pyrogram.types import Message
 
 from nexa_userbot import NEXAUB, CMD_HELP
-from nexa_userbot.core.main_cmd import nexaub_on_cmd, e_or_r
+from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg, convert_to_image
 from config import Config
 
@@ -59,7 +59,7 @@ async def upload_to_tgraph(file):
     return f"**Error:** {e}"
 
 
-@nexaub_on_cmd(command=["telegraph", "tgraph"], modlue=mod_file)
+@nexaub.on_cmd(command=["telegraph", "tgraph"], modlue=mod_file)
 async def telegraph_up(_, message: Message):
     tgraph_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
