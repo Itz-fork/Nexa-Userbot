@@ -23,9 +23,19 @@ CMD_HELP.update(
 **Spam,**
 
 ✘ `spam` - To spam a specific text
-✘ `pspam` - To spam a specific photo / video
+✘ `fspam` - To spam a specific photo / video
 
+**Example:**
 
+  ✘ `spam`,
+   ⤷ Send with command = `{Config.CMD_PREFIX}spam Text to Spam`
+   ⤷ Reply to a text message = `{Config.CMD_PREFIX}spam`
+  
+  **Tip 💡,**
+    ⤷ You can limit the spam too. Just type limit after the command - `{Config.CMD_PREFIX}spam 5`
+
+  ✘ `fspam`,
+   ⤷ Same arguments and logic as spam command
 """,
         f"{mod_name}_category": "unknown"
     }
@@ -35,19 +45,24 @@ CMD_HELP.update(
 # Function to spam the message while avoiding the floodwait
 async def do_spam(limit, chat_id, spam_text=None, spam_message=None):
     # Sleep time (in seconds)
-    sleep_time = 2
+    sleep_time = 1 if limit <= 50 else 2
     spm_limit = int(limit)
     try:
+        # Saves message in the log channel
+        if spam_message:
+            msg = await spam_message.copy(LOG_CHANNEL_ID)
         for i in range(0, spm_limit):
             if spam_text:
                 await NEXAUB.send_message(chat_id, spam_text)
-            elif spam_message:
-                # Saves message in the log channel
-                msg = await spam_message.copy(LOG_CHANNEL_ID)
+            elif msg:
                 await msg.copy(chat_id)
             else:
                 return
             await sleep(sleep_time)
+        try:
+            await msg.delete()
+        except:
+            pass
     except FloodWait as e:
         await sleep(e.x)
         return await do_spam(limit, chat_id, spam_text=None, spam_message=None)
@@ -65,7 +80,7 @@ async def spam_text(_, message: Message):
     if r_msg:
         # Checks if the replied message has any text
         if not r_msg.text:
-            return await spm_msg.edit("`Reply to a text message to spam it!` \n\nDid you meant `{Config.CMD_PREFIX}fspam` ?")
+            return await spm_msg.edit(f"`Reply to a text message to spam it!` \n\nDid you meant `{Config.CMD_PREFIX}fspam` ?")
         to_spam = r_msg.text
         # Checks if spam limit is provided by the user
         if args and args.isnumeric():
@@ -80,6 +95,7 @@ async def spam_text(_, message: Message):
     else:
         return await spm_msg.edit("`Give some text or reply to a text message to spam it!`")
     await do_spam(spam_limit, message.chat.id, spam_text=to_spam)
+    await spm_msg.edit(f"`Successfully spammed {spam_limit} messages!`")
 
 
 # Doc / Audio / Video spam / Animation / Sticker (Basically copy of replied message)
@@ -96,3 +112,4 @@ async def copy_spam(_, message: Message):
     else:
         return await spm_msg.edit("`Reply to a message to spam a copy of it!`")
     await do_spam(spam_limit, message.chat.id, spam_message=r_msg)
+    await spm_msg.edit(f"`Successfully spammed {spam_limit} messages!`")
