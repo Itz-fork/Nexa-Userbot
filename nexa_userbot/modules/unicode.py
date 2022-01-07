@@ -12,8 +12,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -32,7 +31,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["unicode", "uni"], modlue=mod_file)
+@nexaub.on_cmd(command=["unicode", "uni"])
 async def checks_unicode(_, message: Message):
     uni_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

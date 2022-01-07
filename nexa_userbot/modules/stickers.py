@@ -20,8 +20,7 @@ from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -44,7 +43,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["packinfo"], modlue=mod_file)
+@nexaub.on_cmd(command=["packinfo"])
 async def packinfo(client, message):
     pablo = await e_or_r(nexaub_message=message, msg_text="Processing...")
     if not message.reply_to_message:
@@ -79,7 +78,7 @@ async def packinfo(client, message):
     await pablo.edit(output)
 
 
-@nexaub.on_cmd(command=["kang"], modlue=mod_file)
+@nexaub.on_cmd(command=["kang"])
 async def kang_stick(_, message: Message):
     kang_msg = await e_or_r(nexaub_message=message, msg_text="`Kanging This Sticker to My Pack...`")
     if not message.reply_to_message:

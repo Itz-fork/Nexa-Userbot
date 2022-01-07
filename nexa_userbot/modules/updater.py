@@ -19,8 +19,7 @@ from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -64,7 +63,7 @@ async def updateme_requirements():
         return repr(e)
 
 
-@nexaub.on_cmd(command=["update"], modlue=mod_file)
+@nexaub.on_cmd(command=["update"])
 async def upstream(client, message):
     status = await e_or_r(nexaub_message=message, msg_text=f"`Checking For Updates from` [Nexa-Userbot]({UPSTREAM_REPO_URL}) `Repo...`")
     conf = get_arg(message)
@@ -188,7 +187,7 @@ async def restart_nexaub():
         execle(sys.executable, *args, environ)
         exit()
 
-@nexaub.on_cmd(command=["restart"], modlue=mod_file)
+@nexaub.on_cmd(command=["restart"])
 async def restart(client, message):
     restart_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     await restart_msg.edit("`Nexa-Userbot is restarting! Please wait...`")
@@ -198,7 +197,7 @@ async def restart(client, message):
         await restart_msg.edit(f"**Error:** `{e}`")
 
 
-@nexaub.on_cmd(command=["logs"], modlue=mod_file)
+@nexaub.on_cmd(command=["logs"])
 async def log(client, message):
     try:
         st_msg = await e_or_r(nexaub_message=message, msg_text="`Getting Logs...`")

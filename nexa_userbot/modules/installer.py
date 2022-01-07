@@ -11,8 +11,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -34,7 +33,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["install"], modlue=mod_file)
+@nexaub.on_cmd(command=["install"])
 async def install_plugin(_, message: Message):
     msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     replied_msg = message.reply_to_message

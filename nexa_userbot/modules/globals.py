@@ -14,8 +14,7 @@ from nexa_userbot.helpers.pyrogram_help import get_ma_chats
 from config import Config
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -57,7 +56,7 @@ CMD_HELP.update(
 
 
 # Gban
-@nexaub.on_cmd(command=["gban"], modlue=mod_file)
+@nexaub.on_cmd(command=["gban"])
 async def gbun_dis_usr(_, message: Message):
     gban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -107,7 +106,7 @@ async def gbun_dis_usr(_, message: Message):
 
 
 # Ungban
-@nexaub.on_cmd(command=["ungban"], modlue=mod_file)
+@nexaub.on_cmd(command=["ungban"])
 async def ungbun_dis_usr(_, message: Message):
     ungban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_ug_msg = message.reply_to_message
@@ -146,7 +145,7 @@ async def ungbun_dis_usr(_, message: Message):
 
 
 # Gbans
-@nexaub.on_cmd(command=["gbans"], modlue=mod_file)
+@nexaub.on_cmd(command=["gbans"])
 async def gbuns_in_whole_time(_, message: Message):
     glist_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     gban_list = await get_gbanned()
@@ -171,7 +170,7 @@ async def gbuns_in_whole_time(_, message: Message):
 
 
 # Gpromote
-@nexaub.on_cmd(command=["gpromote"], modlue=mod_file)
+@nexaub.on_cmd(command=["gpromote"])
 async def gpromote_dis_usr(_, message: Message):
     gpromote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -283,7 +282,7 @@ async def gpromote_dis_usr(_, message: Message):
 
 
 # Gdemote
-@nexaub.on_cmd(command=["gdemote"], modlue=mod_file)
+@nexaub.on_cmd(command=["gdemote"])
 async def gdemote_dis_usr(_, message: Message):
     gdemote_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

@@ -12,8 +12,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -59,7 +58,7 @@ async def upload_to_tgraph(file):
     return f"**Error:** {e}"
 
 
-@nexaub.on_cmd(command=["telegraph", "tgraph"], modlue=mod_file)
+@nexaub.on_cmd(command=["telegraph", "tgraph"])
 async def telegraph_up(_, message: Message):
     tgraph_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

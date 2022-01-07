@@ -11,8 +11,7 @@ from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from config import Config
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -31,7 +30,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["ext_aud"], modlue=mod_file)
+@nexaub.on_cmd(command=["ext_aud"])
 async def extract_all_aud(_, message: Message):
     replied_msg = message.reply_to_message
     ext_text = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

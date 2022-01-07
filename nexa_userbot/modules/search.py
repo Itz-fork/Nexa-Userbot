@@ -17,8 +17,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -42,7 +41,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["duck_s"], modlue=mod_file)
+@nexaub.on_cmd(command=["duck_s"])
 async def duckduckg_s(client, message):
     pablo = await e_or_r(nexaub_message=message, msg_text="`Searcing in DuckDuckGo...`")
     query = get_arg(message)
@@ -54,7 +53,7 @@ async def duckduckg_s(client, message):
     await pablo.edit(f"**Query:** \n`{query}` \n\n**Result(s):** \n{link}")
 
 
-@nexaub.on_cmd(command=["google"], modlue=mod_file)
+@nexaub.on_cmd(command=["google"])
 async def google_s(client, message):
     gsearch_msg = await e_or_r(nexaub_message=message, msg_text="`Searching in Google...`")
     query = get_arg(message)

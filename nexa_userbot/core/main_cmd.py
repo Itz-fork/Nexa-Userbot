@@ -53,18 +53,18 @@ async def e_or_r(nexaub_message, msg_text, parse_mode="md", disable_web_page_pre
 
 class nexaub:
     """
-    Main class of Nexa Userbot
+    ## Main class of Nexa Userbot
 
-    Available Functions:
-        on_cmd: Main decorator
-        on_cf: Decorator to handle custom filters
-        add_handler: Add handler to userbot
+    ## Available Functions:
+    
+        ``on_cmd``: Main decorator
+        ``on_cf``: Decorator to handle custom filters
+        ``add_handler``: Add handler to userbot
     """
     @classmethod
     def on_cmd(
         self,
         command: list,
-        modlue,
         group: int = 0,
         admins_only: bool = False,
         only_pm: bool = False,
@@ -77,7 +77,6 @@ class nexaub:
         ### Arguments:
 
             ``command``: List of commands
-            ``modlue``: Name of the module
             ``group`` (optional): Handler group (Defaults to 0)
             ``admins_only`` (optional): True if the command is only for admins (Defaults to False)
             ``only_pm`` (optional): True if the command is only for private chats (Defaults to False)
@@ -111,11 +110,11 @@ class nexaub:
                 except MessageIdInvalid:
                     logging.warning("Don't delete message while processing. It may crash the bot!")
                 except BaseException as e:
-                    logging.error(f"\nModule - {modlue} | Command: {command[0]} | Traceback: \n{e}")
+                    logging.error(f"\nModule - {func.__module__} | Command: {command[0]} | Traceback: \n{e}")
                     error_text = f"""
 **#ERROR**
 
-**Module:** `{modlue}`
+**Module:** `{func.__module__}`
 **Command:** `{Config.CMD_PREFIX + command[0]}`
 **Traceback:**
 `{e}`
@@ -161,7 +160,7 @@ class nexaub:
 **Traceback:**
 `{e}`
 
-Forward this to @NexaUB_Support
+**Forward this to @NexaUB_Support**
 """
                     if len(error_text) > 4000:
                         clean_error_text = await rm_markdown(error_text)

@@ -10,8 +10,7 @@ from nexa_userbot.core.main_cmd import nexaub, e_or_r
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -25,7 +24,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["hack", "heck"], modlue=mod_file)
+@nexaub.on_cmd(command=["hack", "heck"])
 async def heck_dat(_, message: Message):
     r_msg = message.reply_to_message
     heck_msg = await e_or_r(nexaub_message=message, msg_text="**[root@Nexa-Ub]** `enable tg-hacker && clear`")

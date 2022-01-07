@@ -16,8 +16,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -41,7 +40,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["meganzup"], modlue=mod_file)
+@nexaub.on_cmd(command=["meganzup"])
 async def meganz_upload(_, message: Message):
     meganz_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Mega.nz Email and Pass
@@ -72,7 +71,7 @@ For functionality of this function you must set the `MEGA_EMAIL` and `MEGA_PASS`
 
 
 
-@nexaub.on_cmd(command=["gofile"], modlue=mod_file)
+@nexaub.on_cmd(command=["gofile"])
 async def gofiles_up(_, message: Message):
     gofile_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_go_f = message.reply_to_message

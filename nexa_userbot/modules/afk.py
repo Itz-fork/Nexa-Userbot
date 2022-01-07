@@ -14,8 +14,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -55,7 +54,7 @@ async def u_afk_bro(filter, client, message):
 ya_afk = filters.create(func=u_afk_bro, name="is_ya_afk")
 
 
-@nexaub.on_cmd(command=["afk"], modlue=mod_file)
+@nexaub.on_cmd(command=["afk"])
 async def me_goin_oflin(_, message: Message):
     afk_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     get_afk_reason = get_arg(message)

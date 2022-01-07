@@ -67,7 +67,7 @@ async def get_help_type(htx):
         help_list = [ALL_MODULES, DEFAULT_HELP_TXT]
     return help_list
 
-@nexaub.on_cmd(command=["help", "xhelp", "chelp"], modlue=mod_file)
+@nexaub.on_cmd(command=["help", "xhelp", "chelp"])
 async def help(_, message: Message):
     args = get_arg(message)
     help_user_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")

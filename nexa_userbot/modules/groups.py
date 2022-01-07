@@ -12,8 +12,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -59,7 +58,7 @@ CMD_HELP.update(
 
 
 # Purges
-@nexaub.on_cmd(command=["purge"], modlue=mod_file, admins_only=True)
+@nexaub.on_cmd(command=["purge"], admins_only=True)
 async def purge_this(_, message: Message):
   p_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   if not message.reply_to_message:
@@ -78,7 +77,7 @@ async def purge_this(_, message: Message):
 
 
 # Bans
-@nexaub.on_cmd(command=["ban"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["ban"], admins_only=True, only_groups=True)
 async def ban_usr(_, message: Message):
   ban_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -102,12 +101,12 @@ async def ban_usr(_, message: Message):
     return await ban_msg.edit("`Lmao! Tryna ban my devs? Using me? 😂`")
   if b_user_id == is_me.id:
     return await ban_msg.edit("`Why should I ban my self?`")
-  await message.chat.kick_member(user_id=int(b_user_id))
+  await message.chat.ban_member(user_id=int(b_user_id))
   await ban_msg.edit(f"**Banned 👊** \n\n**User ID:** `{b_user_id}`")
 
 
 # Kick
-@nexaub.on_cmd(command=["kick"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["kick"], admins_only=True, only_groups=True)
 async def kick_usr(_, message: Message):
   kick_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -116,7 +115,7 @@ async def kick_usr(_, message: Message):
   default_ban_time = 5
   # Getting user id
   if args:
-    spl_args = args.split(None)
+    spl_args = args.split(" ")
     if len(spl_args) == 2:
       b_user_id = spl_args[0].replace("@", "")
       if spl_args[1].isnumeric():
@@ -140,14 +139,14 @@ async def kick_usr(_, message: Message):
   if b_user_id == is_me.id:
     return await kick_msg.edit("`Why should I kick my self?`")  
   # Kicking the user
-  await message.chat.kick_member(user_id=int(b_user_id))
+  await message.chat.ban_member(user_id=int(b_user_id))
   await kick_msg.edit(f"**Kicked ✊** \n\n**User ID:** `{b_user_id}` \n\n`⚠️ Unbanning after {default_ban_time} secs! ⚠️`")
   await asyncio.sleep(int(default_ban_time))
   await message.chat.unban_member(user_id=int(b_user_id))
 
 
 # Unbans
-@nexaub.on_cmd(command=["unban"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["unban"], admins_only=True, only_groups=True)
 async def unban_usr(_, message: Message):
   u_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -159,11 +158,11 @@ async def unban_usr(_, message: Message):
   else:
     return await u_msg.edit("`Give a user id to unban!`")
   await message.chat.unban_member(user_id=int(u_usr_id))
-  await u_msg.edit(f"**Ubanned 🤝** \n\n**User ID:** `{u_usr_id}`")
+  await u_msg.edit(f"**Unbanned 🤝** \n\n**User ID:** `{u_usr_id}`")
 
 
 # Pin message
-@nexaub.on_cmd(command=["pin"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["pin"], admins_only=True, only_groups=True)
 async def pin_msg(_, message: Message):
   pin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message
@@ -178,7 +177,7 @@ async def pin_msg(_, message: Message):
 
 
 # Unpin message
-@nexaub.on_cmd(command=["unpin"], modlue=mod_file, admins_only=True, only_groups=True)
+@nexaub.on_cmd(command=["unpin"], admins_only=True, only_groups=True)
 async def unpin_msg(_, message: Message):
   unpin_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   r_msg = message.reply_to_message

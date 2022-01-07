@@ -16,8 +16,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -62,7 +61,7 @@ NON_DEV_WARN_MSG = f"""
 __**Don't blame the developer after doing stupid things with this ❗**__
 """
 
-@nexaub.on_cmd(command=["eval"], modlue=mod_file)
+@nexaub.on_cmd(command=["eval"])
 async def evaluate(client, message):
     status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Checks if the developer mode is enabled
@@ -116,7 +115,7 @@ async def evaluate(client, message):
         await e_or_r(nexaub_message=status_message, msg_text=final_output)
 
 
-@nexaub.on_cmd(command=["sh"], modlue=mod_file)
+@nexaub.on_cmd(command=["sh"])
 async def terminal(client, message):
     sh_eval_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     if len(message.text.split()) == 1:

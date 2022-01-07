@@ -13,8 +13,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -54,7 +53,7 @@ CMD_HELP.update(
 )
 
 
-@nexaub.on_cmd(command=["addsudo"], modlue=mod_file)
+@nexaub.on_cmd(command=["addsudo"])
 async def set_sudo(_, message: Message):
   sudo_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   sudo_id = str(get_arg(message))
@@ -78,7 +77,7 @@ async def set_sudo(_, message: Message):
     await sudo_msg.edit("`Please give a valid user id to add as a sudo user`")
 
 
-@nexaub.on_cmd(command=["rsudo"], modlue=mod_file)
+@nexaub.on_cmd(command=["rsudo"])
 async def set_sudo(_, message: Message):
   sudo_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   sudo_id = str(get_arg(message))
@@ -102,7 +101,7 @@ async def set_sudo(_, message: Message):
     await sudo_msg.edit("`Please give a valid user id to add as a sudo user`")
 
 
-@nexaub.on_cmd(command=["setvar"], modlue=mod_file)
+@nexaub.on_cmd(command=["setvar"])
 async def setmongovar(_, message: Message):
   setvr_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   var_val = get_arg(message)
@@ -113,7 +112,7 @@ async def setmongovar(_, message: Message):
     await set_custom_var(var=s_var[0], value=s_var[1])
     await setvr_msg.edit(f"**Successfully Added Custom Var** \n\n**Var:** `{s_var[0]}` \n**Val:** `{s_var[1]}`")
 
-@nexaub.on_cmd(command=["getvar"], modlue=mod_file)
+@nexaub.on_cmd(command=["getvar"])
 async def get_var(_, message: Message):
   g_var = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   var_g = get_arg(message)
@@ -126,7 +125,7 @@ async def get_var(_, message: Message):
     else:
       await g_var.edit(f"**Var:** `{var_g}` \n**Val:** `{g_var_s}`")
 
-@nexaub.on_cmd(command=["delvar"], modlue=mod_file)
+@nexaub.on_cmd(command=["delvar"])
 async def del_var(_, message: Message):
   d_var = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   var_d = get_arg(message)
@@ -138,7 +137,7 @@ async def del_var(_, message: Message):
       await d_var.edit(f"**Successfully Deleted** `{var_d}` **Var from database!**")
 
 
-@nexaub.on_cmd(command=["add_plugin_channel", "a_p_c", "add_plugins"], modlue=mod_file)
+@nexaub.on_cmd(command=["add_plugin_channel", "a_p_c", "add_plugins"])
 async def add_custom_plug(_, message: Message):
   acpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   get_c_name = get_arg(message)
@@ -154,7 +153,7 @@ async def add_custom_plug(_, message: Message):
   await add_custom_plugin_channel(plug_channel)
   await acpc.edit(f"**Successfully Added Custom Plugin Channel** \n\n**Channel:** {get_c_name}")
 
-@nexaub.on_cmd(command=["rm_plugin_channel", "rm_c", "rm_plugins"], modlue=mod_file)
+@nexaub.on_cmd(command=["rm_plugin_channel", "rm_c", "rm_plugins"])
 async def remove_custom_plug(_, message: Message):
   rmcpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   rm_c_name = get_arg(message)
@@ -166,7 +165,7 @@ async def remove_custom_plug(_, message: Message):
   await remove_custom_plugin_channel(rm_c_name)
   await rmcpc.edit(f"**Successfully Removed Custom Plugin Channel** \n\n**Channel:** {rm_c_name}")
 
-@nexaub.on_cmd(command=["get_plugin_channels", "get_c", "get_plugins"], modlue=mod_file)
+@nexaub.on_cmd(command=["get_plugin_channels", "get_c", "get_plugins"])
 async def get_custom_plug(_, message: Message):
   getcpc = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   channel_list = await get_custom_plugin_channels()

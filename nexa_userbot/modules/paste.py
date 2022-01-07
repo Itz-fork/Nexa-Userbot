@@ -13,8 +13,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -112,7 +111,7 @@ async def get_pastebin_service(text: str):
         pastebin = "spacebin"
     return pastebin
 
-@nexaub.on_cmd(command=["paste", "nekobin", "hastebin", "spacebin"], modlue=mod_file)
+@nexaub.on_cmd(command=["paste", "nekobin", "hastebin", "spacebin"])
 async def paste_dis_text(_, message: Message):
     pstbin_serv = await get_pastebin_service(message.text.split(" ")[0])
     paste_msg = await e_or_r(nexaub_message=message, msg_text=f"`Pasting to {pstbin_serv.capitalize()}...`")
@@ -131,4 +130,6 @@ async def paste_dis_text(_, message: Message):
             message_s = replied_msg.text
     paste_cls = PasteBins()
     pasted = await paste_cls.paste_text(pstbin_serv, message_s)
+    if not pasted:
+        return await paste_msg.edit("`Oops, Pasting failed! Please try changing the pastebin service!`")
     await paste_msg.edit(f"**Pasted to {pstbin_serv.capitalize()}!** \n\n**Url:** {pasted}", disable_web_page_preview=True)

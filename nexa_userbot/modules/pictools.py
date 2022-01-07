@@ -13,8 +13,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -40,7 +39,7 @@ CMD_HELP.update(
 
 # Carbon a text
 # Credits: Friday Userbot | DevsExpo
-@nexaub.on_cmd(command=["carbon"], modlue=mod_file)
+@nexaub.on_cmd(command=["carbon"])
 async def gibcarbon(_, message: Message):
     r_msg = message.reply_to_message
     carbon_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -70,7 +69,7 @@ async def get_rmbg_api():
         return None
 
 # Background Remover
-@nexaub.on_cmd(command=["rmbg"], modlue=mod_file)
+@nexaub.on_cmd(command=["rmbg"])
 async def removebg(_, message: Message):
     rmbg_api = await get_rmbg_api()
     rmbg_r_msg = message.reply_to_message

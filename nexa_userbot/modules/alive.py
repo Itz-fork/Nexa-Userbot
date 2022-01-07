@@ -23,8 +23,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -83,7 +82,7 @@ async def get_nexaub_version():
 
 
 # Alive Message
-@nexaub.on_cmd(command=["alive"], modlue=mod_file)
+@nexaub.on_cmd(command=["alive"])
 async def pyroalive(_, message: Message):
     uptime = get_readable_time((time.time() - StartTime))
     alive_bef_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -117,7 +116,7 @@ async def pyroalive(_, message: Message):
         await NEXAUB.send_photo(chat_id=message.chat.id, photo=alive_pic, caption=alive_msg)
 
 # Ping
-@nexaub.on_cmd(command=["ping"], modlue=mod_file, group=-1)
+@nexaub.on_cmd(command=["ping"], group=-1)
 async def pingme(_, message: Message):
     start = datetime.now()
     ping_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -126,7 +125,7 @@ async def pingme(_, message: Message):
     await ping_msg.edit(f"**Pong:** `{ping_time} ms` \n\n ~ **✨ Nexa-Userbot**", disable_web_page_preview=True)
 
 # Set custom alive message
-@nexaub.on_cmd(command=["setalive"], modlue=mod_file)
+@nexaub.on_cmd(command=["setalive"])
 async def set_alive(_, message: Message):
     alive_r_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     c_alive_msg = get_arg(message)
@@ -140,7 +139,7 @@ async def set_alive(_, message: Message):
     await alive_r_msg.edit("`Successfully Updated Custom Alive Message!`")
 
 # Get custom alive message
-@nexaub.on_cmd(command=["getalive"], modlue=mod_file)
+@nexaub.on_cmd(command=["getalive"])
 async def get_alive(_, message: Message):
     g_alive_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     try:
@@ -151,7 +150,7 @@ async def get_alive(_, message: Message):
         print(e)
 
 # Set custom alive picture
-@nexaub.on_cmd(command=["setalivepic"], modlue=mod_file)
+@nexaub.on_cmd(command=["setalivepic"])
 async def set_alive_pic(_, message: Message):
     cust_alive = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message
@@ -173,7 +172,7 @@ async def set_alive_pic(_, message: Message):
         await cust_alive.edit("`Reply to a photo, gif or sticker 😑!`")
 
 # Get custom alive picture
-@nexaub.on_cmd(command=["getalivepic"], modlue=mod_file)
+@nexaub.on_cmd(command=["getalivepic"])
 async def get_alive_pic(_, message: Message):
     get_pic_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     g_al_pic = await get_custom_var(var="ALIVE_PIC")
@@ -189,7 +188,7 @@ async def get_alive_pic(_, message: Message):
         await get_pic_msg.edit("`Save a custom alive picture first!`")
 
 
-@nexaub.on_cmd(command=["clc"], modlue=mod_file)
+@nexaub.on_cmd(command=["clc"])
 async def egg_clc(_, message: Message):
     clc_func = await check_or_set_log_channel()
     lc_id = clc_func[1] if clc_func[1]  else None

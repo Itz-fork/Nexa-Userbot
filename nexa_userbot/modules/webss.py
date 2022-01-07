@@ -15,8 +15,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -63,7 +62,7 @@ async def is_full_page(cmd):
         full_page = False
     return full_page
 
-@nexaub.on_cmd(command=["webss", "wss", "fwss", "fwebss", "wssf", "webssf"], modlue=mod_file)
+@nexaub.on_cmd(command=["webss", "wss", "fwss", "fwebss", "wssf", "webssf"])
 async def gimme_a_damn_ss(_, message: Message):
     webss_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     r_msg = message.reply_to_message

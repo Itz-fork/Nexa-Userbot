@@ -12,8 +12,7 @@ from config import Config
 
 
 # Help
-mod_file = os.path.basename(__file__)
-mod_name = mod_file[:-3]
+mod_name = os.path.basename(__file__)[:-3]
 
 CMD_HELP.update(
     {
@@ -63,7 +62,7 @@ async def get_data(username):
             return [base_msg, "https://telegra.ph//file/32f69c18190666ea96553.jpg"]
 
 
-@nexaub.on_cmd(command=["github", "git"], modlue=mod_file)
+@nexaub.on_cmd(command=["github", "git"])
 async def github_search(_, message: Message):
     git_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     username = get_arg(message)
