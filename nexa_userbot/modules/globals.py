@@ -98,7 +98,7 @@ async def gbun_dis_usr(_, message: Message):
     for gokid in f_chats:
         ub_failed = 0
         try:
-            await NEXAUB.kick_chat_member(chat_id=gokid, user_id=int(gban_uid))
+            await NEXAUB.ban_chat_member(chat_id=gokid, user_id=int(gban_uid))
         except:
             ub_failed += 1
     await gban_usr(gban_id=gban_uid, gban_reason=gban_rson)
@@ -357,7 +357,7 @@ async def gdemote_dis_usr(_, message: Message):
 
 
 @nexaub.on_cf(filters.incoming & ~filters.me & ~filters.user(SUDO_IDS))
-async def gbanner(_m, message: Message):
+async def gbanner(_, message: Message):
     if not message:
         return
     if not message.from_user:
@@ -372,7 +372,7 @@ async def gbanner(_m, message: Message):
             await NEXAUB.block_user(gbanned_usr_id)
         else:
             try:
-                await NEXAUB.kick_chat_member(chat_id=gban_chat_id, user_id=gbanned_usr_id)
+                await NEXAUB.ban_chat_member(chat_id=gban_chat_id, user_id=gbanned_usr_id)
                 await NEXAUB.send_message(chat_id=gban_chat_id, text=f"**#GBAN_DB** \n`Gbanned User Joined to this chat. So I've Banned Him!` \n\n**User ID:** `{gbanned_usr_id}` \n**Reason:** `{is_gbanned}`")
             except:
                 return await NEXAUB.send_message(chat_id=gban_chat_id, text=f"**#GBAN_DB** \n`Gbanned User Joined to this chat!` \n\n**User ID:** `{gbanned_usr_id}` \n**Reason:** `{is_gbanned}`")
