@@ -71,7 +71,7 @@ async def set_sudo(_, message: Message):
   is_id_ok = sudo_user_id.isnumeric()
   if is_id_ok is True:
     await add_sudo(sudo_user_id)
-    await sudo_msg.edit(f"**Successfully Added New Sudo User** \n\n**User ID:** `{sudo_user_id}` \n\nRestart your bot using `{Config.CMD_PREFIX}restart` command to apply the changes!")
+    await sudo_msg.edit(f"**Successfully Added New Sudo User** \n\n**User ID:** `{sudo_user_id}` \n\nRestarting your bot to apply the changes!")
     await restart_nexaub()
   else:
     await sudo_msg.edit("`Please give a valid user id to add as a sudo user`")
@@ -95,7 +95,7 @@ async def set_sudo(_, message: Message):
   is_id_ok = sudo_user_id.isnumeric()
   if is_id_ok is True:
     await remove_sudo(sudo_user_id)
-    await sudo_msg.edit(f"**Successfully Removed Sudo User** \n\n**User ID:** `{sudo_user_id}`")
+    await sudo_msg.edit(f"**Successfully Removed Sudo User** \n\n**User ID:** `{sudo_user_id}` \n\nRestarting your bot to apply the changes!")
     await restart_nexaub()
   else:
     await sudo_msg.edit("`Please give a valid user id to add as a sudo user`")

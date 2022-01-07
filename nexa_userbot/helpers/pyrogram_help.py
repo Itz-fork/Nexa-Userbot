@@ -45,7 +45,7 @@ async def progress_for_pyrogram(current, total, ud_type, message, start):
             estimated_total_time if estimated_total_time != '' else "0 s"
         )
         try:
-            await message.edit(text="{}\n {}".format(ud_type,tmp))
+            await message.edit(text="{}\n {}".format(ud_type, tmp))
         except:
             pass
 
@@ -74,6 +74,7 @@ def TimeFormatter(milliseconds: int) -> str:
         ((str(milliseconds) + "ms, ") if milliseconds else "")
     return tmp[:-2]
 
+
 async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     """Run Commands"""
     args = shlex.split(cmd)
@@ -89,10 +90,14 @@ async def run_cmd(cmd: str) -> Tuple[str, str, int, int]:
     )
 
 # Just for my codes
+
+
 async def run_shell_cmds(command):
-    run = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    run = subprocess.Popen(command, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, shell=True)
     shell_ouput = run.stdout.read()[:-1].decode("utf-8")
     return shell_ouput
+
 
 def get_arg(message):
     msg = message.text
@@ -179,6 +184,8 @@ async def get_ma_chats(chat_types: list = ["channel", "supergroup"], is_id_only=
     return nexaub_chats
 
 # Load Plugins | Thanks for Friday Userbot for the idea
+
+
 def import_plugin(p_path):
     nexaub_xplugin = p_path.replace("/", ".")
     try:
@@ -193,9 +200,10 @@ async def extract_url_from_txt(url):
     urls = re.findall(r'\b((?:https?://)?(?:(?:www\.)?(?:[\da-z\.-]+)\.(?:[a-z]{2,6})|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)|(?:(?:[0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,7}:|(?:[0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|(?:[0-9a-fA-F]{1,4}:){1,5}(?::[0-9a-fA-F]{1,4}){1,2}|(?:[0-9a-fA-F]{1,4}:){1,4}(?::[0-9a-fA-F]{1,4}){1,3}|(?:[0-9a-fA-F]{1,4}:){1,3}(?::[0-9a-fA-F]{1,4}){1,4}|(?:[0-9a-fA-F]{1,4}:){1,2}(?::[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:(?:(?::[0-9a-fA-F]{1,4}){1,6})|:(?:(?::[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(?::[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(?:ffff(?::0{1,4}){0,1}:){0,1}(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])|(?:[0-9a-fA-F]{1,4}:){1,4}:(?:(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(?:25[0-5]|(?:2[0-4]|1{0,1}[0-9]){0,1}[0-9])))(?::[0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])?(?:/[\w\.-]*)*/?)\b', str(url))
     return urls
 
+
 async def rm_markdown(text: str):
     "Remove basic markdown syntax from a string"
-    rmed = re.sub("[*`_]","", text)
+    rmed = re.sub("[*`_]", "", text)
     return rmed
 
 
@@ -219,6 +227,8 @@ async def download_images(images: list):
     return download_images
 
 # Resolve peer (Max: 2 Tries)
+
+
 async def resolve_peer(pr, max_tries=2, counted=1):
     tri_c = counted
     try:
