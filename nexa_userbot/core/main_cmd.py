@@ -8,7 +8,6 @@ import importlib
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
-from pyrogram.methods.advanced import resolve_peer
 
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_log_channel
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_sudos

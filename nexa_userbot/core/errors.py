@@ -14,3 +14,9 @@ class Errors:
         Raises when the spam task was failed
         """
         pass
+
+    class DownloadFailed(Exception):
+        """
+        Raises when the download task was failed
+        """
+        pass
