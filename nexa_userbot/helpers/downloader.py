@@ -12,8 +12,7 @@ class Downloader:
         self.path = "cache/PYSmortDL" if not path else str(path)
 
     async def download(self, url):
-        to_dl = [str(url)]
-        down_obj = SmartDL(to_dl, dest=self.path, progress_bar=False)
+        down_obj = SmartDL(url, dest=self.path, progress_bar=False)
         down_obj.start(blocking=False)
         return down_obj
     
