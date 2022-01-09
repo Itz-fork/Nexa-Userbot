@@ -76,14 +76,14 @@ async def download_direct_links(_, message: Message):
     if not urls:
       return await dl_msg.edit("`Give a url or reply to a message that contains direct links to download it!`")
   elif args:
-    urls = await extract_url_from_txt(r_msg.text)
+    urls = await extract_url_from_txt(args)
     if not urls:
       return await dl_msg.edit("`Give a url or reply to a message that contains direct links to download it!`")
   else:
     return await dl_msg.edit("`Give a url or reply to a message that contains direct links to download it!`")
   # Downloads the files from url
   dl_engine = Downloader()
-  dling_file = await dl_engine.download(urls)
+  dling_file = await dl_engine.download(urls[0])
   # Updating the message with process status
   while not (await dl_engine.__isFinished(dling_file)):
     fdetails = await dl_engine.__get_progress_details(dling_file)

@@ -1,6 +1,7 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa Userbot
 from pySmartDL import SmartDL
+from pySmartDL.utils import get_filesize
 
 class Downloader:
     """
