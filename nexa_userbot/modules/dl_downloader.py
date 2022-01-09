@@ -86,7 +86,7 @@ async def download_direct_links(_, message: Message):
   dling_file = await dl_engine.download(urls[0])
   # Updating the message with process status
   while not (await dl_engine._isFinished(dling_file)):
-    fdetails = await dl_engine.-_get_progress_details(dling_file)
+    fdetails = await dl_engine._get_progress_details(dling_file)
     try:
       await dl_msg.edit(PROGRESS_MSG.format(
         name=os.path.basename(urls[0]),
