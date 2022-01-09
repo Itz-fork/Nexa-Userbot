@@ -6,9 +6,9 @@ import logging
 
 from pyrogram.errors import YouBlockedUser, PeerIdInvalid
 from nexa_userbot import NEXAUB
+from nexa_userbot.core.main_cmd import nexaub
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import set_log_channel, get_log_channel, set_arq_key, get_arq_key
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_custom_plugin_channels
-from nexa_userbot.helpers.pyrogram_help import import_plugin, resolve_peer
 from config import Config
 
 
@@ -47,13 +47,11 @@ async def search_and_download_plugs(channel, max_tries=2, counted=0):
     try:
         async for plugin in NEXAUB.search_messages(chat_id=channel, query=".py", filter="document"):
             plugin_name = plugin.document.file_name
-            if str(plugin_name).startswith("__"):
-                return
             if not os.path.exists(f"nexa_userbot/modules/Extras/{plugin_name}"):
                 await NEXAUB.download_media(message=plugin, file_name=f"nexa_userbot/modules/Extras/{plugin_name}")
     except PeerIdInvalid:
         counted += 1
-        await resolve_peer(channel, max_tries=1)
+        await nexaub().resolve_peer(channel, max_tries=1)
         return await search_and_download_plugs(channel, counted=counted)
 
 async def download_plugins_in_channel():
@@ -75,9 +73,11 @@ async def install_custom_plugins():
     custom_plugin_path = "nexa_userbot/modules/Extras"
     if os.path.isdir(custom_plugin_path):
         for plugin in os.listdir(custom_plugin_path):
+            if str(plugin).startswith("__"):
+                return
             if plugin.endswith(".py"):
                 try:
-                    import_plugin(
+                    nexaub().import_plugin(
                         (os.path.join(custom_plugin_path, plugin)).replace(".py", ""))
                 except:
                     logging.warn(

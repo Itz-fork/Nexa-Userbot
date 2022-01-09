@@ -3,10 +3,12 @@
 import os
 import logging
 import asyncio
+import importlib
 
 from pyrogram import filters
 from pyrogram.handlers import MessageHandler
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
+from pyrogram.methods.advanced import resolve_peer
 
 from nexa_userbot.core.nexaub_database.nexaub_db_conf import get_log_channel
 from nexa_userbot.core.nexaub_database.nexaub_db_sudos import get_sudos
@@ -141,6 +143,7 @@ class nexaub:
         ## Decorator to handle custom filters
 
         ### Arguments:
+
             ``custom_filters``: Custom filters to handle
             ``handler_group`` (optional): Handler group (Defaults to 0)
         """
@@ -179,6 +182,46 @@ class nexaub:
     @classmethod
     def add_handler(self, x_wrapper, nexaub_filter, cmd_grp):
         """
-        Add handler to the userbot
+        ## Add handler to the userbot
+
+        ### Arguments:
+
+            ``x_wrapper``: Callback function
+            ``nexaub_filter``: Filters
+            ``cmd_grp``: Command Group
         """
         NEXAUB.add_handler(MessageHandler(x_wrapper, filters=nexaub_filter), group=cmd_grp)
+    
+    # Thanks for Friday Userbot for the idea
+    def import_plugin(self, p_path):
+        """
+        ## Loads custom plugins
+
+        ### Arguments:
+
+            ``p_path``: Path to the plugin
+        """
+        nexaub_xplugin = p_path.replace("/", ".")
+        try:
+            importlib.import_module(nexaub_xplugin)
+            logging.info(f" LOADED PLUGIN: - {os.path.basename(p_path)}")
+        except:
+            logging.warn(f" FAILED TO LOAD PLUGIN: - {os.path.basename(p_path)}")
+    
+    async def resolve_peer(self, pr, max_tries=1, counted=0):
+        """
+        ## Returns the InputPeer of a known peer id
+
+        ### Arguments:
+        
+            ``pr``: Peer id
+            ``max_tries`` (optional): Maximum number of times that userbot needs to try (Defaults to 1)
+            ``counted`` (optional): Defaults to 0 (Don't pass any)
+        """
+        tri_c = counted
+        try:
+            return await NEXAUB.resolve_peer(pr)
+        except:
+            tri_c += 1
+            if not tri_c >= max_tries:
+                return await self.resolve_peer(pr, counted=tri_c)

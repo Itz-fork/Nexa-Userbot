@@ -4,12 +4,10 @@
 
 import os
 import re
+import math
 import shlex
 import asyncio
 import subprocess
-import math
-import importlib
-import logging
 
 from time import time
 from PIL import Image
@@ -183,17 +181,6 @@ async def get_ma_chats(chat_types: list = ["channel", "supergroup"], is_id_only=
             continue
     return nexaub_chats
 
-# Load Plugins | Thanks for Friday Userbot for the idea
-
-
-def import_plugin(p_path):
-    nexaub_xplugin = p_path.replace("/", ".")
-    try:
-        importlib.import_module(nexaub_xplugin)
-        logging.info(f" LOADED PLUGIN: - {os.path.basename(p_path)}")
-    except:
-        logging.warn(f" FAILED TO LOAD PLUGIN: - {os.path.basename(p_path)}")
-
 
 async def extract_url_from_txt(url):
     "Extracts url from given string"
@@ -225,15 +212,3 @@ async def download_images(images: list):
             else:
                 continue
     return download_images
-
-# Resolve peer (Max: 2 Tries)
-
-
-async def resolve_peer(pr, max_tries=2, counted=1):
-    tri_c = counted
-    try:
-        await NEXAUB.resolve_peer(pr)
-    except:
-        if not tri_c >= max_tries:
-            tri_c += 1
-            await resolve_peer(pr, counted=tri_c)

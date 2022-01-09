@@ -62,8 +62,8 @@ async def short_urls(url, shortner):
             links = url_div[1].find("a", href=True)
             return await extract_url_from_txt(links)
         else:
-            async with shortner_session.get(f"https://is.gd/create.php?format=json&url={url}") as isgd_short:
-                return [isgd_short.json()["shorturl"]]
+            isgd_short = await shortner_session.get(f"https://is.gd/create.php?format=json&url={url}")
+            return [isgd_short.json()["shorturl"]]
 
 
 @nexaub.on_cmd(command=["short"])

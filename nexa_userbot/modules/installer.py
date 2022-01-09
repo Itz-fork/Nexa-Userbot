@@ -6,7 +6,6 @@ import os
 from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub, e_or_r
-from nexa_userbot.helpers.pyrogram_help import import_plugin
 from config import Config
 
 
@@ -52,7 +51,7 @@ async def install_plugin(_, message: Message):
     await replied_msg.download(file_name=plugin_path)
     try:
         await msg.edit("`Loading Plugin, Please wait...`")
-        import_plugin(plugin_path)
+        nexaub().import_plugin(plugin_path)
         await msg.edit(f"**Successfully Loaded Plugin** \n\n** ✗ Plugin Name:** `{plugin_name_no_exe}`")
     except Exception as e:
         await msg.edit(f"**Error:** {e}")
