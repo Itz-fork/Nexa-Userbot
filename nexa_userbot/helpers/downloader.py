@@ -9,7 +9,7 @@ class Downloader:
     """
 
     def __init__(self, path=None) -> None:
-        self.path = "cache/PYSmortDL" if not path else str(path)
+        self.path = None if not path else str(path)
 
     async def download(self, url):
         down_obj = SmartDL(url, dest=self.path, progress_bar=False)
