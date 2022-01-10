@@ -18,8 +18,6 @@ class Downloader:
     
     async def get_downloaded_file_details(self, dl_obj):
         # Checks if the downloading process was successful
-        if not await self.__isSuccess(dl_obj):
-            return
         dl_details = {}
         dl_details["path"] = dl_obj.get_dest()
         dl_details["time"] = dl_obj.get_dl_time(human=True)
