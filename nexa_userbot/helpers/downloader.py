@@ -16,13 +16,13 @@ class Downloader:
         down_obj.start(blocking=False)
         return down_obj
     
-    async def _isFinished(self, dl_obj):
+    async def isFinished(self, dl_obj):
         return dl_obj.isFinished()
     
-    async def _isSuccess(self, dl_obj):
+    async def isSuccess(self, dl_obj):
         return dl_obj.isSuccessful()
     
-    async def _get_downloaded_file_details(self, dl_obj):
+    async def get_downloaded_file_details(self, dl_obj):
         # Checks if the downloading process was successful
         if not await self.__isSuccess(dl_obj):
             return
@@ -34,7 +34,7 @@ class Downloader:
         dl_details["sha256"] = dl_obj.get_data_hash("sha256")
         return dl_details
 
-    async def _get_progress_details(self, dl_obj):
+    async def get_progress_details(self, dl_obj):
         details = {}
         details["speed"] = dl_obj.get_speed(human=True)
         details["downloaded"] = dl_obj.get_dl_size(human=True)
