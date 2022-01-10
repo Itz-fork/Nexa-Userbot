@@ -98,7 +98,7 @@ async def download_direct_links(_, message: Message):
         ))
     except:
       pass
-    asyncio.sleep(0.2)
+    await asyncio.sleep(0.2)
   # Checks if the download was successful or not
   if not (await dl_engine._isSuccess(dling_file)):
     await dl_msg.edit("`Oops, Downloading process was unsuccessful!`")
