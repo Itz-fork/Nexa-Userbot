@@ -85,7 +85,7 @@ async def download_direct_links(_, message: Message):
   dl_engine = Downloader()
   dling_file = await dl_engine.download(urls[0])
   # Updating the message with process status
-  while not (await dl_engine.isFinished(dling_file)):
+  while not dling_file.isFinished():
     fdetails = await dl_engine.get_progress_details(dling_file)
     try:
       await dl_msg.edit(PROGRESS_MSG.format(
@@ -100,8 +100,7 @@ async def download_direct_links(_, message: Message):
       pass
     await asyncio.sleep(0.2)
   # Checks if the download was successful or not
-  is_ok = await dl_engine.isSuccess(dling_file)
-  if not is_ok:
+  if not dling_file.isSuccessful():
     await dl_msg.edit("`Oops, Downloading process was unsuccessful!`")
     raise Errors.DownloadFailed("Download was unsuccessful")
   # Edit status message with file details

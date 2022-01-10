@@ -16,12 +16,6 @@ class Downloader:
         down_obj.start(blocking=False)
         return down_obj
     
-    async def isFinished(self, dl_obj):
-        return dl_obj.isFinished()
-    
-    async def isSuccess(self, dl_obj):
-        return dl_obj.isSuccessful()
-    
     async def get_downloaded_file_details(self, dl_obj):
         # Checks if the downloading process was successful
         if not await self.__isSuccess(dl_obj):
