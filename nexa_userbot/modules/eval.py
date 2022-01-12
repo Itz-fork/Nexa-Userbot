@@ -65,8 +65,8 @@ __**Don't blame the developer after doing stupid things with this ❗**__
 async def evaluate(client, message):
     status_message = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     # Checks if the developer mode is enabled
-    is_dev = bool((await get_custom_var("DEV_MODE")))
-    if not is_dev:
+    is_dev = await get_custom_var("DEV_MODE")
+    if is_dev != "True":
         return await status_message.edit(NON_DEV_WARN_MSG)
     try:
         cmd = message.text.split(" ", maxsplit=1)[1]
@@ -105,7 +105,7 @@ async def evaluate(client, message):
         await NEXAUB.send_document(
             chat_id=message.chat.id,
             document=filename,
-            caption=cmd,
+            caption=f"**► Input:** \n`{cmd}`",
             disable_notification=True,
             reply_to_message_id=reply_to_id,
         )
@@ -176,7 +176,7 @@ async def terminal(client, message):
                 message.chat.id,
                 "output.txt",
                 reply_to_message_id=message.message_id,
-                caption="`Output file`",
+                caption=f"**► Input:** \n`{cmd}`",
             )
             os.remove("output.txt")
             return
