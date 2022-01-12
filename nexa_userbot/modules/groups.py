@@ -200,10 +200,11 @@ async def unpin_msg(_, message: Message):
 async def do_del_all(chat_id, messages_list=[]):
   try:
     try:
-      async for msg in NEXAUB.iter_history(chat_id):
-        messages_list.append(msg.message_id)  
+      if not messages_list:
+        async for msg in NEXAUB.iter_history(chat_id):
+          messages_list.append(msg.message_id)
     except FloodWait:
-      return await do_del_all(chat_id, messages_list)
+      return await do_del_all(chat_id)
     try:
       await NEXAUB.delete_messages(chat_id, messages_list)
     except FloodWait:
@@ -213,5 +214,9 @@ async def do_del_all(chat_id, messages_list=[]):
 
 @nexaub.on_cmd(command=["delall"], admins_only=True)
 async def delete_all_msgs(_, message: Message):
-  await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  del_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   await do_del_all(message.chat.id)
+  try:
+    await del_msg.delete()
+  except:
+    pass
