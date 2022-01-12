@@ -128,7 +128,7 @@ async def check_anti_funcs(_, message: Message):
     # Checks if the functions are enabled for the chat
     if not anti_func_det:
         return
-    if anti_func_det[0] != "ok":
+    if anti_func_det[0] != "on":
         return
     # Checks for anti arabic
     if anti_func_det[1] == "ar":
