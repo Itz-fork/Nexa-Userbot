@@ -201,7 +201,7 @@ async def do_del_all(chat_id, messages_list=[]):
   try:
     try:
       async for msg in NEXAUB.iter_history(chat_id):
-        messages_list.append(msg)  
+        messages_list.append(msg..message_id)  
     except FloodWait:
       return await do_del_all(chat_id, messages_list)
     try:
