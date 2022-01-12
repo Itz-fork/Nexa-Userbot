@@ -218,6 +218,6 @@ async def delete_all_msgs(_, message: Message):
   del_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
   await do_del_all(message.chat.id)
   try:
-    await del_msg.delete()
+    await do_del_all(message.chat.id)
   except:
     pass
