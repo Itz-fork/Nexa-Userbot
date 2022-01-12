@@ -45,7 +45,7 @@ CMD_HELP.update(
 # Function to spam the message while avoiding the floodwait
 async def do_spam(limit, chat_id, spam_text=None, spam_message=None):
     # Sleep time (in seconds)
-    sleep_time = 0.5 if limit <= 50 else 1
+    sleep_time = 0.1 if limit <= 50 else 0.5 if limit <= 100 else 1
     spm_limit = int(limit)
     try:
         # Saves message in the log channel
