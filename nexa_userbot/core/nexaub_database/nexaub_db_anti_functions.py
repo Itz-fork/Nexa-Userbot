@@ -40,7 +40,7 @@ async def set_anti_func_chat(chat_id):
         chat_iid = [chat_id]
         await nexaub_antif.insert_one({"_id": "ANTI_FUNCS_CHATS", "chat_ids": chat_iid})
 
-async def get_anti_func_chat():
+async def get_anti_func_chat(_, __, ___):
     antfui = await nexaub_antif.find_one({"_id": "ANTI_FUNCS_CHATS"})
     if antfui:
         return [int(antiC) for antiC in antfui.get("chat_ids")]
