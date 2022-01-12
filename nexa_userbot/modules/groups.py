@@ -5,9 +5,12 @@ import asyncio
 
 from . import nexaub_devs
 from pyrogram.types import Message
+from pyrogram.errors import FloodWait
+
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.helpers.pyrogram_help import get_arg
+from nexa_userbot.core.errors import Errors
 from config import Config
 
 
@@ -71,9 +74,9 @@ async def purge_this(_, message: Message):
     if len(mid_list) == 100:
       await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=mid_list, revoke=True) # Docs says revoke Defaults to True but...
       mid_list = []
-    # Let's check if there are any other messages left to delete. Just like that 0.1% bacteria that can't be destroyed by soap
-    if len(mid_list) > 0:
-      await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=mid_list, revoke=True)
+  # Let's check if there are any other messages left to delete. Just like that 0.1% bacteria that can't be destroyed by soap
+  if len(mid_list) > 0:
+    await NEXAUB.delete_messages(chat_id=message.chat.id, message_ids=mid_list, revoke=True)
 
 
 # Bans
@@ -191,3 +194,24 @@ async def unpin_msg(_, message: Message):
       return await unpin_msg.edit("`Reply to a pinned message to unpin it!`")
     await r_msg.unpin()
     await unpin_msg.edit(f"[Message]({r_msg.link}) `Unpinned successfully!`", disable_web_page_preview=True)
+
+
+# Delete all messages in a chat
+async def do_del_all(chat_id, messages_list=[]):
+  try:
+    try:
+      async for msg in await NEXAUB.iter_history(chat_id):
+        messages_list.append(msg)  
+    except FloodWait:
+      return await do_del_all(chat_id, messages_list)
+    try:
+      await NEXAUB.delete_messages(chat_id, messages_list)
+    except FloodWait:
+      return await do_del_all(chat_id, messages_list)
+  except BaseException as e:
+    raise Errors.DelAllFailed(f"Unable to delete all the messages: {e}")
+
+@nexaub.on_cmd(command=["delall"], admins_only=True)
+async def delete_all_msgs(_, message: Message):
+  await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  await do_del_all(message.chat.id)

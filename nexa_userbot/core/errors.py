@@ -20,3 +20,8 @@ class Errors:
         Raises when the download task was failed
         """
         pass
+    class DelAllFailed(Exception):
+        """
+        Raises when the del all function was failed
+        """
+        pass
