@@ -28,6 +28,7 @@ CMD_HELP.update(
   ✘ `unban` - To unban a member in a chat
   ✘ `pin` - To pin a message in a chat
   ✘ `unpin` - To unpin a message or messages in a chat
+  ✘ `delall` - To delete all messages in a chat
 
 **Example:**
 

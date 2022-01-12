@@ -53,7 +53,7 @@ async def on_off_antiarab(_, message: Message):
         return await antiarab_msg.edit(f"**Invalid Usage!** \n\n **⤷ To on = `{Config.CMD_PREFIX}antiarab on` \n ⤷ To off = `{Config.CMD_PREFIX}antiarab off`")
     lower_args = args.lower()
     if lower_args == "on":
-        await set_anti_func("ANTI_ARABIC", "on")
+        await set_anti_func("ANTI_ARABIC", ["on", message.chat.id])
         await set_anti_func_chat(message.chat.id)
     elif lower_args == "off":
         await del_anti_func("ANTI_ARABIC")
@@ -71,7 +71,7 @@ async def on_off_antichinese(_, message: Message):
         return await antichinese_msg.edit(f"**Invalid Usage!** \n\n **⤷ To on = `{Config.CMD_PREFIX}antichinese on` \n ⤷ To off = `{Config.CMD_PREFIX}antichinese off`")
     lower_args = args.lower()
     if lower_args == "on":
-        await set_anti_func("ANTI_CHINESE", "on")
+        await set_anti_func("ANTI_CHINESE", ["on", message.chat.id])
         await set_anti_func_chat(message.chat.id)
     elif lower_args == "off":
         await del_anti_func("ANTI_CHINESE")
@@ -89,7 +89,7 @@ async def on_off_antijapanese(_, message: Message):
         return await antijapanese_msg.edit(f"**Invalid Usage!** \n\n **⤷ To on = `{Config.CMD_PREFIX}antijapanese on` \n ⤷ To off = `{Config.CMD_PREFIX}antijapanese off`")
     lower_args = args.lower()
     if lower_args == "on":
-        await set_anti_func("ANTI_JAPANESE", "on")
+        await set_anti_func("ANTI_JAPANESE", ["on", message.chat.id])
         await set_anti_func_chat(message.chat.id)
     elif lower_args == "off":
         await del_anti_func("ANTI_JAPANESE")
@@ -107,7 +107,7 @@ async def on_off_antirussian(_, message: Message):
         return await antirussian_msg.edit(f"**Invalid Usage!** \n\n **⤷ To on = `{Config.CMD_PREFIX}antirussian on` \n ⤷ To off = `{Config.CMD_PREFIX}antirussian off`")
     lower_args = args.lower()
     if lower_args == "on":
-        await set_anti_func("ANTI_RUSSIAN", "on")
+        await set_anti_func("ANTI_RUSSIAN", ["on", message.chat.id])
         await set_anti_func_chat(message.chat.id)
     elif lower_args == "off":
         await del_anti_func("ANTI_RUSSIAN")
@@ -118,49 +118,63 @@ async def on_off_antirussian(_, message: Message):
 
 
 # Listen to new members and checks
-anti_chats = filters.create(func=get_anti_func_chat)
+async def anti_func_handler(_, __, msg):
+    chats = await get_anti_func_chat()
+    if msg.chat.id in chats:
+        return True
+    else:
+        False
+
+async def c_chat(id, results):
+    if results and id == results[1]:
+        return True
+    else:
+        return False
+
+anti_chats = filters.create(func=anti_func_handler)
 
 @nexaub.on_cf(anti_chats & filters.new_chat_members)
 async def check_anti_funcs(_, message: Message):
     # Users list
     users = message.new_chat_members
+    chat_id = message.chat.id
     # Checks for anti arabic
     is_anti_arabic = await get_anti_func("ANTI_ARABIC")
-    if is_anti_arabic:
+    if await c_chat(chat_id, is_anti_arabic):
         try:
             for user in users:
                 if any(search(REGEXES.arab, name) for name in [user.first_name, user.last_name]):
-                    await NEXAUB.ban_chat_member(message.chat.id, user.id)
+                    await NEXAUB.ban_chat_member(chat_id, user.id)
                     await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing arab letters in the name**")
         except:
             pass
     # Checks for anti chinese
     is_anti_chinese = await get_anti_func("ANTI_CHINESE")
-    if is_anti_chinese:
+    if await c_chat(chat_id, is_anti_chinese):
         try:
             for user in users:
                 if any(search(REGEXES.chinese, name) for name in [user.first_name, user.last_name]):
-                    await NEXAUB.ban_chat_member(message.chat.id, user.id)
+                    await NEXAUB.ban_chat_member(chat_id, user.id)
                     await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing chinese letters in the name**")
         except:
             pass
     # Checks for anti japanese
     is_anti_japanese = await get_anti_func("ANTI_JAPANESE")
-    if is_anti_japanese:
+    if await c_chat(chat_id, is_anti_japanese):
         try:
             for user in users:
                 if any(search(REGEXES.japanese, name) for name in [user.first_name, user.last_name]):
-                    await NEXAUB.ban_chat_member(message.chat.id, user.id)
+                    await NEXAUB.ban_chat_member(chat_id, user.id)
                     await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing japanese letters in the name**")
         except:
             pass
     # Checks for anti russian
     is_anti_russian = await get_anti_func("ANTI_RUSSIAN")
-    if is_anti_russian:
+    if await c_chat(chat_id, is_anti_russian):
         try:
             for user in users:
                 if any(search(REGEXES.cyrillic, name) for name in [user.first_name, user.last_name]):
-                    await NEXAUB.ban_chat_member(message.chat.id, user.id)
+                    await NEXAUB.ban_chat_member(chat_id, user.id)
                     await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing russian letters in the name**")
         except:
             pass

@@ -7,12 +7,12 @@ nexaub_antif = nexa_mongodb["config_db"]
 
 
 # To on / off / get anti functions
-async def set_anti_func(var, value):
+async def set_anti_func(var, values: list):
     anti_f = await nexaub_antif.find_one({"_id": var})
     if anti_f:
-        await nexaub_antif.update_one({"_id": var}, {"$set": {"anti_funcs": value}})
+        await nexaub_antif.update_one({"_id": var}, {"$push": {"anti_funcs": values}})
     else:
-        await nexaub_antif.insert_one({"_id": var, "anti_funcs": value})
+        await nexaub_antif.insert_one({"_id": var, "anti_funcs": values})
 
 async def get_anti_func(var):
     anti_f = await nexaub_antif.find_one({"_id": var})
@@ -40,7 +40,7 @@ async def set_anti_func_chat(chat_id):
         chat_iid = [chat_id]
         await nexaub_antif.insert_one({"_id": "ANTI_FUNCS_CHATS", "chat_ids": chat_iid})
 
-async def get_anti_func_chat(_, __, ___):
+async def get_anti_func_chat():
     antfui = await nexaub_antif.find_one({"_id": "ANTI_FUNCS_CHATS"})
     if antfui:
         return [int(antiC) for antiC in antfui.get("chat_ids")]
