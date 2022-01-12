@@ -200,7 +200,7 @@ async def unpin_msg(_, message: Message):
 async def do_del_all(chat_id, messages_list=[]):
   try:
     try:
-      async for msg in await NEXAUB.iter_history(chat_id):
+      async for msg in NEXAUB.iter_history(chat_id):
         messages_list.append(msg)  
     except FloodWait:
       return await do_del_all(chat_id, messages_list)

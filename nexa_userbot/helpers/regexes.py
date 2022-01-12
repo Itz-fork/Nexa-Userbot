@@ -26,7 +26,7 @@ class REGEXES:
     cyrillic = compile('[\u0400-\u04FF]')
 
 
-# from re import search
+from re import search
 
-# if search(REGEXES.tamil, "திற"):
-#     print("NOISE")
+if search(REGEXES.tamil, ["திற", "தற"]):
+    print("NOISE")
