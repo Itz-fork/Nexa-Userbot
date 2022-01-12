@@ -24,9 +24,3 @@ class REGEXES:
     sinhala = compile('[\u0D80-\u0DFF]')
     tamil = compile('[\u0B02-\u0DFF]')
     cyrillic = compile('[\u0400-\u04FF]')
-
-
-from re import search
-
-if search(REGEXES.tamil, ["திற", "தற"]):
-    print("NOISE")
