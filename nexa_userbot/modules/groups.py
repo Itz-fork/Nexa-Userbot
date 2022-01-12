@@ -199,16 +199,17 @@ async def unpin_msg(_, message: Message):
 # Delete all messages in a chat
 async def do_del_all(chat_id, messages_list=[]):
   try:
+    to_del = messages_list
     try:
       if not messages_list:
         async for msg in NEXAUB.iter_history(chat_id):
-          messages_list.append(msg.message_id)
+          to_del.append(msg.message_id)
     except FloodWait:
       return await do_del_all(chat_id)
     try:
-      await NEXAUB.delete_messages(chat_id, messages_list)
+      await NEXAUB.delete_messages(chat_id, to_del, revoke=True)
     except FloodWait:
-      return await do_del_all(chat_id, messages_list)
+      return await do_del_all(chat_id, to_del)
   except BaseException as e:
     raise Errors.DelAllFailed(f"Unable to delete all the messages: {e}")
 
