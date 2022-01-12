@@ -197,27 +197,23 @@ async def unpin_msg(_, message: Message):
 
 
 # Delete all messages in a chat
-async def do_del_all(chat_id, messages_list=[]):
-  try:
-    to_del = messages_list
-    try:
-      if not messages_list:
-        async for msg in NEXAUB.iter_history(chat_id):
-          to_del.append(msg.message_id)
-    except FloodWait:
-      return await do_del_all(chat_id)
-    try:
-      await NEXAUB.delete_messages(chat_id, to_del, revoke=True)
-    except FloodWait:
-      return await do_del_all(chat_id, to_del)
-  except BaseException as e:
-    raise Errors.DelAllFailed(f"Unable to delete all the messages: {e}")
+async def do_del_all(chat_id, message_ids):
+  return await NEXAUB.delete_messages(chat_id, message_ids, True)
+
+async def collect_and_del(chat_id):
+  msg_id_list = []
+  async for msg in NEXAUB.iter_history(chat_id):
+    msg_id_list.append(msg.message_id)
+    if len(msg_id_list) >= 100:
+      await do_del_all(chat_id, msg_id_list)
+      msg_id_list = []
+  await do_del_all(chat_id, msg_id_list)
 
 @nexaub.on_cmd(command=["delall"], admins_only=True)
 async def delete_all_msgs(_, message: Message):
-  del_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
-  await do_del_all(message.chat.id)
+  await e_or_r(nexaub_message=message, msg_text="`Processing...`")
+  await collect_and_del(message.chat.id)
   try:
-    await do_del_all(message.chat.id)
+    await collect_and_del(message.chat.id)
   except:
     pass
