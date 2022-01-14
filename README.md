@@ -8,10 +8,18 @@
 </p>
 
 # Deploy 🛫
+
+> Note ⚠️:
+> This isn't your typical userbot with fancy buttons and other cool stuff. This userbot doesn't have bot mode. That means no buttons, inline mode etc. Just you and your userbot!
+
 Deployment is easy! Just [read the docs](https://nexaub.itz-fork.xyz/docs/get-started/) to get more info!
 
 ### With Heroku
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/Itz-fork/Nexa-Userbot)
+
+- Fork the repo and copy your forked repo link
+- Now go to `https://heroku.com/deploy?template=<YOUR_FORKED_LINK_HERE>` (Replace `YOUR_FORKED_LINK_HERE` with copied repo link)
+- Fill the config vars and deploy!
+
 
 ### With VPS (Local)
 Please Read the [Docs](https://nexaub.itz-fork.xyz/docs/get-started/installation/#with-vps-local).
