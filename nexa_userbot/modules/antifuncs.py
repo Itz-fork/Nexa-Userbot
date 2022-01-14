@@ -124,6 +124,16 @@ async def anti_func_handler(_, __, msg):
     else:
         False
 
+async def check_admin(msg, user_id):
+    if msg.chat.type in ["group", "supergroup", "channel"]:
+        how_usr = await msg.chat.get_member(user_id)
+        if how_usr.status in ["creator", "administrator"]:
+            return True
+        else:
+            return False
+    else:
+        return True
+
 anti_chats = filters.create(func=anti_func_handler)
 
 # I know there is lots of code duplication but oh well, IDGF
@@ -153,8 +163,10 @@ async def check_anti_funcs(_, message: Message):
                 if not tuser:
                     return
                 if search(REGEXES.arab, text):
-                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, "arabic"))
+                    if not await check_admin(message, tuser.id):
+                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "arabic"))
+                    await message.delete()
         except:
             pass
     # Checks for anti chinese
@@ -169,8 +181,10 @@ async def check_anti_funcs(_, message: Message):
                 if not tuser:
                     return
                 if search(REGEXES.chinese, text):
-                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, "chinese"))
+                    if not await check_admin(message, tuser.id):
+                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "chinese"))
+                    await message.delete()
         except:
             pass
     # Checks for anti japanese
@@ -185,8 +199,10 @@ async def check_anti_funcs(_, message: Message):
                 if not tuser:
                     return
                 if search(REGEXES.japanese, text):
-                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, "japanese"))
+                    if not await check_admin(message, tuser.id):
+                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "japanese"))
+                    await message.delete()
         except:
             pass
     # Checks for anti russian
@@ -201,7 +217,9 @@ async def check_anti_funcs(_, message: Message):
                 if not tuser:
                     return
                 if search(REGEXES.cyrillic, text):
-                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, "russian"))
+                    if not await check_admin(message, tuser.id):
+                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "russian"))
+                    await message.delete()
         except:
             pass
