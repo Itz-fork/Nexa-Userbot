@@ -136,7 +136,7 @@ async def check_anti_funcs(_, message: Message):
             for user in users:
                 if any(search(REGEXES.arab, name) for name in [user.first_name, user.last_name]):
                     await NEXAUB.ban_chat_member(chat_id, user.id)
-                    await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing arab letters in the name**")
+                    await message.reply(f"**Ban Event❗** \n\n**User:** {user.mention} \n**Due to:** `Containing arab letters in the name`")
         except:
             pass
     # Checks for anti chinese
@@ -145,7 +145,7 @@ async def check_anti_funcs(_, message: Message):
             for user in users:
                 if any(search(REGEXES.chinese, name) for name in [user.first_name, user.last_name]):
                     await NEXAUB.ban_chat_member(chat_id, user.id)
-                    await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing chinese letters in the name**")
+                    await message.reply(f"**Ban Event❗** \n\n**User:** {user.mention} \n**Due to:** `Containing chinese letters in the name`")
         except:
             pass
     # Checks for anti japanese
@@ -154,7 +154,7 @@ async def check_anti_funcs(_, message: Message):
             for user in users:
                 if any(search(REGEXES.japanese, name) for name in [user.first_name, user.last_name]):
                     await NEXAUB.ban_chat_member(chat_id, user.id)
-                    await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing japanese letters in the name**")
+                    await message.reply(f"**Ban Event❗** \n\n**User:** {user.mention} \n**Due to:** `Containing japanese letters in the name`")
         except:
             pass
     # Checks for anti russian
@@ -163,6 +163,6 @@ async def check_anti_funcs(_, message: Message):
             for user in users:
                 if any(search(REGEXES.cyrillic, name) for name in [user.first_name, user.last_name]):
                     await NEXAUB.ban_chat_member(chat_id, user.id)
-                    await message.reply(f"**Nexa Userbot Anti-Functions!** \n\n**Banned** `{user.id}` **Due to containing russian letters in the name**")
+                    await message.reply(f"**Ban Event❗** \n\n**User:** {user.mention} \n**Due to:** `Containing russian letters in the name`")
         except:
             pass

@@ -62,9 +62,9 @@ CUSTOM_HELP_TXT = """
 
 async def get_help_type(htx):
     if re.search(r'\bxhelp|chelp\b', htx):
-        help_list = [await get_xtra_modules_names(), CUSTOM_HELP_TXT]
+        help_list = [(await get_xtra_modules_names()).sort(), CUSTOM_HELP_TXT]
     else:
-        help_list = [ALL_MODULES, DEFAULT_HELP_TXT]
+        help_list = [ALL_MODULES.sort(), DEFAULT_HELP_TXT]
     return help_list
 
 @nexaub.on_cmd(command=["help", "xhelp", "chelp"])
