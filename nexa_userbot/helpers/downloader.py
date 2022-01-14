@@ -1,36 +1,78 @@
 # Copyright (c) 2021 Itz-fork
 # Part of: Nexa Userbot
-from pySmartDL import SmartDL
-from pySmartDL.utils import get_filesize
+import os
 
-class Downloader:
+from aiohttp import ClientSession
+from aiofiles import open as openfile
+from .pyrogram_help import humanbytes
+
+
+class NexaDL:
     """
-    Downloads files from direct links using PySmartDL
-    """
+    ## NexaDL
 
-    def __init__(self, path=None) -> None:
-        self.path = None if not path else str(path)
-
-    async def download(self, url):
-        down_obj = SmartDL(url, dest=self.path, progress_bar=False)
-        down_obj.start(blocking=False)
-        return down_obj
+        Downloads files from direct links using aiohttp
     
-    async def get_downloaded_file_details(self, dl_obj):
-        # Checks if the downloading process was successful
-        dl_details = {}
-        dl_details["path"] = dl_obj.get_dest()
-        dl_details["time"] = dl_obj.get_dl_time(human=True)
-        dl_details["md5"] = dl_obj.get_data_hash("md5")
-        dl_details["sha1"] = dl_obj.get_data_hash("sha1")
-        dl_details["sha256"] = dl_obj.get_data_hash("sha256")
-        return dl_details
+    ### Methods
 
-    async def get_progress_details(self, dl_obj):
-        details = {}
-        details["speed"] = dl_obj.get_speed(human=True)
-        details["downloaded"] = dl_obj.get_dl_size(human=True)
-        details["eta"] = dl_obj.get_eta(human=True)
-        details["progress"] = (dl_obj.get_progress()*100)
-        details["status"] = dl_obj.get_status()
-        return details
+        ``download`` - Function to download the file
+
+    ### Arguments
+
+        ``chunk_size`` - Custom chunk size (Default to 1024 * 6)
+    """
+
+    def __init__(self) -> None:
+        self.path = "cache/NexaDL"
+        self.chunk_size = 1024 * 6
+        self.stat_txt = """
+**File Name:** `{name}`
+
+**File Size:** `{size}`
+
+**Progress:** `{downloaded}` of `{total}`
+
+`{prgs_bar}`
+
+**Status:** `Downloading...`
+"""
+    
+    async def download(self, url, message, path=None):
+        """
+        ## Arguments
+
+            ``url`` - Url to download
+
+            ``message`` - Pyrogram message object
+            
+            ``path`` (optional) - Path
+        """
+        name = await self._get_file_name(url)
+        if not path:
+            fpath = f"{self.path}/{name}"
+        else:
+            fpath = f"{path}/{name}"
+        downloaded = 0
+        async with ClientSession() as session:
+            async with session.get(url, timeout=None) as resp:
+                fs = int(resp.headers.get("Content-Length"))
+                async with openfile(fpath, mode="wb") as file:
+                    async for chunk in resp.content.iter_chunked(self.chunk_size):
+                        await file.write(chunk)
+                        downloaded += len(chunk)
+                        done = int(15 * downloaded / fs)
+                        try:
+                            await message.edit(self.stat_txt.format(
+                                name=name,
+                                size=humanbytes(fs),
+                                downloaded=humanbytes(downloaded),
+                                total=humanbytes(fs),
+                                prgs_bar="[%s%s]" % ("▰" * done, "▱" * (15-done))
+                                )
+                            )
+                        except:
+                            pass
+        return fpath
+    
+    async def _get_file_name(self, url):
+        return os.path.basename(url)

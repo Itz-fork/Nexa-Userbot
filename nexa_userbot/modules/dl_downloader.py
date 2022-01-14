@@ -8,7 +8,7 @@ from pyrogram.types import Message
 from nexa_userbot import CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub, e_or_r
 from nexa_userbot.core.errors import Errors
-from nexa_userbot.helpers.downloader import Downloader
+from nexa_userbot.helpers.downloader import NexaDL
 from nexa_userbot.helpers.up_to_tg import guess_and_send
 from nexa_userbot.helpers.pyrogram_help import get_arg, extract_url_from_txt
 from config import Config
@@ -36,32 +36,6 @@ CMD_HELP.update(
     }
 )
 
-# Configs
-PROGRESS_MSG = """
-** » File Name:** `{name}`
-
-** » Progress:** `{progress}`
-
-** » Downloaded:** `{downloaded}`
-
-** » Speed:** `{speed}`
-
-** » ETA:** `{eta}`
-
-** » Status:** `{status}`
-"""
-
-DETAILS_MSG = """
-** » File Name:** `{name}`
-
-** » Time Taken:** `{tt}`
-
-** » Data hashes,**
-   **› MD5:** `{md5}`
-   **› SHA1:** `{sha1}`
-   **› SHA256:** `{sha256}`
-"""
-
 
 @nexaub.on_cmd(command=["dl"])
 async def download_direct_links(_, message: Message):
@@ -82,35 +56,6 @@ async def download_direct_links(_, message: Message):
   else:
     return await dl_msg.edit("`Give a url or reply to a message that contains direct links to download it!`")
   # Downloads the files from url
-  dl_engine = Downloader()
-  dling_file = await dl_engine.download(urls[0])
-  # Updating the message with process status
-  while not dling_file.isFinished():
-    fdetails = await dl_engine.get_progress_details(dling_file)
-    try:
-      await dl_msg.edit(PROGRESS_MSG.format(
-        name=os.path.basename(urls[0]),
-        progress=fdetails["progress"],
-        downloaded=fdetails["downloaded"],
-        speed=fdetails["speed"],
-        eta=fdetails["eta"],
-        status=fdetails["status"]
-        ))
-    except:
-      pass
-    await asyncio.sleep(0.2)
-  # Checks if the download was successful or not
-  if not dling_file.isSuccessful():
-    await dl_msg.edit("`Oops, Downloading process was unsuccessful!`")
-    raise Errors.DownloadFailed("Download was unsuccessful")
-  # Edit status message with file details
-  dled_fdt = await dl_engine.get_downloaded_file_details(dling_file)
-  await dl_msg.edit(DETAILS_MSG.format(
-    name=os.path.basename(urls[0]),
-    tt=dled_fdt["time"],
-    md5=dled_fdt["md5"],
-    sha1=dled_fdt["sha1"],
-    sha256=dled_fdt["sha256"],
-  ))
-  # Sending file to the user
-  await guess_and_send(dled_fdt["path"], message.chat.id, thumb_path="cache")
+  dl_engine = NexaDL()
+  file = await dl_engine.download(urls[0], message)
+  await guess_and_send(file, message.chat.id, thumb_path="cache")
