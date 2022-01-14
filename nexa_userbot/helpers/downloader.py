@@ -24,7 +24,7 @@ class NexaDL:
 
     def __init__(self) -> None:
         self.path = "cache/NexaDL"
-        self.chunk_size = 1024 * 6
+        self.chunk_size = 1024 * 1024
         self.stat_txt = """
 **File Name:** `{name}`
 
