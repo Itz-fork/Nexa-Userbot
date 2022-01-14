@@ -127,7 +127,7 @@ async def anti_func_handler(_, __, msg):
 anti_chats = filters.create(func=anti_func_handler)
 
 # I know there is lots of code duplication but oh well, IDGF
-@nexaub.on_cf(anti_chats & filters.new_chat_members & filters.text)
+@nexaub.on_cf(anti_chats & (filters.new_chat_members | filters.text))
 async def check_anti_funcs(_, message: Message):
     # Users list
     users = message.new_chat_members
