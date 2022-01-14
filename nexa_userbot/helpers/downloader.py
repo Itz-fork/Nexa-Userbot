@@ -4,6 +4,7 @@ import os
 
 from aiohttp import ClientSession
 from aiofiles import open as openfile
+from asyncio import sleep
 from .pyrogram_help import humanbytes
 
 
@@ -71,6 +72,7 @@ class NexaDL:
                                 prgs_bar="[%s%s]" % ("▰" * done, "▱" * (15-done))
                                 )
                             )
+                            await sleep(0.1)
                         except:
                             pass
         return fpath
