@@ -48,6 +48,7 @@ class NexaDL:
             ``path`` (optional) - Path
         """
         name = await self._get_file_name(url)
+        await self._make_dir(path)
         if not path:
             fpath = f"{self.path}/{name}"
         else:
@@ -76,3 +77,11 @@ class NexaDL:
     
     async def _get_file_name(self, url):
         return os.path.basename(url)
+    
+    async def _make_dir(self, path):
+        if not path:
+            if not os.path.isdir(self.path):
+                os.makedirs(self.path)
+        else:
+            if not os.path.isdir(path):
+                os.makedirs(path)
