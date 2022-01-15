@@ -110,12 +110,29 @@ async def on_off_antirussian(_, message: Message):
 
 
 # Listen to new members and checks
+ANTIF_WARNS_DB = {}
+
+WARN_EVEN_TXT = """
+**Warn Event❕**
+
+**User:** {}
+**Due to:** `Containing {} letters in the name / message`
+
+`Be careful ⚠️: You have {}/3 warns, after that you'll be banned forever!`
+"""
 BAN_EVENT_TXT = """
 **Ban Event❗**
 
 **User:** {}
-**Due to:** `Containing {} letters in the name / message`"
+**Due to:** `Containing {} letters in the name / message and warns exceeded!`
 """
+
+FORM_AND_REGEXES = {
+    "ar": [REGEXES.arab, "arabic"],
+    "zh": [REGEXES.chinese, "chinese"],
+    "jp": [REGEXES.japanese, "japanese"],
+    "rs": [REGEXES.cyrillic, "russian"]
+}
 
 async def anti_func_handler(_, __, msg):
     chats = await get_anti_func(msg.chat.id)
@@ -124,6 +141,7 @@ async def anti_func_handler(_, __, msg):
     else:
         False
 
+# Function to check if the user is an admin
 async def check_admin(msg, user_id):
     if msg.chat.type in ["group", "supergroup", "channel"]:
         how_usr = await msg.chat.get_member(user_id)
@@ -134,92 +152,53 @@ async def check_admin(msg, user_id):
     else:
         return True
 
+# Function to save user's warns in a dict
+async def check_afdb(user_id):
+    if user_id in ANTIF_WARNS_DB:
+        ANTIF_WARNS_DB[user_id] += 1
+        if ANTIF_WARNS_DB[user_id] >= 3:
+            return True
+        return False
+    else:
+        ANTIF_WARNS_DB[user_id] = 1
+        return False
+
+# Function to warn or ban users
+async def warn_or_ban(message, mode):
+    # Users list
+    users = message.new_chat_members
+    chat_id = message.chat.id
+    # Obtaining user who sent the message
+    tuser = message.from_user
+    try:
+        mdnrgx = FORM_AND_REGEXES[mode]
+        if users:
+            for user in users:
+                if any(search(mdnrgx[0], name) for name in [user.first_name, user.last_name]):
+                    await NEXAUB.ban_chat_member(chat_id, user.id)
+                    await message.reply(BAN_EVENT_TXT.format(user.mention, mdnrgx[1]))
+        elif message.text:
+            if not tuser:
+                return
+            if search(mdnrgx[0], message.text):
+                if not await check_admin(message, tuser.id) and await check_afdb(tuser.id):
+                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1]))
+                await message.delete()
+                await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
+    except:
+        pass
+
 anti_chats = filters.create(func=anti_func_handler)
 
 # I know there is lots of code duplication but oh well, IDGF
 @nexaub.on_cf(anti_chats & (filters.new_chat_members | filters.text))
 async def check_anti_funcs(_, message: Message):
-    # Users list
-    users = message.new_chat_members
-    chat_id = message.chat.id
-    # Obtaining message text and user
-    text = message.text
-    tuser = message.from_user
-    anti_func_det = await get_anti_func(chat_id)
+    anti_func_det = await get_anti_func(message.chat.id)
     # Checks if the functions are enabled for the chat
     if not anti_func_det:
         return
     if anti_func_det[0] != "on":
         return
-    # Checks for anti arabic
-    if anti_func_det[1] == "ar":
-        try:
-            if users:
-                for user in users:
-                    if any(search(REGEXES.arab, name) for name in [user.first_name, user.last_name]):
-                        await NEXAUB.ban_chat_member(chat_id, user.id)
-                        await message.reply(BAN_EVENT_TXT.format(user.mention, "arabic"))
-            elif text:
-                if not tuser:
-                    return
-                if search(REGEXES.arab, text):
-                    if not await check_admin(message, tuser.id):
-                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "arabic"))
-                    await message.delete()
-        except:
-            pass
-    # Checks for anti chinese
-    elif anti_func_det[1] == "zh":
-        try:
-            if users:
-                for user in users:
-                    if any(search(REGEXES.chinese, name) for name in [user.first_name, user.last_name]):
-                        await NEXAUB.ban_chat_member(chat_id, user.id)
-                        await message.reply(BAN_EVENT_TXT.format(user.mention, "chinese"))
-            elif text:
-                if not tuser:
-                    return
-                if search(REGEXES.chinese, text):
-                    if not await check_admin(message, tuser.id):
-                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "chinese"))
-                    await message.delete()
-        except:
-            pass
-    # Checks for anti japanese
-    elif anti_func_det[1] == "jp":
-        try:
-            if users:
-                for user in users:
-                    if any(search(REGEXES.japanese, name) for name in [user.first_name, user.last_name]):
-                        await NEXAUB.ban_chat_member(chat_id, user.id)
-                        await message.reply(BAN_EVENT_TXT.format(user.mention, "japanese"))
-            elif text:
-                if not tuser:
-                    return
-                if search(REGEXES.japanese, text):
-                    if not await check_admin(message, tuser.id):
-                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "japanese"))
-                    await message.delete()
-        except:
-            pass
-    # Checks for anti russian
-    elif anti_func_det[1] == "rs":
-        try:
-            if users:
-                for user in users:
-                    if any(search(REGEXES.cyrillic, name) for name in [user.first_name, user.last_name]):
-                        await NEXAUB.ban_chat_member(chat_id, user.id)
-                        await message.reply(BAN_EVENT_TXT.format(user.mention, "russian"))
-            elif text:
-                if not tuser:
-                    return
-                if search(REGEXES.cyrillic, text):
-                    if not await check_admin(message, tuser.id):
-                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, "russian"))
-                    await message.delete()
-        except:
-            pass
+    # Warns or ban the user from the chat
+    await warn_or_ban(message, anti_func_det[1])
