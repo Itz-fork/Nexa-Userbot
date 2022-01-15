@@ -185,13 +185,13 @@ async def warn_or_ban(message, mode):
                     await NEXAUB.ban_chat_member(chat_id, tuser.id)
                     await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1]))
                 await message.delete()
-                await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
+                await message.reply(WARN_EVEN_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
     except:
         pass
 
 anti_chats = filters.create(func=anti_func_handler)
 
-# I know there is lots of code duplication but oh well, IDGF
+
 @nexaub.on_cf(anti_chats & (filters.new_chat_members | filters.text))
 async def check_anti_funcs(_, message: Message):
     anti_func_det = await get_anti_func(message.chat.id)
