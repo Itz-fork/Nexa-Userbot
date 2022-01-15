@@ -111,6 +111,7 @@ async def on_off_antirussian(_, message: Message):
 
 # Listen to new members and checks
 ANTIF_WARNS_DB = {}
+ANTIF_TO_DEL = {}
 
 WARN_EVEN_TXT = """
 **Warn Event❕**
@@ -181,11 +182,17 @@ async def warn_or_ban(message, mode):
             if not tuser:
                 return
             if search(mdnrgx[0], message.text):
-                if not await check_admin(message, tuser.id) and await check_afdb(tuser.id):
-                    await NEXAUB.ban_chat_member(chat_id, tuser.id)
-                    await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1]))
-                await message.delete()
-                await message.reply(WARN_EVEN_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
+                # Admins have the foking power
+                if not await check_admin(message, tuser.id):
+                    # Ban the user if the warns are exceeded
+                    if await check_afdb(tuser.id):
+                        await NEXAUB.ban_chat_member(chat_id, tuser.id)
+                        await message.reply(BAN_EVENT_TXT.format(tuser.mention, mdnrgx[1]))
+                    await message.delete()
+                    rp = await message.reply(WARN_EVEN_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
+                    if chat_id in ANTIF_TO_DEL:
+                        await NEXAUB.delete_messages(chat_id=chat_id, message_ids=ANTIF_TO_DEL[chat_id])
+                    ANTIF_TO_DEL[chat_id] = [rp.message_id]
     except:
         pass
 
