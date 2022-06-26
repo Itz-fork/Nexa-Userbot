@@ -72,9 +72,9 @@ async def evaluate(client, message):
         cmd = message.text.split(" ", maxsplit=1)[1]
     except IndexError:
         return await status_message.delete()
-    reply_to_id = message.message_id
+    reply_to_id = message.id
     if message.reply_to_message:
-        reply_to_id = message.reply_to_message.message_id
+        reply_to_id = message.reply_to_message.id
     old_stderr = sys.stderr
     old_stdout = sys.stdout
     redirected_output = sys.stdout = StringIO()
@@ -175,7 +175,7 @@ async def terminal(client, message):
             await client.send_document(
                 message.chat.id,
                 "output.txt",
-                reply_to_message_id=message.message_id,
+                reply_to_message_id=message.id,
                 caption=f"**► Input:** \n`{cmd}`",
             )
             os.remove("output.txt")

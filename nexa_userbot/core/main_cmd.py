@@ -5,7 +5,7 @@ import logging
 import asyncio
 import importlib
 
-from pyrogram import filters
+from pyrogram import filters, enums
 from pyrogram.handlers import MessageHandler
 from pyrogram.errors.exceptions.bad_request_400 import MessageIdInvalid
 
@@ -92,7 +92,7 @@ class nexaub:
             async def x_wrapper(client, message):
                 nexaub_chat_type = message.chat.type
                 if admins_only:
-                    if nexaub_chat_type in ["group", "supergroup", "channel"]:
+                    if nexaub_chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL]:
                         usr = await NEXAUB.get_me()
                         how_usr = await message.chat.get_member(usr.id)
                         if how_usr.status in ["creator", "administrator"]:
@@ -102,9 +102,9 @@ class nexaub:
                     # It's PM Bois! Everyone is an admin in PM!
                     else:
                         pass
-                if only_pm and nexaub_chat_type != "private":
+                if only_pm and nexaub_chat_type != enums.ChatType.PRIVATE:
                     return await e_or_r(nexaub_message=message, msg_text="`Yo, this command is only for PM!`")
-                if only_groups and nexaub_chat_type not in ["group", "supergroup"]:
+                if only_groups and nexaub_chat_type not in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
                     return await e_or_r(nexaub_message=message, msg_text="`Is this even a group?`")
                 try:
                     await func(client, message)

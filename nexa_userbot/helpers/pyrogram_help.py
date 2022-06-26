@@ -11,6 +11,7 @@ import subprocess
 
 from time import time
 from PIL import Image
+from pyrogram import enums
 from typing import Union, Tuple
 from aiohttp import ClientSession
 from aiofiles import open as open_image
@@ -169,7 +170,7 @@ async def convert_to_image(message, client) -> Union[None, str]:
 
 
 # Get Your Chats
-async def get_ma_chats(chat_types: list = ["channel", "supergroup"], is_id_only=True):
+async def get_ma_chats(chat_types: list = [enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL], is_id_only=True):
     nexaub_chats = []
     async for dialog in NEXAUB.iter_dialogs():
         if dialog.chat.type in chat_types:

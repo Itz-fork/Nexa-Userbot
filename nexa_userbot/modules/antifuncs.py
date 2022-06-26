@@ -3,9 +3,9 @@
 
 import os
 
-from pyrogram import filters
-from pyrogram.types import Message
 from re import search
+from pyrogram.types import Message
+from pyrogram import filters, enums
 
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub, e_or_r
@@ -144,9 +144,9 @@ async def anti_func_handler(_, __, msg):
 
 # Function to check if the user is an admin
 async def check_admin(msg, user_id):
-    if msg.chat.type in ["group", "supergroup", "channel"]:
+    if msg.chat.type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL]:
         how_usr = await msg.chat.get_member(user_id)
-        if how_usr.status in ["creator", "administrator"]:
+        if how_usr.status in [enums.ChatMemberStatus.OWNER, enums.ChatMemberStatus.ADMINISTRATOR]:
             return True
         else:
             return False
@@ -192,7 +192,7 @@ async def warn_or_ban(message, mode):
                     rp = await message.reply(WARN_EVEN_TXT.format(tuser.mention, mdnrgx[1], ANTIF_WARNS_DB[tuser.id]))
                     if chat_id in ANTIF_TO_DEL:
                         await NEXAUB.delete_messages(chat_id=chat_id, message_ids=ANTIF_TO_DEL[chat_id])
-                    ANTIF_TO_DEL[chat_id] = [rp.message_id]
+                    ANTIF_TO_DEL[chat_id] = [rp.id]
     except:
         pass
 

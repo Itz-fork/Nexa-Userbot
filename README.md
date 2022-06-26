@@ -4,7 +4,7 @@
 
 <p align="center">
   <a href="#"><img src="https://telegra.ph/file/a2471aa31028b2c429390.jpg" width="300" height="300"></a> </br>
-  <b>A Simple, Easy to use and light-weight Pyrogram Userbot</b>
+  <b>Userbot for CLI lovers ❤️</b>
 </p>
 
 # Deploy 🛫

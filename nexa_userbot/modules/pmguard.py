@@ -3,7 +3,7 @@
 
 import os
 
-from pyrogram import filters
+from pyrogram import filters, enums
 from pyrogram.types import Message
 from nexa_userbot import NEXAUB, CMD_HELP
 from nexa_userbot.core.main_cmd import nexaub, e_or_r
@@ -104,11 +104,11 @@ async def approve_user_to_pm(_, message: Message):
     chat_type = message.chat.type
     if chat_type == "me":
         return await apprv_msg.edit("`Bruh, Why should I approve my self?`")
-    elif chat_type in ["group", "supergroup"]:
+    elif chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not message.reply_to_message.from_user:
             return await apprv_msg.edit("`Reply to a user id to approve that user!`")
         user_id = message.reply_to_message.from_user.id
-    elif chat_type == "private":
+    elif chat_type == enums.ChatType.PRIVATE:
         user_id = message.chat.id
     else:
         return
@@ -123,7 +123,6 @@ async def approve_user_to_pm(_, message: Message):
         except:
             pass
     await apprv_msg.edit("**From now on, this user can PM my master!**")
-    
 
 
 # Disapprove user
@@ -131,11 +130,11 @@ async def approve_user_to_pm(_, message: Message):
 async def disapprove_user_to_pm(_, message: Message):
     dapprv_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
     chat_type = message.chat.type
-    if chat_type in ["group", "supergroup"]:
+    if chat_type in [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]:
         if not message.reply_to_message.from_user:
             return await dapprv_msg.edit("`Reply to a user id to disapprove that user!`")
         user_id = message.reply_to_message.from_user.id
-    elif chat_type == "private":
+    elif chat_type == enums.ChatType.PRIVATE:
         user_id = message.chat.id
     else:
         return
@@ -146,6 +145,8 @@ async def disapprove_user_to_pm(_, message: Message):
     await dapprv_msg.edit("**From now on, this user can't PM my master!**")
 
 # Set PM Guard text
+
+
 @nexaub.on_cmd(command=["setpmtxt"])
 async def set_pm_guard_txt_nexaub(_, message: Message):
     st_pm_txt_msg = await e_or_r(nexaub_message=message, msg_text="`Processing...`")
@@ -202,11 +203,10 @@ async def set_pm_guard_warns_nexaub(_, message: Message):
 # Custom handler to handle icoming pms
 @nexaub.on_cf(
     (filters.private
-    & filters.incoming
-    & ~filters.me
-    & ~filters.service
-    & ~filters.edited
-    & ~filters.bot),
+     & filters.incoming
+     & ~filters.me
+     & ~filters.service
+     & ~filters.bot),
     handler_group=-1
 )
 async def handle_pm_guard(_, message: Message):
@@ -252,7 +252,7 @@ async def handle_pm_guard(_, message: Message):
     else:
         PM_GUARD_WARNS_DB[in_user.id] = 1
         rplied_msg = await message.reply_photo(photo=custom_pm_pic, caption=BASE_PM_TEXT.format(master.mention, custom_pm_txt, PM_GUARD_WARNS_DB[in_user.id], custom_pm_warns))
-    PM_GUARD_MSGS_DB[message.chat.id] = [rplied_msg.message_id]
+    PM_GUARD_MSGS_DB[message.chat.id] = [rplied_msg.id]
     # Logging details on the channel
     log_chnnel_id = await get_custom_var("LOG_CHANNEL_ID")
     copied = await message.forward(log_chnnel_id)

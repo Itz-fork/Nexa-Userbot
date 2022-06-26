@@ -118,7 +118,7 @@ async def upstream(client, message):
                     message.chat.id,
                     "NEXAUB_git_commit_log.txt",
                     caption=f"Do `{Config.CMD_PREFIX}update now` to update your Nexa-Userbot",
-                    reply_to_message_id=status.message_id,
+                    reply_to_message_id=status.id,
                 )
                 remove("NEXAUB_git_commit_log.txt")
             else:

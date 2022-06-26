@@ -2,7 +2,7 @@
 # Part of: Nexa-Userbot
 import os
 
-from pyrogram import filters
+from pyrogram import filters, enums
 from pyrogram.types import Message
 
 from . import nexaub_devs
@@ -212,7 +212,7 @@ async def gpromote_dis_usr(_, message: Message):
             return await gpromote_msg.edit("`Give user id or username to promote that user globally!`")
     else:
         return await gpromote_msg.edit("`Give a User ID, Username or Reply to a user message to Gpromote!`")
-    
+
     # Checking user id
     if not uid.isnumeric():
         if "@" in uid:
@@ -225,11 +225,11 @@ async def gpromote_dis_usr(_, message: Message):
     # Checking gpromote places
     if where in ["group", "channel", "all"]:
         if where == "all":
-            where_to_promote = ["group", "supergroup", "channel"]
+            where_to_promote = [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL]
         elif where == "group":
-            where_to_promote = ["group", "supergroup"]
+            where_to_promote = [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]
         else:
-            where_to_promote = ["channel"]
+            where_to_promote = [enums.ChatType.CHANNEL]
     else:
         return await gpromote_msg.edit("`Invalid chat type!` \n\n**Use:**\n ⤷ `all` - All chat types (private, group and channel) \n ⤷ `group` - Groups only \n ⤷ `channel` - Channels only")
     # Checking role
@@ -320,11 +320,11 @@ async def gdemote_dis_usr(_, message: Message):
     # Checking gdemote places
     if where in ["group", "channel", "all"]:
         if where == "all":
-            where_to_promote = ["group", "supergroup", "channel"]
+            where_to_promote = [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP, enums.ChatType.CHANNEL]
         elif where == "group":
-            where_to_promote = ["group", "supergroup"]
+            where_to_promote = [enums.ChatType.GROUP, enums.ChatType.SUPERGROUP]
         else:
-            where_to_promote = ["channel"]
+            where_to_promote = [enums.ChatType.CHANNEL]
     else:
         return await gdemote_msg.edit("`Invalid chat type!` \n\n**Use:**\n ⤷ `all` - All chat types (private, group and channel) \n ⤷ `group` - Groups only \n ⤷ `channel` - Channels only")
     # Fetching chats
@@ -368,7 +368,7 @@ async def gbanner(_, message: Message):
     is_gbanned = await get_gban_reason(gbanned_usr_id)
     gban_chat_id = message.chat.id
     if is_gbanned:
-        if message.chat.type == "private":
+        if message.chat.type == enums.ChatType.PRIVATE:
             await NEXAUB.block_user(gbanned_usr_id)
         else:
             try:

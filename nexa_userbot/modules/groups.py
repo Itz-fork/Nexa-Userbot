@@ -69,7 +69,7 @@ async def purge_this(_, message: Message):
     return await p_msg.edit("`Reply to a message to starting purge from!`")
   await p_msg.delete()
   mid_list = []
-  for mid in range(message.reply_to_message.message_id, message.message_id):
+  for mid in range(message.reply_to_message.id, message.id):
     mid_list.append(mid)
     # If there are more than 100 messages ub'll start deleting
     if len(mid_list) == 100:
@@ -204,7 +204,7 @@ async def do_del_all(chat_id, message_ids):
 async def collect_and_del(chat_id):
   msg_id_list = []
   async for msg in NEXAUB.iter_history(chat_id):
-    msg_id_list.append(msg.message_id)
+    msg_id_list.append(msg.id)
     if len(msg_id_list) >= 100:
       await do_del_all(chat_id, msg_id_list)
       msg_id_list = []

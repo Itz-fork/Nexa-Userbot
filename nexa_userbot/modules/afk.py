@@ -81,7 +81,6 @@ async def me_goin_oflin(_, message: Message):
     ya_afk
     & (filters.mentioned | filters.private)
     & ~filters.me
-    & ~filters.edited
     & filters.incoming)
 async def me_afk_tho(_, message: Message):
     if not message:
@@ -108,10 +107,10 @@ async def me_afk_tho(_, message: Message):
         afk_chat_id = message.chat.id
         if afk_chat_id in AFK_MSGS_DB:
             msg_list = AFK_MSGS_DB[afk_chat_id]
-            msg_list.append(afk_reply.message_id)
+            msg_list.append(afk_reply.id)
             AFK_MSGS_DB[afk_chat_id] = msg_list
         else:
-            AFK_MSGS_DB[afk_chat_id] = [afk_reply.message_id]
+            AFK_MSGS_DB[afk_chat_id] = [afk_reply.id]
 
 @nexaub.on_cf(
     filters.me

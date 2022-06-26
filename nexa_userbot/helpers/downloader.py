@@ -13,7 +13,7 @@ class NexaDL:
     ## NexaDL
 
         Downloads files from direct links using aiohttp
-    
+
     ### Methods
 
         ``download`` - Function to download the file
@@ -37,7 +37,7 @@ class NexaDL:
 
 **Status:** `Downloading...`
 """
-    
+
     async def download(self, url, message, path=None):
         """
         ## Arguments
@@ -45,7 +45,7 @@ class NexaDL:
             ``url`` - Url to download
 
             ``message`` - Pyrogram message object
-            
+
             ``path`` (optional) - Path
         """
         name = await self._get_file_name(url)
@@ -69,17 +69,18 @@ class NexaDL:
                                 size=humanbytes(fs),
                                 downloaded=humanbytes(downloaded),
                                 total=humanbytes(fs),
-                                prgs_bar="[%s%s]" % ("▰" * done, "▱" * (15-done))
-                                )
+                                prgs_bar="[%s%s]" % (
+                                    "▰" * done, "▱" * (15-done))
+                            )
                             )
                             await sleep(0.1)
                         except:
                             pass
         return fpath
-    
+
     async def _get_file_name(self, url):
         return os.path.basename(url)
-    
+
     async def _make_dir(self, path):
         if not path:
             if not os.path.isdir(self.path):
